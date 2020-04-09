@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "998382731912",
+    "firebase_url": "https://l-coach.firebaseio.com",
+    "project_id": "l-coach",
+    "storage_bucket": "l-coach.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998382731912:android:01aa80630e98ccfc5cd53d",
+        "android_client_info": {
+          "package_name": "com.luntianji.l_coach"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998382731912-e9vtidti0e3p1ukh2nq5tjdgmc42k0vc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoI01gp-3hGvLimt8kyGAV0RMOv4xntrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998382731912-e9vtidti0e3p1ukh2nq5tjdgmc42k0vc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
