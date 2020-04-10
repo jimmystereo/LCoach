@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">L Coach</string>
+    <string name="navigation_bar_header">home</string>
+    <string name="Start_Training">Start Training</string>
+    <string name="My_Training">My Training</string>
+    <string name="Team">Team</string>
+    <string name="Open">Menu</string>
+    <string name="Close">Menu</string>
 </resources>
