@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
                 else if(id==R.id.Team_nav){
                     Toast.makeText(MainActivity.this,"Team",Toast.LENGTH_SHORT).show();
                 }
+                else if(id==R.id.Setting){
+                    Toast.makeText(MainActivity.this,"Setting",Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
         });
