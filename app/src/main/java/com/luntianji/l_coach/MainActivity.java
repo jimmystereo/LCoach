@@ -1,23 +1,13 @@
 package com.luntianji.l_coach;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
-
-public class MainActivity extends AppCompatActivity {
-    private DrawerLayout d1;
-    private ActionBarDrawerToggle abdt;
+public class MainActivity extends NavCreater {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< Updated upstream
         d1 = (DrawerLayout) findViewById(R.id.navigation_menu);
         abdt = new ActionBarDrawerToggle(this,d1,R.string.Open,R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
@@ -47,10 +37,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+=======
+        navCreat(R.id.activity_main, "Home");
+>>>>>>> Stashed changes
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        return abdt.onOptionsItemSelected(item)||super.onOptionsItemSelected(item);
-    }
-
 }
