@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.luntianji.data_matters.FireStoreConnector;
 
 public class NavCreater extends AppCompatActivity {
     protected DrawerLayout d1;
@@ -38,6 +39,7 @@ public class NavCreater extends AppCompatActivity {
                 break;
             case "Team":
                 nav_view.setCheckedItem(R.id.Team_nav);
+
                 break;
             case "Setting":
                 nav_view.setCheckedItem(R.id.Setting_nav);
@@ -62,7 +64,7 @@ public class NavCreater extends AppCompatActivity {
                 } else if (id == R.id.Team_nav && !page.equals("Team")) {
 
                 } else if (id == R.id.Setting_nav && !page.equals("Setting")) {
-
+                    FireStoreConnector.dataUpload();
                 }
                 return true;
             }
