@@ -19,6 +19,11 @@
             android:title="@string/My_Training"
             android:icon="@drawable/ic_dns_black_24dp"/>
         <item
+            android:id="@+id/Community_nav"
+            android:icon="@drawable/ic_all_inclusive_black_24dp"
+            android:title="@string/Community"
+            />
+        <item
             android:id="@+id/Team_nav"
             android:title="@string/Team"
             android:icon="@drawable/ic_group_black_24dp"/>

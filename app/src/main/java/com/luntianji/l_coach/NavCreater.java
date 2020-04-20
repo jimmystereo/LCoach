@@ -61,8 +61,10 @@ public class NavCreater extends AppCompatActivity {
                     startActivity(intent);
                 } else if (id == R.id.My_Training_nav && !page.equals("My Training")) {
 
-                } else if (id == R.id.Team_nav && !page.equals("Team")) {
+                } else if (id == R.id.Community_nav && !page.equals("Community")) {
 
+                } else if (id == R.id.Team_nav && !page.equals("Team")) {
+                    FireStoreConnector.getData();
                 } else if (id == R.id.Setting_nav && !page.equals("Setting")) {
                     FireStoreConnector.dataUpload();
                 }
