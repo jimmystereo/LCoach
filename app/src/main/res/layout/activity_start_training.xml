@@ -16,14 +16,11 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/menu_navigation"/>
-    <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text="低"/>
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></fragment>
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/training_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.fragment.app.FragmentContainerView>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

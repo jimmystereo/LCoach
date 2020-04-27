@@ -2,10 +2,13 @@ package com.luntianji.l_coach;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.service.voice.VoiceInteractionSession;
 import android.text.Layout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -13,7 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.luntianji.data_matters.FireStoreConnector;
+
+import java.util.Map;
 
 public class NavCreater extends AppCompatActivity {
     protected DrawerLayout d1;
@@ -49,6 +55,7 @@ public class NavCreater extends AppCompatActivity {
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                FireStoreConnector fireStoreConnector = new FireStoreConnector();
                 Toast.makeText(NavCreater.this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 int id = item.getItemId();
                 if (id == R.id.Home_nav && page != "Home") {
@@ -64,7 +71,8 @@ public class NavCreater extends AppCompatActivity {
                 } else if (id == R.id.Community_nav && !page.equals("Community")) {
 
                 } else if (id == R.id.Team_nav && !page.equals("Team")) {
-                    FireStoreConnector.getData();
+                    for(Map i :fireStoreConnector.getData("TEST","difficulty","高")){
+                    Log.d(TAG,i.toString());}
                 } else if (id == R.id.Setting_nav && !page.equals("Setting")) {
                     FireStoreConnector.dataUpload();
                 }
