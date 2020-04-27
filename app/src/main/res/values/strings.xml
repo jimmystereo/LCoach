@@ -4,7 +4,14 @@
     <string name="Start_Training">Start Training</string>
     <string name="My_Training">My Training</string>
     <string name="Setting">Setting</string>
+
     <string name="Team">Team</string>
+    <string name="team_work">團隊合作</string>
+    <string name="my_teammate">我的隊員</string>
+    <string name="my_teammate_description">球員資料、狀態紀錄</string>
+    <string name="field">戰術板</string>
+    <string name="field_description">沙盤推演、戰術解說</string>
+
     <string name="Open">Menu</string>
     <string name="Close">Menu</string>
     <string name="Community">Community</string>

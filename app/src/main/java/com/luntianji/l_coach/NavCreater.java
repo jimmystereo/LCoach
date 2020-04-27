@@ -65,6 +65,9 @@ public class NavCreater extends AppCompatActivity {
 
                 } else if (id == R.id.Team_nav && !page.equals("Team")) {
                     FireStoreConnector.getData();
+                    Intent intent = new Intent();
+                    intent.setClass(NavCreater.this, TeamActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.Setting_nav && !page.equals("Setting")) {
                     FireStoreConnector.dataUpload();
                 }
