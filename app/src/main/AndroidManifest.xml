@@ -9,10 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- author: hwchang -->
+        <activity
+            android:name=".TeamActivity"
+            android:label="我的隊伍"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
+        <activity
+            android:name=".MyTeammateActivity"
+            android:label="我的隊員"
+            android:parentActivityName=".TeamActivity">
+        </activity>
+
         <activity android:name=".StartTrainingActivity">
             <intent-filter>
-                <category android:name="android.intent.category.APP_MAPS"/>
-                <action android:name="android.intent.action.CHOOSER"/>
+                <category android:name="android.intent.category.APP_MAPS" />
+
+                <action android:name="android.intent.action.CHOOSER" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">

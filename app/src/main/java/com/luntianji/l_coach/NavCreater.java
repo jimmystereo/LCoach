@@ -2,13 +2,11 @@ package com.luntianji.l_coach;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.service.voice.VoiceInteractionSession;
 import android.text.Layout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -71,8 +69,10 @@ public class NavCreater extends AppCompatActivity {
                 } else if (id == R.id.Community_nav && !page.equals("Community")) {
 
                 } else if (id == R.id.Team_nav && !page.equals("Team")) {
-                    for(Map i :fireStoreConnector.getData("TEST","difficulty","高")){
-                    Log.d(TAG,i.toString());}
+                    FireStoreConnector.getData();
+                    Intent intent = new Intent();
+                    intent.setClass(NavCreater.this, TeamActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.Setting_nav && !page.equals("Setting")) {
                     FireStoreConnector.dataUpload();
                 }
