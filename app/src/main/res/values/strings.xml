@@ -15,4 +15,7 @@
     <string name="Open">Menu</string>
     <string name="Close">Menu</string>
     <string name="Community">Community</string>
+    <string name="low">低</string>
+    <string name="medium">中</string>
+    <string name="high">高</string>
 </resources>

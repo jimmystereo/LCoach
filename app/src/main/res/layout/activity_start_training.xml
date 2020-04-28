@@ -8,7 +8,48 @@
     tools:context=".StartTrainingActivity"
     android:orientation="vertical"
     android:id="@+id/activity_start_training">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/button_easy"
+            android:layout_width="222dp"
+            android:layout_height="104dp"
+            android:layout_marginStart="92dp"
+            android:layout_marginLeft="92dp"
+            android:layout_marginTop="100dp"
+            android:onClick="easyList"
+            android:text="@string/low"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+        <Button
+            android:id="@+id/button_medium"
+            android:layout_width="222dp"
+            android:layout_height="104dp"
+            android:layout_marginStart="92dp"
+            android:layout_marginLeft="92dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_easy"
+
+            />
+        <Button
+            android:id="@+id/button_hard"
+            android:layout_width="222dp"
+            android:layout_height="104dp"
+            android:layout_marginStart="92dp"
+            android:layout_marginLeft="92dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/high"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_medium"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -16,11 +57,4 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/menu_navigation"/>
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/training_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></androidx.fragment.app.FragmentContainerView>
-
-
 </androidx.drawerlayout.widget.DrawerLayout>

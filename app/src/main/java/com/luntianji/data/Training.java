@@ -1,4 +1,7 @@
-package com.luntianji.data_matters;
+package com.luntianji.data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Training {
     private String amount_ball;
@@ -11,6 +14,7 @@ public class Training {
     private String other;
     private String type;
     public final static Training dummy = new Training("至少一顆球","兩人以上",0.5,"中",2,"從接球開始的扣球","116","球場","扣球");
+    public static List<Training> dummyList= new ArrayList<Training>();
     public Training(String amount_ball, String amount_people, double ball_per_people,
                     String difficulty, int least_people, String name,
                     String number, String other, String type) {

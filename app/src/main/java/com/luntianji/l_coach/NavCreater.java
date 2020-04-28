@@ -1,10 +1,6 @@
 package com.luntianji.l_coach;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.service.voice.VoiceInteractionSession;
-import android.text.Layout;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -14,10 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
-import com.luntianji.data_matters.FireStoreConnector;
-
-import java.util.Map;
+import com.luntianji.data.FireStoreConnector;
 
 public class NavCreater extends AppCompatActivity {
     protected DrawerLayout d1;
@@ -65,11 +58,13 @@ public class NavCreater extends AppCompatActivity {
                     intent.setClass(NavCreater.this, StartTrainingActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.My_Training_nav && !page.equals("My Training")) {
+                    Intent intent = new Intent();
+                    intent.setClass(NavCreater.this,MyTrainingActivity.class);
+                    startActivity(intent);
 
                 } else if (id == R.id.Community_nav && !page.equals("Community")) {
 
                 } else if (id == R.id.Team_nav && !page.equals("Team")) {
-                    FireStoreConnector.getData();
                     Intent intent = new Intent();
                     intent.setClass(NavCreater.this, TeamActivity.class);
                     startActivity(intent);

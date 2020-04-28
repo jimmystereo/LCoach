@@ -22,14 +22,19 @@
             android:label="我的隊員"
             android:parentActivityName=".TeamActivity">
         </activity>
-
-        <activity android:name=".StartTrainingActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.APP_MAPS" />
-
-                <action android:name="android.intent.action.CHOOSER" />
-            </intent-filter>
+        <activity
+            android:name=".StartTrainingListActivity"
+            android:label="選擇訓練"
+            android:parentActivityName=".StartTrainingActivity">
         </activity>
+        <activity
+            android:name=".MyTrainingActivity"
+            android:label="自訂菜單"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
+        <activity android:name=".StartTrainingActivity"
+            android:label="選擇訓練難度"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
