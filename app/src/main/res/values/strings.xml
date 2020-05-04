@@ -20,5 +20,8 @@
     <string name="high">高</string>
     <string name="training_preview_description">訓練縮圖</string>
     <string name="filter">篩選器</string>
+    <string name="confirm">確認</string>
+    <string name="cancel">取消</string>
+    <string name="training_condition">訓練條件</string>
 
 </resources>

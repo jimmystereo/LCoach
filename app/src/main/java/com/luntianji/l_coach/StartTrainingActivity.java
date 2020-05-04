@@ -25,12 +25,12 @@ import genomu.firestore_helper.DBEmcee;
 import genomu.firestore_helper.DBReceiver;
 import genomu.firestore_helper.HanWen;
 
-public class StartTrainingActivity extends NavCreater implements AdapterView.OnItemSelectedListener {
+public class StartTrainingActivity extends NavCreater {
     private  RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private TrainingListAdapter trainingListAdapter;
     private int difficulty;
-    private boolean filterOpen = false;
+    private FilterFragment fragment = new FilterFragment();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,39 +59,24 @@ public class StartTrainingActivity extends NavCreater implements AdapterView.OnI
         DBCommand command = new GetListCommand(new HanWen("start_training_list"),this,Training.class);
         command.work();
 
-        Spinner spinner = (Spinner) findViewById(R.id.filter_type);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.string_filter_type, R.layout.filter_fold);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(R.layout.filter_view);
-// Apply the adapter to the spinner
-
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-
     }
-    public void openFilterFragment(View view){
 
+    public void cancelFilterFragment(View view) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        FilterFragment fragment = new FilterFragment();
-        if(!filterOpen){
-            fragmentTransaction.add(R.id.activity_start_training,fragment);
-            filterOpen = true;}
-        else {
-            fragmentTransaction.remove(fragment);
-            filterOpen = false;}
-        fragmentTransaction.commit();
+        fragment.dismiss();
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(StartTrainingActivity.this, parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
-    }
+    public void openFilterFragment(View view) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+        fragment.show(fragmentManager, "FilterFragment");
 
     }
+
+    public void doneFilterFragment(View v) {
+
+    }
+
+
 }
