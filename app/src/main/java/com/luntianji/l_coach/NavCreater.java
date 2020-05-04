@@ -1,10 +1,6 @@
 package com.luntianji.l_coach;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.service.voice.VoiceInteractionSession;
-import android.text.Layout;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -14,10 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
-import com.luntianji.data_matters.FireStoreConnector;
-
-import java.util.Map;
+import com.luntianji.data.FireStoreConnector;
 
 public class NavCreater extends AppCompatActivity {
     protected DrawerLayout d1;
@@ -31,6 +24,7 @@ public class NavCreater extends AppCompatActivity {
         abdt.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
+        nav_view.bringToFront();
         switch (page) {
             case "Home":
                 nav_view.setCheckedItem(R.id.Home_nav);
@@ -53,7 +47,8 @@ public class NavCreater extends AppCompatActivity {
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                FireStoreConnector fireStoreConnector = new FireStoreConnector();
+
+                //FireStoreConnector fireStoreConnector = new FireStoreConnector();
                 Toast.makeText(NavCreater.this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 int id = item.getItemId();
                 if (id == R.id.Home_nav && page != "Home") {
@@ -65,16 +60,18 @@ public class NavCreater extends AppCompatActivity {
                     intent.setClass(NavCreater.this, StartTrainingActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.My_Training_nav && !page.equals("My Training")) {
+                    Intent intent = new Intent();
+                    intent.setClass(NavCreater.this,MyTrainingActivity.class);
+                    startActivity(intent);
 
                 } else if (id == R.id.Community_nav && !page.equals("Community")) {
 
                 } else if (id == R.id.Team_nav && !page.equals("Team")) {
-//                    FireStoreConnector.getData();
                     Intent intent = new Intent();
                     intent.setClass(NavCreater.this, TeamActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.Setting_nav && !page.equals("Setting")) {
-                    FireStoreConnector.dataUpload();
+                    //FireStoreConnector.dataUpload();
                 }
                 return true;
             }

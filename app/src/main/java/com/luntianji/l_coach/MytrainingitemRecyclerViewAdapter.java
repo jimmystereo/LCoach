@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 //import com.luntianji.l_coach.trainingitemFragment.OnListFragmentInteractionListener;
-import com.luntianji.l_coach.dummy.DummyContent.DummyItem;
+import com.luntianji.l_coach.model.DummyContent.DummyItem;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class MytrainingitemRecyclerViewAdapter extends RecyclerView.Adapter<Mytr
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_trainingitem, parent, false);
+                .inflate(R.layout.fragment_my_teammate, parent, false);
         return new ViewHolder(view);
     }
 

@@ -1,18 +1,23 @@
-package com.luntianji.data_matters;
+package com.luntianji.l_coach.model;
 
-public class Training {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Training implements Serializable {
     private String amount_ball;
     private String amount_people;
-    private double ball_per_people;
+    private String ball_per_people;
     private String difficulty;
-    private int least_people;
+    private String least_people;
     private String name;
     private String number;
     private String other;
     private String type;
-    public final static Training dummy = new Training("至少一顆球","兩人以上",0.5,"中",2,"從接球開始的扣球","116","球場","扣球");
-    public Training(String amount_ball, String amount_people, double ball_per_people,
-                    String difficulty, int least_people, String name,
+//    public final static Training dummy = new Training("至少一顆球","兩人以上","0.5","中","2","從接球開始的扣球","116","球場","扣球");
+//    public static List<Training> dummyList= new ArrayList<Training>();
+    public Training(String amount_ball, String amount_people, String ball_per_people,
+                    String difficulty, String least_people, String name,
                     String number, String other, String type) {
         this.amount_ball = amount_ball;
         this.amount_people = amount_people;
@@ -44,11 +49,11 @@ public class Training {
         this.amount_people = amount_people;
     }
 
-    public double getBall_per_people() {
+    public String getBall_per_people() {
         return ball_per_people;
     }
 
-    public void setBall_per_people(double ball_per_people) {
+    public void setBall_per_people(String ball_per_people) {
         this.ball_per_people = ball_per_people;
     }
 
@@ -60,11 +65,11 @@ public class Training {
         this.difficulty = difficulty;
     }
 
-    public int getLeast_people() {
+    public String getLeast_people() {
         return least_people;
     }
 
-    public void setLeast_people(int least_people) {
+    public void setLeast_people(String least_people) {
         this.least_people = least_people;
     }
 

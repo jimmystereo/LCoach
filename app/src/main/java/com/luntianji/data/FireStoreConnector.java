@@ -1,18 +1,14 @@
-package com.luntianji.data_matters;
+package com.luntianji.data;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -47,7 +43,7 @@ public class FireStoreConnector {
                 start_training_list.put("amount_poeple", item[7].trim());
                 start_training_list.put("amount_ball", item[8].trim());
 
-                db.collection("TEST").add(start_training_list).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                db.collection("start_training_list").add(start_training_list).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         //Toast.makeText(MainActivity.this, "upload success", Toast.LENGTH_SHORT).show();
@@ -89,7 +85,7 @@ public class FireStoreConnector {
     }
     public ArrayList<Map> getData(){
         ArrayList<String>data = new ArrayList<>();
-        db.collection("TEST")
+        db.collection("start_training_list")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
