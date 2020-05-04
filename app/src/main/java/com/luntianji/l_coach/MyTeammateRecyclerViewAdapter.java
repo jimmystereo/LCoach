@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.luntianji.l_coach.MyTeammateFragment.OnListFragmentInteractionListener;
-import com.luntianji.l_coach.dummy.DummyContent.DummyItem;
+import com.luntianji.l_coach.model.DummyContent.DummyItem;
 
 import java.util.List;
 

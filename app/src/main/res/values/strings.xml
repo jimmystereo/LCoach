@@ -18,4 +18,7 @@
     <string name="low">低</string>
     <string name="medium">中</string>
     <string name="high">高</string>
+    <string name="training_preview_description">訓練縮圖</string>
+    <string name="filter">篩選器</string>
+
 </resources>

@@ -12,10 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.luntianji.l_coach.dummy.DummyContent;
-import com.luntianji.l_coach.dummy.DummyContent.DummyItem;
-
-import java.util.List;
+import com.luntianji.l_coach.model.DummyContent;
+import com.luntianji.l_coach.model.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.

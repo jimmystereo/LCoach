@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <receiver
+            android:name="genomu.firestore_helper.DBReceiver"
+            android:enabled="true"
+            android:exported="true" />
         <!-- author: hwchang -->
         <activity
             android:name=".TeamActivity"
@@ -23,9 +26,8 @@
             android:parentActivityName=".TeamActivity">
         </activity>
         <activity
-            android:name=".StartTrainingListActivity"
-            android:label="選擇訓練"
-            android:parentActivityName=".StartTrainingActivity">
+            android:name=".StartTrainingActivity"
+            android:label="選擇訓練">
         </activity>
         <activity
             android:name=".MyTrainingActivity"
@@ -33,8 +35,6 @@
             android:parentActivityName=".MainActivity">
         </activity>
 
-        <activity android:name=".StartTrainingActivity"
-            android:label="選擇訓練難度"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -8,7 +8,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 
-import com.luntianji.l_coach.dummy.DummyContent;
+import com.luntianji.l_coach.model.DummyContent;
 
 
 

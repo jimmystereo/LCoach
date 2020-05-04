@@ -43,7 +43,7 @@ public class FireStoreConnector {
                 start_training_list.put("amount_poeple", item[7].trim());
                 start_training_list.put("amount_ball", item[8].trim());
 
-                db.collection("TEST").add(start_training_list).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                db.collection("start_training_list").add(start_training_list).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         //Toast.makeText(MainActivity.this, "upload success", Toast.LENGTH_SHORT).show();
@@ -85,7 +85,7 @@ public class FireStoreConnector {
     }
     public ArrayList<Map> getData(){
         ArrayList<String>data = new ArrayList<>();
-        db.collection("TEST")
+        db.collection("start_training_list")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

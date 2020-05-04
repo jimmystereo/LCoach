@@ -24,6 +24,7 @@ public class NavCreater extends AppCompatActivity {
         abdt.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
+        nav_view.bringToFront();
         switch (page) {
             case "Home":
                 nav_view.setCheckedItem(R.id.Home_nav);
@@ -46,7 +47,8 @@ public class NavCreater extends AppCompatActivity {
         nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                FireStoreConnector fireStoreConnector = new FireStoreConnector();
+
+                //FireStoreConnector fireStoreConnector = new FireStoreConnector();
                 Toast.makeText(NavCreater.this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 int id = item.getItemId();
                 if (id == R.id.Home_nav && page != "Home") {
@@ -69,7 +71,7 @@ public class NavCreater extends AppCompatActivity {
                     intent.setClass(NavCreater.this, TeamActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.Setting_nav && !page.equals("Setting")) {
-                    FireStoreConnector.dataUpload();
+                    //FireStoreConnector.dataUpload();
                 }
                 return true;
             }

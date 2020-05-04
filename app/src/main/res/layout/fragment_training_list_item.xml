@@ -10,6 +10,9 @@
     android:clickable="true"
     android:focusable="true"
     android:orientation="horizontal"
+    android:layout_marginTop="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     app:cardElevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +27,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:adjustViewBounds="false"
-            android:contentDescription="@string/my_teammate_description"
+            android:contentDescription="@string/training_preview_description"
             android:cropToPadding="false"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -39,6 +42,7 @@
 
         <TextView
             android:id="@+id/training_name"
+            android:textSize="20sp"
             android:layout_width="212dp"
             android:layout_height="72dp"
             android:layout_marginStart="16dp"

@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.luntianji.data.Training;
+import com.luntianji.l_coach.model.Training;
 
 import java.util.List;
 
@@ -56,13 +56,13 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.trainingName.setText(trainingDataset.get(position).getName());
-        holder.trainingPreview.setText(String.format("最少人數: %d人", trainingDataset.get(position).getLeast_people()));
+        holder.trainingPreview.setText(String.format("最少人數: %s人", trainingDataset.get(position).getLeast_people()));
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return 1;
+        return trainingDataset.size();
     }
 }

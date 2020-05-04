@@ -10,45 +10,30 @@
     android:id="@+id/activity_start_training">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/button_easy"
-            android:layout_width="222dp"
-            android:layout_height="104dp"
-            android:layout_marginStart="92dp"
-            android:layout_marginLeft="92dp"
-            android:layout_marginTop="100dp"
-            android:onClick="easyList"
-            android:text="@string/low"
-            app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="match_parent"
+        tools:context=".StartTrainingActivity">
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/filter_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:scrollbarSize="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
-            />
+            android:layout_marginStart="16dp" />
         <Button
-            android:id="@+id/button_medium"
-            android:layout_width="222dp"
-            android:layout_height="104dp"
-            android:layout_marginStart="92dp"
-            android:layout_marginLeft="92dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="openFilterFragment"
+            app:layout_constraintRight_toRightOf ="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/filter"/>
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="50dp"
-            android:text="@string/medium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_easy"
-
-            />
-        <Button
-            android:id="@+id/button_hard"
-            android:layout_width="222dp"
-            android:layout_height="104dp"
-            android:layout_marginStart="92dp"
-            android:layout_marginLeft="92dp"
-            android:layout_marginTop="50dp"
-            android:text="@string/high"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_medium"/>
-
-
+            android:id="@+id/start_trainging_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
