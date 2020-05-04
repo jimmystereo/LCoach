@@ -2,13 +2,16 @@ package com.luntianji.l_coach;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.luntianji.l_coach.MyTeammateFragment.OnListFragmentInteractionListener;
-import com.luntianji.l_coach.dummy.DummyContent.DummyItem;
+import com.luntianji.l_coach.model.DummyContent.DummyItem;
+import com.luntianji.l_coach.model.Teammate;
 
 import java.util.List;
 
@@ -19,12 +22,15 @@ import java.util.List;
  */
 public class MyTeammateRecyclerViewAdapter extends RecyclerView.Adapter<MyTeammateRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
-//    private final OnListFragmentInteractionListener mListener;
+    private final List<Teammate> mValues;
+    private Context context;
 
-    public MyTeammateRecyclerViewAdapter(List<DummyItem> items) {
+    private final OnListFragmentInteractionListener mListener;
+
+    public MyTeammateRecyclerViewAdapter(List<Teammate> items, OnListFragmentInteractionListener listener) {
         mValues = items;
-//        mListener = listener;
+
+        mListener = listener;
     }
 
     @Override
@@ -36,18 +42,19 @@ public class MyTeammateRecyclerViewAdapter extends RecyclerView.Adapter<MyTeamma
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mItem =  mValues.get(position);
+        holder.mNameView.setText(mValues.get(position).getName());
+        holder.mRoleView.setText(mValues.get(position).getRole());
+        holder.mNumberView.setText(mValues.get(position).getNumber());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (null != mListener) {
-//                    // Notify the active callbacks interface (the activity, if the
-//                    // fragment is attached to one) that an item has been selected.
-//                    mListener.onListFragmentInteraction(holder.mItem);
-//                }
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onClick(holder.mItem);
+                }
             }
         });
     }
@@ -59,20 +66,26 @@ public class MyTeammateRecyclerViewAdapter extends RecyclerView.Adapter<MyTeamma
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView mNameView;
+        public final TextView mRoleView;
+        public final TextView mNumberView;
+
+        public Teammate mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mNameView = (TextView) view.findViewById(R.id.teammate_name);
+            mRoleView = (TextView) view.findViewById(R.id.teammate_role);
+            mNumberView = (TextView) view.findViewById(R.id.teammate_number);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mNameView.getText() + "'";
         }
     }
+
+
+
 }

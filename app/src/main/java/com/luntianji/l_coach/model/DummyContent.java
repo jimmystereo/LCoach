@@ -1,4 +1,4 @@
-package com.luntianji.l_coach.dummy;
+package com.luntianji.l_coach.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

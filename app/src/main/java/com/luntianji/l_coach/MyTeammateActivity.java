@@ -1,52 +1,57 @@
 package com.luntianji.l_coach;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 
-import com.luntianji.l_coach.dummy.DummyContent;
+import com.luntianji.l_coach.model.Teammate;
+
+import java.util.List;
+
+import genomu.firestore_helper.DBCommand;
+import genomu.firestore_helper.DBReceiver;
+import genomu.firestore_helper.HanWen;
+import genomu.firestore_helper.command.GetListCommand;
+
+import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 
+public class MyTeammateActivity extends AppCompatActivity
+        implements MyTeammateFragment.OnListFragmentInteractionListener {
 
-public class MyTeammateActivity extends AppCompatActivity {
-
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private static final String TAG = MyTeammateActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_teammate);
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-
-        // use a grid layout manager
-        layoutManager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(layoutManager);
-
-        // specify an adapter (see also next example)
-        mAdapter = new MyTeammateRecyclerViewAdapter(DummyContent.ITEMS);
-        recyclerView.setAdapter(mAdapter);
-
-        final int spacing = getResources().getDimensionPixelSize(R.dimen.recycler_spacing) / 2;
-
-        // apply spacing
-        recyclerView.setPadding(spacing, spacing, spacing, spacing);
-        recyclerView.setClipToPadding(false);
-        recyclerView.setClipChildren(false);
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.set(spacing, spacing, spacing, spacing);
-            }
-        });
     }
+
+
+    @Override
+    public void onClick(Teammate teammate) {
+        Intent intent = new Intent(this, MyTeammateEditActivity.class);
+        intent.putExtra("UpdateTeammateId", teammate.getId());
+        intent.putExtra("UpdateTeammateName", teammate.getName());
+        intent.putExtra("UpdateTeammateRole", teammate.getRole());
+        intent.putExtra("UpdateTeammateNumber", teammate.getNumber());
+        startActivityForResult(intent, 2);
+
+    }
+
+    /** Called when the user taps the floating action bar */
+    public void startMyTeammateEditActivity(View view) {
+        Intent intent = new Intent(this, MyTeammateEditActivity.class);
+        startActivityForResult(intent, 2);
+    }
+
 }
