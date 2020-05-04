@@ -8,12 +8,49 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:998382731912:android:3183232d62bab15d5cd53d",
+        "android_client_info": {
+          "package_name": "com.jimmystereo.data_adder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998382731912-e9vtidti0e3p1ukh2nq5tjdgmc42k0vc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoI01gp-3hGvLimt8kyGAV0RMOv4xntrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998382731912-e9vtidti0e3p1ukh2nq5tjdgmc42k0vc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:998382731912:android:56fb34eafc72de675cd53d",
         "android_client_info": {
           "package_name": "com.luntianji.l_coach"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "998382731912-uun4hm7hs8qtsn85enmrnkd80k689h8d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.luntianji.l_coach",
+            "certificate_hash": "552ec678bb00d4bead7af63ff3d5586c90192278"
+          }
+        },
         {
           "client_id": "998382731912-e9vtidti0e3p1ukh2nq5tjdgmc42k0vc.apps.googleusercontent.com",
           "client_type": 3

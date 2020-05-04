@@ -1,21 +1,39 @@
 package com.luntianji.l_coach;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Rect;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.luntianji.l_coach.dummy.DummyContent;
-import com.luntianji.l_coach.dummy.DummyContent.DummyItem;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.luntianji.l_coach.model.Teammate;
 
 import java.util.List;
+
+import genomu.firestore_helper.DBCommand;
+import genomu.firestore_helper.DBReceiver;
+import genomu.firestore_helper.HanWen;
+import genomu.firestore_helper.command.GetListCommand;
+
+import static android.app.Activity.RESULT_OK;
+import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 /**
  * A fragment representing a list of Items.
@@ -30,6 +48,10 @@ public class MyTeammateFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 2;
     private OnListFragmentInteractionListener mListener;
+
+    private RecyclerView recyclerView;
+    private Context context;
+    private RecyclerView.Adapter madapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -62,16 +84,46 @@ public class MyTeammateFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_teammate_list, container, false);
 
+
         // Set the adapter
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            this.context = view.getContext();
+            this.recyclerView = (RecyclerView) view;
+
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            recyclerView.setHasFixedSize(true);
+
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyTeammateRecyclerViewAdapter(DummyContent.ITEMS));
+
+            // get data
+            DBReceiver receiver = new DBReceiver() {
+                @Override
+                public void onReceive(List receivedList) {
+                    // specify an adapter (see also next example)
+                    madapter = new MyTeammateRecyclerViewAdapter(receivedList, mListener);
+                    recyclerView.setAdapter(madapter);
+                }
+            };
+            context.registerReceiver(receiver, new IntentFilter(ACTION01));
+            DBCommand command = new GetListCommand(new HanWen("teammates"), (Activity) context, Teammate.class);
+            command.work();
+
+            // apply spacing
+            final int spacing = getResources().getDimensionPixelSize(R.dimen.recycler_spacing) / 2;
+            recyclerView.setPadding(spacing, spacing, spacing, spacing);
+            recyclerView.setClipToPadding(false);
+            recyclerView.setClipChildren(false);
+            recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                    outRect.set(spacing, spacing, spacing, spacing);
+                }
+            });
         }
         return view;
     }
@@ -85,6 +137,25 @@ public class MyTeammateFragment extends Fragment {
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //update whatever your list
+        if (madapter instanceof RecyclerView.Adapter) {
+            // get data
+            DBReceiver receiver = new DBReceiver() {
+                @Override
+                public void onReceive(List receivedList) {
+                    // specify an adapter (see also next example)
+                    recyclerView.setAdapter(new MyTeammateRecyclerViewAdapter(receivedList, mListener));
+                }
+            };
+            context.registerReceiver(receiver, new IntentFilter(ACTION01));
+            DBCommand command = new GetListCommand(new HanWen("teammates"), (Activity) context, Teammate.class);
+            command.work();
         }
     }
 
@@ -106,6 +177,26 @@ public class MyTeammateFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onClick(Teammate teammate);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                // get data
+                DBReceiver receiver = new DBReceiver() {
+                    @Override
+                    public void onReceive(List receivedList) {
+                        // specify an adapter (see also next example)
+                        recyclerView.setAdapter(new MyTeammateRecyclerViewAdapter(receivedList, mListener));
+                    }
+                };
+                context.registerReceiver(receiver, new IntentFilter(ACTION01));
+                DBCommand command = new GetListCommand(new HanWen("teammates"), (Activity) context, Teammate.class);
+                command.work();
+            }
+        }
     }
 }
