@@ -34,9 +34,6 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
     public TrainingListAdapter(List<Training> myDataset) {
         trainingDataset = myDataset;
     }
-    public TrainingListAdapter(String myDataset) {
-        data = myDataset;
-    }
     // Create new views (invoked by the layout manager)
     @Override
     public TrainingListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,4 +62,9 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
     public int getItemCount() {
         return trainingDataset.size();
     }
+//        public void dataSelection(boolean defaultData, int[] filterData){
+//            if(!defaultData){
+//
+//            }
+//        }
 }
