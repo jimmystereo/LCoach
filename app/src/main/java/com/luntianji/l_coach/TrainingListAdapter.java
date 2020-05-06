@@ -67,4 +67,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
 //
 //            }
 //        }
+public List<Training> getTrainingDataSet() {
+    return this.trainingDataset;
+}
 }

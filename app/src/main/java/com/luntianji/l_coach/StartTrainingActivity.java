@@ -1,17 +1,26 @@
 package com.luntianji.l_coach;
 
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.luntianji.l_coach.model.DummyContent;
 import com.luntianji.l_coach.model.Training;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import genomu.command.GetListCommand;
 import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBEmcee;
@@ -22,10 +31,14 @@ public class StartTrainingActivity extends NavCreater {
     private RecyclerView recyclerView;
     private TrainingListAdapter trainingListAdapter;
     private FilterFragment fragment = new FilterFragment();
+    private List<Training> tmpList;
+    private List rawList = new ArrayList();
     /*type difficulty other people ball**/
     private int[] data = {0, 0, 0, 0, 0};
     private boolean defaultData = true;
+    private boolean firstTime = true;
     private static final String TAG = "StartTrainingActivity";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +58,9 @@ public class StartTrainingActivity extends NavCreater {
         DBReceiver receiver = new DBReceiver() {
             @Override
             public void onReceive(List receivedList) {
-//                Log.d(TAG, "onReceive: ");
-                trainingListAdapter = new TrainingListAdapter(receivedList);
+                rawList.addAll(receivedList);
+                tmpList = receivedList;
+                trainingListAdapter = new TrainingListAdapter(tmpList);
                 recyclerView.setAdapter(trainingListAdapter);
             }
         };
@@ -54,6 +68,13 @@ public class StartTrainingActivity extends NavCreater {
         DBCommand command = new GetListCommand(new HanWen("start_training_list"), this, Training.class);
         command.work();
 
+    }
+
+    public void getRandom(View view) {
+        tmpList.clear();
+        int random = (int) (Math.random() * (rawList.size() - 1));
+        tmpList.add((Training) rawList.get(random));
+        trainingListAdapter.notifyDataSetChanged();
     }
 
     public void cancelFilterFragment(View view) {
@@ -65,17 +86,116 @@ public class StartTrainingActivity extends NavCreater {
 
     public void openFilterFragment(View view) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        fragment.setCancelable(false);
         fragment.show(fragmentManager, "FilterFragment");
     }
 
     public void doneFilterFragment(View v) {
-        System.arraycopy(fragment.filterData, 0, data, 0, data.length);
+        if (!checkDefault()) {
+            System.arraycopy(fragment.filterData, 0, data, 0, data.length);
 //        for(int i:filterData){
 //            if(!equals(0)){
 //                defaultData = false;
 //            }
 //        }
 //        trainingListAdapter.dataSelection(defaultData,filterData);
+
+            dataSelection();
+            Button filter = (Button) findViewById(R.id.button_training_filter);
+            //filter.setTextColor(Color.BLUE);
+        }
         fragment.dismiss();
+    }
+
+    private boolean checkDefault() {
+        /*return true if condition didn't change**/
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] != fragment.filterData[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void dataSelection() {
+        tmpList.clear();
+        tmpList.addAll(rawList);
+        trainingListAdapter.notifyDataSetChanged();
+        Map<Integer, String> type = new HashMap<Integer, String>() {{
+            put(1, "整合訓練");
+            put(2, "傳球");
+            put(3, "發球");
+            put(4, "接扣球");
+            put(5, "扣球");
+        }};
+        Map<Integer, String> difficulty = new HashMap<Integer, String>() {{
+            put(1, "低");
+            put(2, "中");
+            put(3, "高");
+        }};
+        int people = data[3];
+        int ball = data[4] - 1;
+        for (int i = 0; i < rawList.size(); i++) {
+            if (i >= tmpList.size()) {
+                break;
+            }
+            /*篩選訓練種類**/
+            if (data[0] != 0 && !type.get(data[0]).equals(tmpList.get(i).getType())) {
+                tmpList.remove(i);
+                trainingListAdapter.notifyItemRemoved(i);
+                i--;
+                continue;
+            }
+            /*篩選難度**/
+            if (data[1] != 0 && !difficulty.get(data[1]).equals(tmpList.get(i).getDifficulty())) {
+                tmpList.remove(i);
+                trainingListAdapter.notifyItemRemoved(i);
+                i--;
+                continue;
+            }
+            /*篩選其他條件**/
+            if (data[2] == 1) {
+                if (tmpList.get(i).getOther().equals("牆壁")) {
+                    tmpList.remove(i);
+                    trainingListAdapter.notifyItemRemoved(i);
+                    i--;
+                    continue;
+                }
+            } else if (data[2] == 2) {
+                if (tmpList.get(i).getOther().equals("球場")) {
+                    tmpList.remove(i);
+                    trainingListAdapter.notifyItemRemoved(i);
+                    i--;
+                    continue;
+                }
+            } else if (data[2] == 3) {
+                if (!tmpList.get(i).getOther().equals("無")) {
+                    tmpList.remove(i);
+                    trainingListAdapter.notifyItemRemoved(i);
+                    i--;
+                    continue;
+                }
+            }
+            /*篩選人數**/
+            if (people != 0 && people < Integer.parseInt(tmpList.get(i).getLeast_people())) {
+                tmpList.remove(i);
+                trainingListAdapter.notifyItemRemoved(i);
+                i--;
+                continue;
+            }
+            /*篩選球數**/
+            if (ball >= 0 && people != 0) {
+                if (tmpList.get(i).getBall_per_people() != null) {
+                    double ball_per_people = Double.parseDouble(tmpList.get(i).getBall_per_people());
+                    double ball_needed = people * ball_per_people;
+                    if (ball < ball_needed) {
+                        tmpList.remove(i);
+                        trainingListAdapter.notifyItemRemoved(i);
+                        i--;
+                        continue;
+                    }
+                }
+            }
+        }
     }
 }

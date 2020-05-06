@@ -18,6 +18,7 @@
         <item>特殊條件</item>
         <item>不需牆壁</item>
         <item>不需球場</item>
+        <item>不需牆壁和球場</item>
     </string-array>
     <string-array name="string_filter_people">
         <item>人數</item>
