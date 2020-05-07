@@ -10,6 +10,6 @@ your best free volleyball training app
 ### 資料儲存方式 `int[] = {type, difficulty, other, people, ball}`
 ### type:       0=預設, 1=整合訓練, 2=傳球, 3=發球, 4=接扣球, 5=扣球
 ### difficulty: 0=預設, 1=低,      2=中, 3=高
-### other:      0=預設, 1=不需牆壁, 2=不需球場
+### other:      0=預設, 1=不需牆壁, 2=不需球場, 3=不需牆壁和球場
 ### people:     0=預設, 1~6對應人數, 7=七人以上
 ### ball:       0=預設, 1=0顆球, 2~7=n-1顆球, 8=七顆球以上
