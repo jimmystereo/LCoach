@@ -78,8 +78,6 @@ public class StartTrainingActivity extends NavCreater {
     }
 
     public void cancelFilterFragment(View view) {
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragment.resetSpinner(data);
         fragment.dismiss();
     }
@@ -91,31 +89,13 @@ public class StartTrainingActivity extends NavCreater {
     }
 
     public void doneFilterFragment(View v) {
-        if (!checkDefault()) {
             System.arraycopy(fragment.filterData, 0, data, 0, data.length);
-//        for(int i:filterData){
-//            if(!equals(0)){
-//                defaultData = false;
-//            }
-//        }
-//        trainingListAdapter.dataSelection(defaultData,filterData);
-
             dataSelection();
             Button filter = (Button) findViewById(R.id.button_training_filter);
             //filter.setTextColor(Color.BLUE);
-        }
         fragment.dismiss();
     }
 
-    private boolean checkDefault() {
-        /*return true if condition didn't change**/
-        for (int i = 0; i < data.length; i++) {
-            if (data[i] != fragment.filterData[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     private void dataSelection() {
         tmpList.clear();

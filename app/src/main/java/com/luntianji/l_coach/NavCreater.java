@@ -55,13 +55,13 @@ public class NavCreater extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setClass(NavCreater.this, MainActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.Start_Training_nav) {
+                } else if (id == R.id.Start_Training_nav && page != "Start Training") {
                     Intent intent = new Intent();
                     intent.setClass(NavCreater.this, StartTrainingActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.My_Training_nav && !page.equals("My Training")) {
                     Intent intent = new Intent();
-                    intent.setClass(NavCreater.this,MyTrainingActivity.class);
+                    intent.setClass(NavCreater.this, MyTrainingActivity.class);
                     startActivity(intent);
 
                 } else if (id == R.id.Community_nav && !page.equals("Community")) {
