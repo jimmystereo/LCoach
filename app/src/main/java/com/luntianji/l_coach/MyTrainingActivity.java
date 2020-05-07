@@ -22,11 +22,12 @@ public class MyTrainingActivity extends NavCreater {
     private LinearLayoutManager layoutManager;
     private TrainingListAdapter trainingListAdapter;
     private int difficulty;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_training);
-        navCreat(R.id.activity_my_training,"My Training");
+        navCreat(R.id.activity_my_training, "My Training");
         recyclerView = (RecyclerView) findViewById(R.id.my_training_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -46,8 +47,8 @@ public class MyTrainingActivity extends NavCreater {
                 recyclerView.setAdapter(trainingListAdapter);
             }
         };
-        registerReceiver(receiver,new IntentFilter(DBEmcee.ACTION01));
-        DBCommand command = new GetListCommand(new HanWen("start_training_list"),this,Training.class);
+        registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
+        DBCommand command = new GetListCommand(new HanWen("start_training_list"), this, Training.class);
         command.work();
     }
 }
