@@ -7,30 +7,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-//import com.luntianji.l_coach.trainingitemFragment.OnListFragmentInteractionListener;
-import com.luntianji.l_coach.model.DummyContent.DummyItem;
+import com.luntianji.l_coach.MyTrainingFragment.OnListFragmentInteractionListener;
+import com.luntianji.l_coach.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {OnListFragmentInteractionListener}.
+ * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MytrainingitemRecyclerViewAdapter extends RecyclerView.Adapter<MytrainingitemRecyclerViewAdapter.ViewHolder> {
+public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTrainingRecyclerViewAdapter.ViewHolder> {
 
     private final List<DummyItem> mValues;
-    //private final OnListFragmentInteractionListener mListener;
+    private final OnListFragmentInteractionListener mListener;
 
-    public MytrainingitemRecyclerViewAdapter(List<DummyItem> items) {
+    public MyTrainingRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
-        //mListener = listener;
+        mListener = listener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_my_teammate, parent, false);
+                .inflate(R.layout.fragment_my_training, parent, false);
         return new ViewHolder(view);
     }
 
@@ -40,16 +40,16 @@ public class MytrainingitemRecyclerViewAdapter extends RecyclerView.Adapter<Mytr
         holder.mIdView.setText(mValues.get(position).id);
         holder.mContentView.setText(mValues.get(position).content);
 
-//        holder.mView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (null != mListener) {
-//                    // Notify the active callbacks interface (the activity, if the
-//                    // fragment is attached to one) that an item has been selected.
-//                    mListener.onListFragmentInteraction(holder.mItem);
-//                }
-//            }
-//        });
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onListFragmentInteraction(holder.mItem);
+                }
+            }
+        });
     }
 
     @Override
