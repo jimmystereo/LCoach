@@ -14,11 +14,16 @@
         <item name="android:dropDownWidth">wrap_content</item>
         <item name="android:showDividers">none</item>
         <item name="android:dividerHeight">0dp</item>
+        <item name="android:dropDownVerticalOffset">-43dp</item>
         <item name="android:dropDownHeight">wrap_content</item>
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+        <item name="background">@drawable/ic_arrow_drop_up_white_24dp</item>
         <item name="android:dropDownSelector">@android:color/white</item>
+        <item name="android:gravity">center</item>
     </style>
-    <style name="simple_spinner_item">
+
+    <style name="simple_spinner_item" parent="android:Widget.Spinner">
+        <item name="overlapAnchor">true</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingTop">5dp</item>

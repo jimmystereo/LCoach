@@ -34,9 +34,6 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
     public TrainingListAdapter(List<Training> myDataset) {
         trainingDataset = myDataset;
     }
-    public TrainingListAdapter(String myDataset) {
-        data = myDataset;
-    }
     // Create new views (invoked by the layout manager)
     @Override
     public TrainingListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -56,7 +53,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.trainingName.setText(trainingDataset.get(position).getName());
-        holder.trainingPreview.setText(String.format("最少人數: %s人", trainingDataset.get(position).getLeast_people()));
+        holder.trainingPreview.setText(String.format("難度: %s / 特殊條件: %s", trainingDataset.get(position).getDifficulty(), trainingDataset.get(position).getOther()));
 
     }
 
@@ -65,4 +62,12 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
     public int getItemCount() {
         return trainingDataset.size();
     }
+//        public void dataSelection(boolean defaultData, int[] filterData){
+//            if(!defaultData){
+//
+//            }
+//        }
+public List<Training> getTrainingDataSet() {
+    return this.trainingDataset;
+}
 }

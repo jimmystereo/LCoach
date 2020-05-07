@@ -7,7 +7,38 @@
         <item>發球</item>
         <item>接扣球</item>
         <item>扣球</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+    </string-array>
+    <string-array name="string_filter_difficulty">
+        <item>難度</item>
+        <item>低</item>
+        <item>中</item>
+        <item>高</item>
+    </string-array>
+    <string-array name="string_filter_other">
+        <item>特殊條件</item>
+        <item>不需牆壁</item>
+        <item>不需球場</item>
+        <item>不需牆壁和球場</item>
+    </string-array>
+    <string-array name="string_filter_people">
+        <item>人數</item>
+        <item>1人</item>
+        <item>2人</item>
+        <item>3人</item>
+        <item>4人</item>
+        <item>5人</item>
+        <item>6人</item>
+        <item>7人以上</item>
+    </string-array>
+    <string-array name="string_filter_ball">
+        <item>球數</item>
+        <item>0顆球</item>
+        <item>1顆球</item>
+        <item>2顆球</item>
+        <item>3顆球</item>
+        <item>4顆球</item>
+        <item>5顆球</item>
+        <item>6顆球</item>
+        <item>7顆球以上</item>
     </string-array>
 </resources>
