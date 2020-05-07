@@ -10,4 +10,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".MyTrainingFragment"
-    tools:listitem="@layout/fragment_my_training" />
+    tools:listitem="@layout/fragment_training_list_item" />

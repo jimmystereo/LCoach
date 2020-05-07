@@ -1,6 +1,9 @@
 package com.luntianji.l_coach;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,10 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.luntianji.l_coach.dummy.DummyContent;
-import com.luntianji.l_coach.dummy.DummyContent.DummyItem;
+import com.luntianji.l_coach.model.Training;
 
 import java.util.List;
+
+import genomu.firestore_helper.DBCommand;
+import genomu.firestore_helper.DBReceiver;
+import genomu.command.GetListCommand;
+
+import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 /**
  * A fragment representing a list of Items.
@@ -30,6 +38,10 @@ public class MyTrainingFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+
+    private RecyclerView recyclerView;
+    private Context context;
+    private RecyclerView.Adapter madapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -64,14 +76,31 @@ public class MyTrainingFragment extends Fragment {
 
         // Set the adapter
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            this.context = view.getContext();
+            this.recyclerView = (RecyclerView) view;
+
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            recyclerView.setHasFixedSize(true);
+
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyTrainingRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
+            // get data
+            DBReceiver receiver = new DBReceiver() {
+                @Override
+                public void onReceive(List receivedList) {
+                    // specify an adapter (see also next example)
+                    madapter = new MyTrainingRecyclerViewAdapter(receivedList, mListener);
+                    recyclerView.setAdapter(madapter);
+                }
+            };
+            context.registerReceiver(receiver, new IntentFilter(ACTION01));
+            DBCommand command = new GetListCommand("my_training_list", (Activity) context, Training.class);
+            command.work();
         }
         return view;
     }
@@ -86,6 +115,24 @@ public class MyTrainingFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //update whatever your list
+        // get data
+        DBReceiver receiver = new DBReceiver() {
+            @Override
+            public void onReceive(List receivedList) {
+                // specify an adapter (see also next example)
+                recyclerView.setAdapter(new MyTrainingRecyclerViewAdapter(receivedList, mListener));
+            }
+        };
+        context.registerReceiver(receiver, new IntentFilter(ACTION01));
+        DBCommand command = new GetListCommand("my_training_list", (Activity) context, Training.class);
+        command.work();
+
     }
 
     @Override
@@ -106,6 +153,7 @@ public class MyTrainingFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onClick(Training training);
     }
+
 }

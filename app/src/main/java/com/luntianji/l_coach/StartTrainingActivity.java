@@ -65,7 +65,7 @@ public class StartTrainingActivity extends NavCreater {
             }
         };
         registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
-        DBCommand command = new GetListCommand(new HanWen("start_training_list"), this, Training.class);
+        DBCommand command = new GetListCommand("start_training_list", this, Training.class);
         command.work();
 
     }

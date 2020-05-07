@@ -2,6 +2,7 @@ package com.luntianji.l_coach;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -16,9 +17,9 @@ import java.util.List;
 import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBReceiver;
 import genomu.firestore_helper.HanWen;
-import genomu.firestore_helper.command.CreateCommand;
-import genomu.firestore_helper.command.DeleteCommand;
-import genomu.firestore_helper.command.UpdateCommand;
+import genomu.command.CreateCommand;
+import genomu.command.DeleteCommand;
+import genomu.command.UpdateCommand;
 
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
@@ -96,7 +97,7 @@ public class MyTeammateEditActivity extends AppCompatActivity {
 
         };
         registerReceiver(receiver, new IntentFilter(ACTION01));
-        DBCommand command = new UpdateCommand<>(new HanWen("teammates"), teammate);
+        DBCommand command = new UpdateCommand<>("teammates", this, teammate);
         command.work();
 
 //        firestoreDB.collection("teammates")
@@ -125,7 +126,7 @@ public class MyTeammateEditActivity extends AppCompatActivity {
         DBReceiver receiver = new DBReceiver() {
         };
         registerReceiver(receiver, new IntentFilter(ACTION01));
-        DBCommand command = new CreateCommand(new HanWen("teammates"), teammate);
+        DBCommand command = new CreateCommand("teammates", this,  teammate);
         command.work();
     }
 
@@ -136,7 +137,7 @@ public class MyTeammateEditActivity extends AppCompatActivity {
         DBReceiver receiver = new DBReceiver() {
         };
         registerReceiver(receiver, new IntentFilter(ACTION01));
-        DBCommand command = new DeleteCommand<>(new HanWen("teammates"), teammate);
+        DBCommand command = new DeleteCommand<>("teammates", this,  teammate);
         command.work();
     }
 }

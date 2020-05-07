@@ -20,7 +20,7 @@ import java.util.List;
 import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBReceiver;
 import genomu.firestore_helper.HanWen;
-import genomu.firestore_helper.command.GetListCommand;
+import genomu.command.GetListCommand;
 
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 

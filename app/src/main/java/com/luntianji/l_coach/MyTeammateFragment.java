@@ -30,7 +30,7 @@ import java.util.List;
 import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBReceiver;
 import genomu.firestore_helper.HanWen;
-import genomu.firestore_helper.command.GetListCommand;
+import genomu.command.GetListCommand;
 
 import static android.app.Activity.RESULT_OK;
 import static genomu.firestore_helper.DBEmcee.ACTION01;
@@ -110,7 +110,7 @@ public class MyTeammateFragment extends Fragment {
                 }
             };
             context.registerReceiver(receiver, new IntentFilter(ACTION01));
-            DBCommand command = new GetListCommand(new HanWen("teammates"), (Activity) context, Teammate.class);
+            DBCommand command = new GetListCommand("teammates", (Activity) context, Teammate.class);
             command.work();
 
             // apply spacing
@@ -154,7 +154,7 @@ public class MyTeammateFragment extends Fragment {
                 }
             };
             context.registerReceiver(receiver, new IntentFilter(ACTION01));
-            DBCommand command = new GetListCommand(new HanWen("teammates"), (Activity) context, Teammate.class);
+            DBCommand command = new GetListCommand("teammates", (Activity) context, Teammate.class);
             command.work();
         }
     }
@@ -194,7 +194,7 @@ public class MyTeammateFragment extends Fragment {
                     }
                 };
                 context.registerReceiver(receiver, new IntentFilter(ACTION01));
-                DBCommand command = new GetListCommand(new HanWen("teammates"), (Activity) context, Teammate.class);
+                DBCommand command = new GetListCommand("teammates", (Activity) context, Teammate.class);
                 command.work();
             }
         }

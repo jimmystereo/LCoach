@@ -21,12 +21,20 @@ import genomu.firestore_helper.DBReceiver;
 import genomu.firestore_helper.HanWen;
 
 public class GetListCommand extends DBCommand implements DBEmcee {
-    private Activity activity;
     private Class E;
-    public GetListCommand(HanWen hanWen, Activity activity,Class E) {
-        super(hanWen);
-        this.activity = activity;
+    public GetListCommand(String root, Activity activity,Class E) {
+        super(root,activity);
         this.E = E;
+    }
+
+    public GetListCommand(GetListCommand command) {
+        super(command.hanWen, command.activity);
+        this.E = command.E;
+    }
+
+    @Override
+    public void setCommandName() {
+        this.commandName = "抓取清單";
     }
 
     @Override
@@ -44,6 +52,8 @@ public class GetListCommand extends DBCommand implements DBEmcee {
                     Intent intent = new Intent(ACTION01);
                     intent.putParcelableArrayListExtra(DBReceiver.DES_LIST, (ArrayList<? extends Parcelable>) list);
                     activity.sendBroadcast(intent);
+                }else {
+                    toastMsg(false);
                 }
             }
         });
