@@ -35,15 +35,17 @@ public class StartTrainingActivity extends NavCreater {
     private List rawList = new ArrayList();
     /*type difficulty other people ball**/
     private int[] data = {0, 0, 0, 0, 0};
-    private boolean defaultData = true;
-    private boolean firstTime = true;
+    private boolean receved = false;
     private static final String TAG = "StartTrainingActivity";
-
+    Button filter;
+    Button random_buttom;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_training);
         navCreat(R.id.activity_start_training, "Start Training");
+        filter = (Button) findViewById(R.id.button_training_filter);
+        random_buttom = (Button) findViewById(R.id.button_training_random);
         recyclerView = (RecyclerView) findViewById(R.id.start_trainging_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -58,6 +60,7 @@ public class StartTrainingActivity extends NavCreater {
         DBReceiver receiver = new DBReceiver() {
             @Override
             public void onReceive(List receivedList) {
+                receved = true;
                 rawList.addAll(receivedList);
                 tmpList = receivedList;
                 trainingListAdapter = new TrainingListAdapter(tmpList);
@@ -71,10 +74,14 @@ public class StartTrainingActivity extends NavCreater {
     }
 
     public void getRandom(View view) {
-        tmpList.clear();
-        int random = (int) (Math.random() * (rawList.size() - 1));
-        tmpList.add((Training) rawList.get(random));
-        trainingListAdapter.notifyDataSetChanged();
+        if (receved) {
+            filter.setBackground(getResources().getDrawable(R.drawable.shape));
+            random_buttom.setBackground(getResources().getDrawable(R.drawable.shape_c));
+            tmpList.clear();
+            int random = (int) (Math.random() * (rawList.size() - 1));
+            tmpList.add((Training) rawList.get(random));
+            trainingListAdapter.notifyDataSetChanged();
+        }
     }
 
     public void cancelFilterFragment(View view) {
@@ -89,13 +96,23 @@ public class StartTrainingActivity extends NavCreater {
     }
 
     public void doneFilterFragment(View v) {
-            System.arraycopy(fragment.filterData, 0, data, 0, data.length);
-            dataSelection();
-            Button filter = (Button) findViewById(R.id.button_training_filter);
-            //filter.setTextColor(Color.BLUE);
+        random_buttom.setBackground(getResources().getDrawable(R.drawable.shape));
+        System.arraycopy(fragment.filterData, 0, data, 0, data.length);
+        dataSelection();
+
+        if (!checkDefault()) filter.setBackground(getResources().getDrawable(R.drawable.shape_c));
+        else filter.setBackground(getResources().getDrawable(R.drawable.shape));
         fragment.dismiss();
     }
 
+    boolean checkDefault() {
+        for (int i : data) {
+            if (i != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     private void dataSelection() {
         tmpList.clear();
