@@ -2,50 +2,43 @@ package com.luntianji.l_coach;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.luntianji.l_coach.MyTeammateFragment.OnListFragmentInteractionListener;
-import com.luntianji.l_coach.model.DummyContent.DummyItem;
-import com.luntianji.l_coach.model.Teammate;
+import com.luntianji.l_coach.MyTrainingFragment.OnListFragmentInteractionListener;
+import com.luntianji.l_coach.model.Training;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Training} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyTeammateRecyclerViewAdapter extends RecyclerView.Adapter<MyTeammateRecyclerViewAdapter.ViewHolder> {
+public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTrainingRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Teammate> mValues;
-    private Context context;
-
+    private final List<Training> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyTeammateRecyclerViewAdapter(List<Teammate> items, OnListFragmentInteractionListener listener) {
+    public MyTrainingRecyclerViewAdapter(List<Training> items, OnListFragmentInteractionListener listener) {
         mValues = items;
-
         mListener = listener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_my_teammate, parent, false);
+                .inflate(R.layout.fragment_training_list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem =  mValues.get(position);
-        holder.mNameView.setText(mValues.get(position).getName());
-        holder.mRoleView.setText(mValues.get(position).getRole());
-        holder.mNumberView.setText(mValues.get(position).getNumber());
+        holder.trainingName.setText(mValues.get(position).getName());
+        holder.trainingPreview.setText(String.format("難度: %s / 特殊條件: %s", mValues.get(position).getDifficulty(), mValues.get(position).getOther()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,26 +59,20 @@ public class MyTeammateRecyclerViewAdapter extends RecyclerView.Adapter<MyTeamma
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mNameView;
-        public final TextView mRoleView;
-        public final TextView mNumberView;
-
-        public Teammate mItem;
+        public final TextView trainingName;
+        public final TextView trainingPreview;
+        public Training mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mNameView = (TextView) view.findViewById(R.id.teammate_name);
-            mRoleView = (TextView) view.findViewById(R.id.teammate_role);
-            mNumberView = (TextView) view.findViewById(R.id.teammate_number);
+            trainingName = (TextView) view.findViewById(R.id.training_name);
+            trainingPreview = (TextView) view.findViewById(R.id.training_preview);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mNameView.getText() + "'";
+            return super.toString() + " '" + trainingPreview.getText() + "'";
         }
     }
-
-
-
 }

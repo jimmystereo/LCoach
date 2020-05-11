@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".MyTeammateEditActivity"></activity>
         <receiver
             android:name="genomu.firestore_helper.DBReceiver"
             android:enabled="true"
@@ -19,21 +20,28 @@
             android:label="我的隊伍"
             android:parentActivityName=".MainActivity">
         </activity>
-
         <activity
             android:name=".MyTeammateActivity"
             android:label="我的隊員"
             android:parentActivityName=".TeamActivity">
         </activity>
         <activity
+            android:name=".MyTrainingActivity"
+            android:label="自訂菜單">
+        </activity>
+        <activity
+            android:name=".MyTrainingEditActivity"
+            android:label="編輯菜單"
+            android:parentActivityName=".MyTrainingActivity">
+        </activity>
+        <!-- author: hwchang -->
+
+
+        <activity
             android:name=".StartTrainingActivity"
             android:label="選擇訓練">
         </activity>
-        <activity
-            android:name=".MyTrainingActivity"
-            android:label="自訂菜單"
-            android:parentActivityName=".MainActivity">
-        </activity>
+
 
         <activity android:name=".MainActivity">
             <intent-filter>

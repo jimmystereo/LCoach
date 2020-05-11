@@ -1,10 +1,15 @@
 package com.luntianji.l_coach.model;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Training implements Serializable {
+
+
+    private String id;
     private String amount_ball;
     private String amount_people;
     private String ball_per_people;
@@ -31,6 +36,14 @@ public class Training implements Serializable {
     }
 
     public Training() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAmount_ball() {
@@ -103,5 +116,11 @@ public class Training implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.getId();
     }
 }
