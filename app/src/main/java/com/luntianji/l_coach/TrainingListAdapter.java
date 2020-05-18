@@ -62,12 +62,12 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
     public int getItemCount() {
         return trainingDataset.size();
     }
-//        public void dataSelection(boolean defaultData, int[] filterData){
+    //        public void dataSelection(boolean defaultData, int[] filterData){
 //            if(!defaultData){
 //
 //            }
 //        }
-public List<Training> getTrainingDataSet() {
-    return this.trainingDataset;
-}
+    public List<Training> getTrainingDataSet() {
+        return this.trainingDataset;
+    }
 }

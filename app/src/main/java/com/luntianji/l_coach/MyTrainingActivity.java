@@ -18,6 +18,7 @@ public class MyTrainingActivity extends NavCreater
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_training);
+        navCreat(R.id.activity_my_training,"My Training");
     }
 
 

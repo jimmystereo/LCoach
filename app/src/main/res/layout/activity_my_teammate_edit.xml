@@ -13,7 +13,8 @@
         app:layout_constraintBottom_toTopOf="@+id/edit_role"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="@string/name"/>
 
     <EditText
         android:id="@+id/edit_role"
@@ -24,7 +25,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_name" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_name"
+        android:hint="@string/place"/>
 
     <EditText
         android:id="@+id/edit_number"
@@ -35,7 +37,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_name" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_name"
+        android:hint="@string/back_number"/>
 
     <Button
         android:id="@+id/button_add"

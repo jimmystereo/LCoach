@@ -24,5 +24,9 @@
     <string name="cancel">取消</string>
     <string name="training_condition">訓練條件</string>
     <string name="random">隨機</string>
+    <string name="name">姓名</string>
+    <string name="place">位置</string>
+    <string name="back_number">背號</string>
+    <string name="spike">扣球</string>
 
 </resources>

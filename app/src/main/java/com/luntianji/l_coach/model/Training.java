@@ -1,12 +1,15 @@
 package com.luntianji.l_coach.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Training implements Serializable {
+public class Training implements Serializable, Parcelable {
 
 
     private String id;
@@ -37,6 +40,31 @@ public class Training implements Serializable {
 
     public Training() {
     }
+
+    protected Training(Parcel in) {
+        id = in.readString();
+        amount_ball = in.readString();
+        amount_people = in.readString();
+        ball_per_people = in.readString();
+        difficulty = in.readString();
+        least_people = in.readString();
+        name = in.readString();
+        number = in.readString();
+        other = in.readString();
+        type = in.readString();
+    }
+
+    public static final Creator<Training> CREATOR = new Creator<Training>() {
+        @Override
+        public Training createFromParcel(Parcel in) {
+            return new Training(in);
+        }
+
+        @Override
+        public Training[] newArray(int size) {
+            return new Training[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -122,5 +150,24 @@ public class Training implements Serializable {
     @Override
     public String toString() {
         return this.getId();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(amount_ball);
+        dest.writeString(amount_people);
+        dest.writeString(ball_per_people);
+        dest.writeString(difficulty);
+        dest.writeString(least_people);
+        dest.writeString(name);
+        dest.writeString(number);
+        dest.writeString(other);
+        dest.writeString(type);
     }
 }
