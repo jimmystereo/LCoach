@@ -44,6 +44,7 @@ public class StartTrainingActivity extends NavCreater {
     private static final String TAG = "StartTrainingActivity";
     Button filter;
     Button random_buttom;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,10 +73,10 @@ public class StartTrainingActivity extends NavCreater {
         Gson gson = new Gson();
         List<Training> receivedList = gson.fromJson(stringList, new TypeToken<List<Training>>() {
         }.getType());
-                rawList.addAll(receivedList);
-                tmpList = receivedList;
-                trainingListAdapter = new TrainingListAdapter(tmpList);
-                recyclerView.setAdapter(trainingListAdapter);
+        rawList.addAll(receivedList);
+        tmpList = receivedList;
+        trainingListAdapter = new TrainingListAdapter(tmpList);
+        recyclerView.setAdapter(trainingListAdapter);
 //            }
 //        };
 //        registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
@@ -83,15 +84,16 @@ public class StartTrainingActivity extends NavCreater {
 //        command.work();
 
     }
+
     public void getRandom(View view) {
-            filter.setBackground(getResources().getDrawable(R.drawable.shape));
-            random_buttom.setBackground(getResources().getDrawable(R.drawable.shape_c));
-            tmpList.clear();
+        filter.setBackground(getResources().getDrawable(R.drawable.shape));
+        random_buttom.setBackground(getResources().getDrawable(R.drawable.shape_c));
+        tmpList.clear();
         for (int i = 0; i < 5; i++) {
             int random = (int) (Math.random() * (rawList.size() - 1));
             tmpList.add((Training) rawList.get(random));
         }
-            trainingListAdapter.notifyDataSetChanged();
+        trainingListAdapter.notifyDataSetChanged();
     }
 
     public void cancelFilterFragment(View view) {
@@ -207,10 +209,9 @@ public class StartTrainingActivity extends NavCreater {
     }
 
     public void closeDetail(View view) {
-//        TrainingDetailFragment trainingDetailFragment = (TrainingDetailFragment) getSupportFragmentManager().findFragmentByTag("TrainingDetailFragment");
-//FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//fragmentTransaction.detach(trainingDetailFragment);
-//fragmentTransaction.commit();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
+        fragmentTransaction.commit();
     }
 
 }

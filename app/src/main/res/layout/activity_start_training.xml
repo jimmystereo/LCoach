@@ -8,7 +8,12 @@
     android:orientation="vertical"
     tools:context=".StartTrainingActivity">
 
+    <FrameLayout
+        android:id="@+id/start_training_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".StartTrainingActivity"
@@ -49,7 +54,7 @@
             app:layout_constraintVertical_bias="1.0"
             tools:layout_editor_absoluteX="29dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </FrameLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@id/nav_view"
         android:layout_width="wrap_content"
