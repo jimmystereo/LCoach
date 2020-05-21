@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -92,8 +95,20 @@ public class MainActivity extends NavCreater {
         registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
         DBCommand command = new GetListCommand("start_training_list", this, Training.class);
         command.work();
+
+        disableSeekBar();
     }
 
+    void disableSeekBar() {
+        SeekBar ballSeekBar = this.findViewById(R.id.ball_seekbar);
+        TooltipCompat.setTooltipText(ballSeekBar, "Send an email");
+        ballSeekBar.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+    }
     class MyPagerAdapters extends PagerAdapter {
         //返回可以滑動的VIew的個數
         @Override

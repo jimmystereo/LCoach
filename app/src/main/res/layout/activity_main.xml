@@ -13,6 +13,19 @@
         android:layout_height="match_parent"
         >
 
+        <SeekBar
+            android:id="@+id/ball_seekbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:foreground="@drawable/gradient_shape"
+            android:progress="80"
+            android:thumb="@drawable/googleg_standard_color_18"
+            android:thumbOffset="-5dp"
+            android:tooltipText="Send an email"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/main_page_picture"
             android:layout_width="match_parent"
