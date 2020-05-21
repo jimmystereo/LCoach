@@ -1,6 +1,8 @@
 package com.luntianji.l_coach;
 
+import android.app.Activity;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.luntianji.l_coach.model.DummyContent;
 import com.luntianji.l_coach.model.Training;
 
@@ -30,9 +34,10 @@ import genomu.firestore_helper.HanWen;
 public class StartTrainingActivity extends NavCreater {
     private RecyclerView recyclerView;
     private TrainingListAdapter trainingListAdapter;
+    TrainingDetailFragment fragmentDetail;
     private FilterFragment fragment = new FilterFragment();
     private List<Training> tmpList;
-    private List rawList = new ArrayList();
+    public List rawList = new ArrayList();
     /*type difficulty other people ball**/
     private int[] data = {0, 0, 0, 0, 0};
     private boolean receved = false;
@@ -57,31 +62,36 @@ public class StartTrainingActivity extends NavCreater {
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
-        DBReceiver receiver = new DBReceiver() {
-            @Override
-            public void onReceive(List receivedList) {
-                receved = true;
+//        DBReceiver receiver = new DBReceiver() {
+//            @Override
+//            public void onReceive(List receivedList) {
+//                receved = true;
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Training_Raw_List", Activity.MODE_PRIVATE);
+        String stringList = sharedPreferences.getString("KEY_RAW_LIST_DATA", "");
+        Gson gson = new Gson();
+        List<Training> receivedList = gson.fromJson(stringList, new TypeToken<List<Training>>() {
+        }.getType());
                 rawList.addAll(receivedList);
                 tmpList = receivedList;
                 trainingListAdapter = new TrainingListAdapter(tmpList);
                 recyclerView.setAdapter(trainingListAdapter);
-            }
-        };
-        registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
-        DBCommand command = new GetListCommand("start_training_list", this, Training.class);
-        command.work();
+//            }
+//        };
+//        registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
+//        DBCommand command = new GetListCommand("start_training_list", this, Training.class);
+//        command.work();
 
     }
-
     public void getRandom(View view) {
-        if (receved) {
             filter.setBackground(getResources().getDrawable(R.drawable.shape));
             random_buttom.setBackground(getResources().getDrawable(R.drawable.shape_c));
             tmpList.clear();
+        for (int i = 0; i < 5; i++) {
             int random = (int) (Math.random() * (rawList.size() - 1));
             tmpList.add((Training) rawList.get(random));
-            trainingListAdapter.notifyDataSetChanged();
         }
+            trainingListAdapter.notifyDataSetChanged();
     }
 
     public void cancelFilterFragment(View view) {
@@ -195,4 +205,12 @@ public class StartTrainingActivity extends NavCreater {
             }
         }
     }
+
+    public void closeDetail(View view) {
+//        TrainingDetailFragment trainingDetailFragment = (TrainingDetailFragment) getSupportFragmentManager().findFragmentByTag("TrainingDetailFragment");
+//FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//fragmentTransaction.detach(trainingDetailFragment);
+//fragmentTransaction.commit();
+    }
+
 }

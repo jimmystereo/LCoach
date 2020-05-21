@@ -1,10 +1,13 @@
 package com.luntianji.l_coach;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.luntianji.l_coach.model.Training;
 
 import java.util.ArrayList;
@@ -41,6 +46,7 @@ public class MainActivity extends NavCreater {
     public List<Training> rawList = new ArrayList<Training>();
     ViewPager pager = null;
     ArrayList<View> viewContainter = new ArrayList<View>();
+    private boolean haveData = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,14 +88,33 @@ public class MainActivity extends NavCreater {
         recyclerView1.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView2 = (RecyclerView) findViewById(R.id.special_selected_recycler_view);
         recyclerView2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Training_Raw_List", Activity.MODE_PRIVATE);
+        String stringList = sharedPreferences.getString("KEY_RAW_LIST_DATA", "");
+        Gson gson = new Gson();
+        if (gson.fromJson(stringList, new TypeToken<List<Training>>() {
+        }.getType()) != null) {
+            rawList = gson.fromJson(stringList, new TypeToken<List<Training>>() {
+            }.getType());
+            Log.d("MainActivity", "您已經儲存成功");
+            dailyAdapter = new DailySelectedAdapter(getRandom(rawList));
+            recyclerView1.setAdapter(dailyAdapter);
+            specialAdapter = new DailySelectedAdapter(getRandom(rawList));
+            recyclerView2.setAdapter(specialAdapter);
+            haveData = true;
+        }
+
         DBReceiver receiver = new DBReceiver() {
             @Override
             public void onReceive(List receivedList) {
-                rawList = receivedList;
+                if (!haveData) {
+                    saveList(receivedList);
                 dailyAdapter = new DailySelectedAdapter(receivedList);
                 recyclerView1.setAdapter(dailyAdapter);
                 specialAdapter = new DailySelectedAdapter(receivedList);
                 recyclerView2.setAdapter(specialAdapter);
+                }
             }
         };
         registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
@@ -97,6 +122,7 @@ public class MainActivity extends NavCreater {
         command.work();
 
         disableSeekBar();
+
     }
 
     void disableSeekBar() {
@@ -143,6 +169,17 @@ public class MainActivity extends NavCreater {
         tmpList.add(rawList.get(random));}
         return tmpList;
 
+    }
+
+    public void saveList(List<Training> trainingList) {
+        rawList = trainingList;
+        SharedPreferences sp = getSharedPreferences("Training_Raw_List", Activity.MODE_PRIVATE);//建立sp物件
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(trainingList); //將List轉換成Json
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("KEY_RAW_LIST_DATA", jsonStr); //存入json串
+        editor.commit();  //提交
+        Log.d("MainActivity", "您已經儲存成功");
     }
 
 }
