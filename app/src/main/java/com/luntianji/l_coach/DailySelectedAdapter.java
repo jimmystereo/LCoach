@@ -56,7 +56,7 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
         // - replace the contents of the view with that element
         holder.trainingName.setText(trainingDataset.get(position).getName());
         holder.trainingType.setText(trainingDataset.get(position).getType());
-        holder.trainingType.setText(String.format("難度: %s",trainingDataset.get(position).getDifficulty()));
+        holder.trainingType.setText(String.format("難度:%n%s", trainingDataset.get(position).getDifficulty()));
 
 
     }
