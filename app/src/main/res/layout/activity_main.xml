@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:foreground="@drawable/gradient_shape"
             android:progress="80"
-            android:thumb="@drawable/googleg_standard_color_18"
+            android:thumb="@drawable/ball"
             android:thumbOffset="-5dp"
             android:tooltipText="Send an email"
             app:layout_constraintBottom_toBottomOf="parent"
