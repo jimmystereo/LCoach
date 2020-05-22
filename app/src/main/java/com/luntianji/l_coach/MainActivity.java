@@ -48,7 +48,6 @@ public class MainActivity extends NavCreater {
     public List<Training> rawList = new ArrayList<Training>();
     ViewPager pager = null;
     ArrayList<View> viewContainter = new ArrayList<View>();
-    private boolean haveData = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +122,7 @@ public class MainActivity extends NavCreater {
             registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
             DBCommand command = new GetListCommand("start_training_list", this, Training.class);
             command.work();
-            haveData = true;
+            
         }
         disableSeekBar();
 

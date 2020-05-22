@@ -37,7 +37,6 @@
         <item name="android:dropDownVerticalOffset">-43dp</item>
         <item name="android:dropDownHeight">wrap_content</item>
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
-        <item name="background">@drawable/ic_arrow_drop_up_white_24dp</item>
         <item name="android:dropDownSelector">@android:color/white</item>
         <item name="android:gravity">center</item>
     </style>
@@ -53,5 +52,6 @@
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
 
 </resources>
