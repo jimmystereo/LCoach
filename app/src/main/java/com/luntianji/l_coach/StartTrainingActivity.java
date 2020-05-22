@@ -213,5 +213,10 @@ public class StartTrainingActivity extends NavCreater {
         fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
         fragmentTransaction.commit();
     }
+    public void comfirmDetail(View view) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
+        fragmentTransaction.commit();
+    }
 
 }

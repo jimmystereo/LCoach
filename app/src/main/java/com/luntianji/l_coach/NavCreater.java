@@ -18,8 +18,10 @@ public class NavCreater extends AppCompatActivity {
 
     protected void navCreat(int id, final String page) {
         d1 = (DrawerLayout) findViewById(id);
-        abdt = new ActionBarDrawerToggle(this, d1, R.string.Open, R.string.Close);
+        abdt = new ActionBarDrawerToggle(this, d1,R.string.Open, R.string.Close);
+
         abdt.setDrawerIndicatorEnabled(true);
+//        abdt.setHomeAsUpIndicator(R.drawable.volley_ball);
         d1.addDrawerListener(abdt);
         abdt.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

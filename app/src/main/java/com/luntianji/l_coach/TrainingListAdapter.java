@@ -20,7 +20,6 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
     private static List<Training> trainingDataset;
     private  String data;
     static TrainingDetailFragment detailFragment;
-    static FragmentTransaction fragmentTransaction;
     private FragmentManager fragmentManager;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -45,7 +44,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
                     detailFragment = new TrainingDetailFragment(getAdapterPosition(), (Training) TrainingListAdapter.getTrainingDataSet().get(getAdapterPosition()));
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    fragmentTransaction = fragmentManager.beginTransaction().add(R.id.start_training_constraint, detailFragment);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().add(R.id.start_training_constraint, detailFragment);
                     fragmentTransaction.commit();
                 }
             });
