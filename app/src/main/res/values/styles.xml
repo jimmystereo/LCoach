@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->
         <!--        <item name="colorAccent">@color/colorAccent</item>-->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -39,7 +39,6 @@
         <item name="android:dropDownVerticalOffset">-43dp</item>
         <item name="android:dropDownHeight">wrap_content</item>
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
-        <item name="background">@drawable/ic_arrow_drop_up_white_24dp</item>
         <item name="android:dropDownSelector">@android:color/white</item>
         <item name="android:gravity">center</item>
     </style>
@@ -55,5 +54,6 @@
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
 
 </resources>

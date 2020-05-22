@@ -87,7 +87,7 @@ public class StartTrainingActivity extends NavCreater {
 
     public void getRandom(View view) {
         filter.setBackground(getResources().getDrawable(R.drawable.shape));
-        random_buttom.setBackground(getResources().getDrawable(R.drawable.shape_c));
+        random_buttom.setBackground(getResources().getDrawable(R.drawable.filter_selected_button));
         tmpList.clear();
         for (int i = 0; i < 5; i++) {
             int random = (int) (Math.random() * (rawList.size() - 1));
@@ -112,7 +112,7 @@ public class StartTrainingActivity extends NavCreater {
         System.arraycopy(fragment.filterData, 0, data, 0, data.length);
         dataSelection();
 
-        if (!checkDefault()) filter.setBackground(getResources().getDrawable(R.drawable.shape_c));
+        if (!checkDefault()) filter.setBackground(getResources().getDrawable(R.drawable.filter_selected_button));
         else filter.setBackground(getResources().getDrawable(R.drawable.shape));
         fragment.dismiss();
     }

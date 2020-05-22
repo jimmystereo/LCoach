@@ -96,7 +96,8 @@
             app:layout_constraintTop_toBottomOf="@id/filter_people"
             android:layout_marginStart="16dp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_width="wrap_content"
@@ -109,7 +110,7 @@
             android:textColor="@color/colorAccent"
             android:layout_marginStart="40dp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_width="wrap_content"

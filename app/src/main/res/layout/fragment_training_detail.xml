@@ -28,8 +28,8 @@
         app:layout_constraintTop_toBottomOf="@id/training_detail_name">
         訓練資訊</TextView>
 
-    <Button
-        android:background="@drawable/rec"
+    <androidx.appcompat.widget.AppCompatButton
+        android:background="@drawable/back_button"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginStart="50dp"
@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:textSize="30sp"
         android:background="@drawable/confirm_button"
         android:id="@+id/training_confirm"
