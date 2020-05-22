@@ -18,7 +18,6 @@ import java.util.List;
 import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBEmcee;
 import genomu.firestore_helper.DBReceiver;
-import genomu.firestore_helper.HanWen;
 
 public class GetListCommand extends DBCommand implements DBEmcee {
     private Class E;
@@ -53,7 +52,7 @@ public class GetListCommand extends DBCommand implements DBEmcee {
                     intent.putParcelableArrayListExtra(DBReceiver.DES_LIST, (ArrayList<? extends Parcelable>) list);
                     activity.sendBroadcast(intent);
                 }else {
-                    toastMsg(false);
+                    completeMsg(false);
                 }
             }
         });

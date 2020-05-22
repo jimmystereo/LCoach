@@ -25,11 +25,10 @@ public class UpdateCommand<E> extends DBCommand {
 
     @Override
     public void work() {
-        hanWen.seek().document(POJO.toString()).delete();
-        hanWen.sprout(POJO).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        hanWen.seek().document(POJO.toString()).set(POJO).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                toastMsg(task.isSuccessful());
+            public void onComplete(@NonNull Task<Void> task) {
+                completeMsg(task.isSuccessful());
             }
         });
     }

@@ -3,6 +3,8 @@ package genomu.firestore_helper;
 import android.app.Activity;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 public abstract class DBCommand {
 
     public  String getCommandName() {
@@ -35,14 +37,15 @@ public abstract class DBCommand {
         setCommandName();
     }
 
-    protected void toastMsg(boolean isSuccessful){
+    protected void completeMsg(boolean isSuccessful){
         String msg;
         if(isSuccessful){
             msg = getSuccessMsg();
         }else{
             msg = getFailMsg();
         }
-        Toast.makeText(activity,msg,Toast.LENGTH_LONG).show();
+        Snackbar.make(activity.findViewById(android.R.id.content),msg,Snackbar.LENGTH_SHORT).show();
+//        Toast.makeText(activity,msg,Toast.LENGTH_LONG).show();
     }
 
     public abstract void work();

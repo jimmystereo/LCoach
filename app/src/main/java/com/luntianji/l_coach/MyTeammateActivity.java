@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.luntianji.l_coach.model.Teammate;
@@ -39,6 +40,10 @@ public class MyTeammateActivity extends AppCompatActivity
 
     @Override
     public void onClick(Teammate teammate) {
+        if (teammate == null ||  teammate.getId() == null) {
+            Log.d(TAG, "onClick: null teammte");
+            return;
+        }
         Intent intent = new Intent(this, MyTeammateEditActivity.class);
         intent.putExtra("UpdateTeammateId", teammate.getId());
         intent.putExtra("UpdateTeammateName", teammate.getName());

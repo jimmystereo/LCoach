@@ -100,18 +100,18 @@ public class MyTeammateFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            // get data
-            DBReceiver receiver = new DBReceiver() {
-                @Override
-                public void onReceive(List receivedList) {
-                    // specify an adapter (see also next example)
-                    madapter = new MyTeammateRecyclerViewAdapter(receivedList, mListener);
-                    recyclerView.setAdapter(madapter);
-                }
-            };
-            context.registerReceiver(receiver, new IntentFilter(ACTION01));
-            DBCommand command = new GetListCommand("teammates", (Activity) context, Teammate.class);
-            command.work();
+//            // get data
+//            DBReceiver receiver = new DBReceiver() {
+//                @Override
+//                public void onReceive(List receivedList) {
+//                    // specify an adapter (see also next example)
+//                    madapter = new MyTeammateRecyclerViewAdapter(receivedList, mListener);
+//                    recyclerView.setAdapter(madapter);
+//                }
+//            };
+//            context.registerReceiver(receiver, new IntentFilter(ACTION01));
+//            DBCommand command = new GetListCommand("teammates", (Activity) context, Teammate.class);
+//            command.work();
 
             // apply spacing
             final int spacing = getResources().getDimensionPixelSize(R.dimen.recycler_spacing) / 2;
@@ -143,20 +143,18 @@ public class MyTeammateFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //update whatever your list
-        if (madapter instanceof RecyclerView.Adapter) {
-            // get data
-            DBReceiver receiver = new DBReceiver() {
-                @Override
-                public void onReceive(List receivedList) {
-                    // specify an adapter (see also next example)
-                    recyclerView.setAdapter(new MyTeammateRecyclerViewAdapter(receivedList, mListener));
-                }
-            };
-            context.registerReceiver(receiver, new IntentFilter(ACTION01));
-            DBCommand command = new GetListCommand("teammates", (Activity) context, Teammate.class);
-            command.work();
-        }
+        // update whatever your list
+        // get data
+        DBReceiver receiver = new DBReceiver() {
+            @Override
+            public void onReceive(List receivedList) {
+                // specify an adapter (see also next example)
+                recyclerView.setAdapter(new MyTeammateRecyclerViewAdapter(receivedList, mListener));
+            }
+        };
+        context.registerReceiver(receiver, new IntentFilter(ACTION01));
+        DBCommand command = new GetListCommand("teammates", (Activity) context, Teammate.class);
+        command.work();
     }
 
     @Override
@@ -180,23 +178,4 @@ public class MyTeammateFragment extends Fragment {
         void onClick(Teammate teammate);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2) {
-            if (resultCode == RESULT_OK) {
-                // get data
-                DBReceiver receiver = new DBReceiver() {
-                    @Override
-                    public void onReceive(List receivedList) {
-                        // specify an adapter (see also next example)
-                        recyclerView.setAdapter(new MyTeammateRecyclerViewAdapter(receivedList, mListener));
-                    }
-                };
-                context.registerReceiver(receiver, new IntentFilter(ACTION01));
-                DBCommand command = new GetListCommand("teammates", (Activity) context, Teammate.class);
-                command.work();
-            }
-        }
-    }
 }

@@ -8,7 +8,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import genomu.firestore_helper.DBCommand;
-import genomu.firestore_helper.HanWen;
 
 public class DeleteCommand<E> extends DBCommand {
     private E POJO;
@@ -28,7 +27,7 @@ public class DeleteCommand<E> extends DBCommand {
         hanWen.seek().document(POJO.toString()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                toastMsg(task.isSuccessful());
+                completeMsg(task.isSuccessful());
             }
         });
     }

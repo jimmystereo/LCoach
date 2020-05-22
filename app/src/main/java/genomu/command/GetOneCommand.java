@@ -15,7 +15,6 @@ import java.io.Serializable;
 import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBEmcee;
 import genomu.firestore_helper.DBReceiver;
-import genomu.firestore_helper.HanWen;
 
 public class GetOneCommand extends DBCommand implements DBEmcee {
     private Class type;
@@ -54,7 +53,7 @@ public class GetOneCommand extends DBCommand implements DBEmcee {
                     intent.putExtra(DBReceiver.DES_POJO,item);
                     activity.sendBroadcast(intent);
                 }else{
-                    toastMsg(false);
+                    completeMsg(false);
                 }
             }
         });

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.luntianji.l_coach.model.Teammate;
@@ -52,8 +53,6 @@ public class MyTeammateEditActivity extends AppCompatActivity {
     TextView editInfo;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +71,6 @@ public class MyTeammateEditActivity extends AppCompatActivity {
         editNumber = findViewById(R.id.edit_number);
         editInfo = findViewById(R.id.edit_info);
 
-
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             // pojo
@@ -88,9 +86,8 @@ public class MyTeammateEditActivity extends AppCompatActivity {
 
         } else {
             // create
-            setEdit(true);
             setCreate(true);
-            buttonDelete.setVisibility(View.INVISIBLE);
+
         }
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
@@ -106,8 +103,7 @@ public class MyTeammateEditActivity extends AppCompatActivity {
                     // pojo
                     addTeammate(name, role, number, info);
                 }
-                setResult(RESULT_OK);
-                finish();
+
             }
         });
 
@@ -126,13 +122,18 @@ public class MyTeammateEditActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
         // If you don't have res/menu, just create a directory named "menu" inside res
-        if (create) {
-            return false;
-        }
         getMenuInflater().inflate(R.menu.edit, menu);
+        buttonToggleEdit = menu.findItem(R.id.button_toggle_edit);
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (create) {
+            buttonToggleEdit.setIcon(null);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -166,6 +167,8 @@ public class MyTeammateEditActivity extends AppCompatActivity {
                 // pojo
                 updateTeammate(id, name, role, number, info);
                 setResult(RESULT_OK);
+            } else {
+                Toast.makeText(this, "id is null", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -201,20 +204,25 @@ public class MyTeammateEditActivity extends AppCompatActivity {
             editInfo.setInputType(InputType.TYPE_NULL);
 
 
-
-
         }
     }
 
     private void setCreate(boolean newCreate) {
         create = newCreate;
-        buttonAdd.setVisibility(View.VISIBLE);
+        if (create) {
+            if (buttonToggleEdit != null) {
+                buttonToggleEdit.setIcon(null);
+            }
+            buttonAdd.setVisibility(View.VISIBLE);
+            buttonDelete.setVisibility(View.INVISIBLE);
 
-        // pojo
-        editName.setInputType(InputType.TYPE_CLASS_TEXT);
-        editRole.setInputType(InputType.TYPE_CLASS_TEXT);
-        editNumber.setInputType(InputType.TYPE_CLASS_TEXT);
-        editInfo.setInputType(InputType.TYPE_CLASS_TEXT);
+            // pojo
+            editName.setInputType(InputType.TYPE_CLASS_TEXT);
+            editRole.setInputType(InputType.TYPE_CLASS_TEXT);
+            editNumber.setInputType(InputType.TYPE_CLASS_TEXT);
+            editInfo.setInputType(InputType.TYPE_CLASS_TEXT);
+        }
+
     }
 
     private void updateTeammate(String id, String name, String role, String number, String info) {
@@ -235,6 +243,14 @@ public class MyTeammateEditActivity extends AppCompatActivity {
         Teammate teammate = new Teammate(name, role, number, info);
 
         DBReceiver receiver = new DBReceiver() {
+            @Override
+            public void onReceive(Object receivedPOJO) {
+                super.onReceive(receivedPOJO);
+                Teammate newTeammate = (Teammate) receivedPOJO;
+                id = newTeammate.getId();
+                setCreate(false);
+                setEdit(false);
+            }
         };
         registerReceiver(receiver, new IntentFilter(ACTION01));
         DBCommand command = new CreateCommand("teammates", this, teammate);
