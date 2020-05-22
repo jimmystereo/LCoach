@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.luntianji.l_coach.model.Training;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -103,25 +104,26 @@ public class MainActivity extends NavCreater {
             recyclerView1.setAdapter(dailyAdapter);
             specialAdapter = new DailySelectedAdapter(getRandom(rawList));
             recyclerView2.setAdapter(specialAdapter);
+
+        }
+        else{
+            DBReceiver receiver = new DBReceiver() {
+                @Override
+                public void onReceive(List receivedList) {
+
+                    saveList(receivedList);
+                    dailyAdapter = new DailySelectedAdapter(getRandom(receivedList));
+                    recyclerView1.setAdapter(dailyAdapter);
+                    specialAdapter = new DailySelectedAdapter(getRandom(receivedList));
+                    recyclerView2.setAdapter(specialAdapter);
+
+                }
+            };
+            registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
+            DBCommand command = new GetListCommand("start_training_list", this, Training.class);
+            command.work();
             haveData = true;
         }
-
-        DBReceiver receiver = new DBReceiver() {
-            @Override
-            public void onReceive(List receivedList) {
-                if (!haveData) {
-                    saveList(receivedList);
-                dailyAdapter = new DailySelectedAdapter(receivedList);
-                recyclerView1.setAdapter(dailyAdapter);
-                specialAdapter = new DailySelectedAdapter(receivedList);
-                recyclerView2.setAdapter(specialAdapter);
-                }
-            }
-        };
-        registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
-        DBCommand command = new GetListCommand("start_training_list", this, Training.class);
-        command.work();
-
         disableSeekBar();
 
     }
@@ -129,13 +131,14 @@ public class MainActivity extends NavCreater {
     void disableSeekBar() {
         SeekBar ballSeekBar = this.findViewById(R.id.ball_seekbar);
         TooltipCompat.setTooltipText(ballSeekBar, "Send an email");
-        ballSeekBar.setOnTouchListener(new View.OnTouchListener(){
+        ballSeekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
     }
+
     class MyPagerAdapters extends PagerAdapter {
         //返回可以滑動的VIew的個數
         @Override
@@ -165,32 +168,34 @@ public class MainActivity extends NavCreater {
 
     public List<Training> getRandom(List<Training> rawList) {
         List<Training> tmpList = new ArrayList<Training>();
-        for(int i = 0;i<5;i++){
-        int random = (int) (Math.random() * (rawList.size() - 1));
-        tmpList.add(rawList.get(random));}
+        for (int i = 0; i < 5; i++) {
+            int random = (int) (Math.random() * (rawList.size() - 1));
+            tmpList.add(rawList.get(random));
+        }
         return tmpList;
 
     }
 
     public void saveList(List<Training> trainingList) {
-        rawList = trainingList;
-        SharedPreferences sp = getSharedPreferences("Training_Raw_List", Activity.MODE_PRIVATE);//建立sp物件
-        Gson gson = new Gson();
-        String jsonStr = gson.toJson(trainingList); //將List轉換成Json
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("KEY_RAW_LIST_DATA", jsonStr); //存入json串
-        editor.commit();  //提交
-        Log.d("MainActivity", "您已經儲存成功");
-    }
-    public void closeDetail(View view) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
-        fragmentTransaction.commit();
-    }
-    public void comfirmDetail(View view) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
-        fragmentTransaction.commit();
-    }
+            rawList = trainingList;
+            SharedPreferences sp = getSharedPreferences("Training_Raw_List", Activity.MODE_PRIVATE);//建立sp物件
+            Gson gson = new Gson();
+            String jsonStr = gson.toJson(trainingList); //將List轉換成Json
+            SharedPreferences.Editor editor = sp.edit();
+            editor.clear();
+            editor.putString("KEY_RAW_LIST_DATA", jsonStr); //存入json串
+            editor.commit();  //提交
+            Log.d("MainActivity", "您已經儲存成功");
+        }
+        public void closeDetail (View view){
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
+            fragmentTransaction.commit();
+        }
+        public void comfirmDetail (View view){
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
+            fragmentTransaction.commit();
+        }
 
-}
+    }
