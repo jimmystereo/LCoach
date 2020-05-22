@@ -44,6 +44,7 @@ public class MyTeammateActivity extends AppCompatActivity
         intent.putExtra("UpdateTeammateName", teammate.getName());
         intent.putExtra("UpdateTeammateRole", teammate.getRole());
         intent.putExtra("UpdateTeammateNumber", teammate.getNumber());
+        intent.putExtra("UpdateTeammateInfo", teammate.getInfo());
         startActivityForResult(intent, 2);
 
     }
