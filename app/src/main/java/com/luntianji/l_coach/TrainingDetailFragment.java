@@ -40,7 +40,6 @@ public class TrainingDetailFragment extends Fragment {
         trainingContent.setText(String.format("訓練種類: %s%n訓練難度: %s%n", training.getType(), training.getDifficulty()));
         v.setClickable(true);
         return v;
-
     }
 
 }

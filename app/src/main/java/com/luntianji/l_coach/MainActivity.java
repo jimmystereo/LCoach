@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 
 import androidx.appcompat.widget.TooltipCompat;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -180,6 +181,16 @@ public class MainActivity extends NavCreater {
         editor.putString("KEY_RAW_LIST_DATA", jsonStr); //存入json串
         editor.commit();  //提交
         Log.d("MainActivity", "您已經儲存成功");
+    }
+    public void closeDetail(View view) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
+        fragmentTransaction.commit();
+    }
+    public void comfirmDetail(View view) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
+        fragmentTransaction.commit();
     }
 
 }

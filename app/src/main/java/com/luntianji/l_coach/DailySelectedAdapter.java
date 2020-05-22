@@ -5,6 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.luntianji.l_coach.model.Training;
@@ -12,7 +15,8 @@ import com.luntianji.l_coach.model.Training;
 import java.util.List;
 
 public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdapter.TrainingListViewHolder> {
-    private List<Training> trainingDataset;
+    private static List<Training> trainingDataset;
+    static  TrainingDetailFragment detailFragment;
     private  String data;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -29,6 +33,18 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
             trainingName = (TextView) view.findViewById(R.id.daily_selected_name);
             trainingType = (TextView) view.findViewById(R.id.daily_selected_type);
             trainingDifficulty = (TextView) view.findViewById(R.id.daily_selected_difficulty);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    Toast.makeText(view.getContext(),
+//                            "click " +getAdapterPosition(),Toast.LENGTH_SHORT).show();
+                    detailFragment = new TrainingDetailFragment(getAdapterPosition(), (Training) DailySelectedAdapter.getTrainingDataSet().get(getAdapterPosition()));
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().add(R.id.main_constraint, detailFragment);
+                    fragmentTransaction.commit();
+                }
+            });
         }
     }
 
@@ -71,7 +87,10 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
 //
 //            }
 //        }
-    public List<Training> getTrainingDataSet() {
-        return this.trainingDataset;
+    public static List<Training> getTrainingDataSet() {
+        return trainingDataset;
+    }
+    public static TrainingDetailFragment getDetailFragment() {
+        return detailFragment;
     }
 }
