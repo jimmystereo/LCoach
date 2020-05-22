@@ -117,6 +117,7 @@ public class MainActivity extends NavCreater {
                     specialAdapter = new DailySelectedAdapter(getRandom(receivedList));
                     recyclerView2.setAdapter(specialAdapter);
 
+                    unregisterReceiver(this);
                 }
             };
             registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));

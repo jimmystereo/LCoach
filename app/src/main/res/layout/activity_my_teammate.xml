@@ -37,6 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="日本國家隊"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
