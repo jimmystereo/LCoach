@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->
         <!--        <item name="colorAccent">@color/colorAccent</item>-->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -21,9 +21,7 @@
         <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>
         <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
         <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
-
     </style>
-
     <!--    <style name="Display1" parent="TextAppearance.AppCompat">-->
     <!--        <item name="android:textColor">#ffffff</item>-->
     <!--    </style>-->

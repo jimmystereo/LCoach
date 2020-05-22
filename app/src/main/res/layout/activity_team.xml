@@ -53,12 +53,14 @@
                     app:srcCompat="@drawable/teamwork" />
 
                 <TextView
+
                     android:id="@+id/myTeammateDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/my_teammate_description"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/material_on_surface_emphasis_medium"
                     app:layout_constraintStart_toStartOf="@+id/myTeammate"
                     app:layout_constraintTop_toBottomOf="@+id/myTeammate" />
 
@@ -70,7 +72,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/my_teammate"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textAppearance="?attr/textAppearanceHeadline4"
                     android:textColor="?android:attr/textColorPrimary"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -119,7 +121,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/field_description"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/material_on_background_emphasis_medium"
                     app:layout_constraintStart_toStartOf="@+id/textView5"
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -131,7 +134,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/field"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textAppearance="?attr/textAppearanceHeadline4"
                     android:textColor="?android:attr/textColorPrimary"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

@@ -160,9 +160,12 @@
             android:id="@+id/button_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@android:drawable/ic_menu_delete"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
             android:text="刪除"
             android:visibility="invisible"
+            app:icon="@android:drawable/ic_menu_delete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -170,6 +173,9 @@
             android:id="@+id/button_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
             android:drawableStart="@android:drawable/ic_menu_add"
             android:text="新增"
             android:visibility="invisible"
