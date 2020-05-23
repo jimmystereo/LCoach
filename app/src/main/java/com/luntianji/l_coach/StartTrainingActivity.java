@@ -5,9 +5,11 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
@@ -115,7 +117,8 @@ public class StartTrainingActivity extends NavCreater {
         System.arraycopy(fragment.filterData, 0, data, 0, data.length);
         dataSelection();
 
-        if (!checkDefault()) filter.setBackground(getResources().getDrawable(R.drawable.filter_selected_button));
+        if (!checkDefault())
+            filter.setBackground(getResources().getDrawable(R.drawable.filter_selected_button));
         else filter.setBackground(getResources().getDrawable(R.drawable.shape));
         fragment.dismiss();
     }
@@ -217,14 +220,29 @@ public class StartTrainingActivity extends NavCreater {
         fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
         fragmentTransaction.commit();
     }
+
     public void comfirmDetail(View view) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_comfirm_fragment);
-        fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
-        fragmentTransaction.commit();
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_comfirm_fragment);
+//        fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
+//        fragmentTransaction.commit();
+        final TextView cancel = (TextView) findViewById(R.id.back_button);
+        cancel.setText("退出訓練");
+        new CountDownTimer(5000, 1000) {
+            TextView clock = (TextView) findViewById(R.id.training_confirm);
+
+            public void onTick(long millisUntilFinished) {
+                clock.setText(String.format("%ss left", millisUntilFinished / 1000));
+            }
+
+            public void onFinish() {
+                clock.setText("done!");
+                cancel.setText("返回");
+            }
+        }.start();
     }
 
-    public void addToMyTraining(View view){
+    public void addToMyTraining(View view) {
         //pojo
         Training training = TrainingListAdapter.getDetailFragment().training;
         training.setName(training.getName());

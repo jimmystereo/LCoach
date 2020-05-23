@@ -44,7 +44,6 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
                     fragmentTransaction.add(R.id.main_constraint, detailFragment);
-
                     fragmentTransaction.commit();
                 }
             });

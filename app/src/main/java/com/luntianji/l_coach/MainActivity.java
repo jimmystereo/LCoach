@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.FragmentTransaction;
@@ -40,6 +42,9 @@ import genomu.firestore_helper.DBReceiver;
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class MainActivity extends NavCreater {
+    private boolean start, pause, resume, end = false;
+    private long fullTime = 5000;
+    private long timeLeft;
     RecyclerView recyclerView1;
     RecyclerView recyclerView2;
     DailySelectedAdapter dailyAdapter;
@@ -57,6 +62,7 @@ public class MainActivity extends NavCreater {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         navCreat(R.id.activity_main, "Home");
+        timeLeft = fullTime;
         pager = (ViewPager) this.findViewById(R.id.main_page_picture);
         viewContainter = new ArrayList<View>();
         View view1 = LayoutInflater.from(this).inflate(R.layout.main_pager1, null);
@@ -107,8 +113,7 @@ public class MainActivity extends NavCreater {
             specialAdapter = new DailySelectedAdapter(getRandom(rawList));
             recyclerView2.setAdapter(specialAdapter);
 
-        }
-        else{
+        } else {
             DBReceiver receiver = new DBReceiver() {
                 @Override
                 public void onReceive(List receivedList) {
@@ -125,7 +130,7 @@ public class MainActivity extends NavCreater {
             registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
             DBCommand command = new GetListCommand("start_training_list", this, Training.class);
             command.work();
-            
+
         }
         disableSeekBar();
 
@@ -180,29 +185,78 @@ public class MainActivity extends NavCreater {
     }
 
     public void saveList(List<Training> trainingList) {
-            rawList = trainingList;
-            SharedPreferences sp = getSharedPreferences("Training_Raw_List", Activity.MODE_PRIVATE);//建立sp物件
-            Gson gson = new Gson();
-            String jsonStr = gson.toJson(trainingList); //將List轉換成Json
-            SharedPreferences.Editor editor = sp.edit();
-            editor.clear();
-            editor.putString("KEY_RAW_LIST_DATA", jsonStr); //存入json串
-            editor.commit();  //提交
-            Log.d("MainActivity", "您已經儲存成功");
+        rawList = trainingList;
+        SharedPreferences sp = getSharedPreferences("Training_Raw_List", Activity.MODE_PRIVATE);//建立sp物件
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(trainingList); //將List轉換成Json
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.putString("KEY_RAW_LIST_DATA", jsonStr); //存入json串
+        editor.commit();  //提交
+        Log.d("MainActivity", "您已經儲存成功");
+    }
+
+    public void closeDetail(View view) {
+        timeLeft = fullTime;
+        end = false;
+        start = false;
+        pause = false;
+        resume = false;
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
+        fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
+        fragmentTransaction.commit();
+    }
+
+    public void comfirmDetail(View view) {
+        final TextView cancel = (TextView) findViewById(R.id.back_button);
+        final TextView clock = (TextView) findViewById(R.id.training_confirm);
+        if (!end) {
+
+
+        if (!start) {
+            cancel.setText("退出訓練");
+            start = true;
+
+        } else if (!pause) {
+            pause = true;
+        } else if (pause) {
+            pause = false;
+            resume = true;
         }
-        public void closeDetail (View view){
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
-            fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
-            fragmentTransaction.commit();
-        }
-        public void comfirmDetail (View view){
+        CountDownTimer countDownTimer = new CountDownTimer(timeLeft, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+                if (pause||!start) {
+                    cancel();
+                }
+                else{clock.setText(String.format("%ss left", millisUntilFinished / 1000));
+                timeLeft = millisUntilFinished;}
+            }
+
+            public void onFinish() {
+                clock.setText("done!");
+                cancel.setText("返回");
+                end = true;
+                resume = false;
+                start = false;
+                pause = false;
+            }
+        };
+        countDownTimer.start();}
+        else{
+            timeLeft = fullTime;
+            end = false;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_comfirm_fragment);
             fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
             fragmentTransaction.commit();
         }
-    public void addToMyTraining(View view){
+
+    }
+
+    public void addToMyTraining(View view) {
         //pojo
         Training training = DailySelectedAdapter.getDetailFragment().training;
         training.setName(training.getName());
@@ -215,4 +269,4 @@ public class MainActivity extends NavCreater {
         DBCommand command = new CreateCommand("my_training_list", this, training);
         command.work();
     }
-    }
+}
