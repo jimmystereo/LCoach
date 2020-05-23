@@ -256,7 +256,7 @@ public class StartTrainingActivity extends NavCreater {
                         if (pause||!start) {
                             cancel();
                         }
-                        else{clock.setText(String.format("%ss left", millisUntilFinished / 1000));
+                        else{clock.setText(String.format("%ss left", millisUntilFinished / 1000+1));
                             timeLeft = millisUntilFinished;}
                     }
 

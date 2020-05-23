@@ -49,6 +49,7 @@ import genomu.firestore_helper.DBReceiver;
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class MainActivity extends NavCreater {
+
     private int notificationNum = 0;
     private boolean start, pause, resume, end = false;
     private long fullTime = 5000;
@@ -242,7 +243,7 @@ public class MainActivity extends NavCreater {
                 if (pause||!start) {
                     cancel();
                 }
-                else{clock.setText(String.format("%ss left", millisUntilFinished / 1000));
+                else{clock.setText(String.format("%ss left", millisUntilFinished / 1000+1));
                 timeLeft = millisUntilFinished;}
             }
 
