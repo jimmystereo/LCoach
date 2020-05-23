@@ -37,6 +37,9 @@ import genomu.firestore_helper.HanWen;
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class StartTrainingActivity extends NavCreater {
+    private long fullTime = 5000;
+    private long timeLeft;
+    private boolean start, pause, resume, end = false;
     private RecyclerView recyclerView;
     private TrainingListAdapter trainingListAdapter;
     TrainingDetailFragment fragmentDetail;
@@ -55,6 +58,7 @@ public class StartTrainingActivity extends NavCreater {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_training);
         navCreat(R.id.activity_start_training, "Start Training");
+        timeLeft = fullTime;
         filter = (Button) findViewById(R.id.button_training_filter);
         random_buttom = (Button) findViewById(R.id.button_training_random);
         recyclerView = (RecyclerView) findViewById(R.id.start_trainging_recycler_view);
@@ -215,6 +219,11 @@ public class StartTrainingActivity extends NavCreater {
     }
 
     public void closeDetail(View view) {
+        timeLeft = fullTime;
+        end = false;
+        start = false;
+        pause = false;
+        resume = false;
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
         fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
@@ -222,25 +231,53 @@ public class StartTrainingActivity extends NavCreater {
     }
 
     public void comfirmDetail(View view) {
-//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_comfirm_fragment);
-//        fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
-//        fragmentTransaction.commit();
-        final TextView cancel = (TextView) findViewById(R.id.back_button);
-        cancel.setText("退出訓練");
-        new CountDownTimer(5000, 1000) {
-            TextView clock = (TextView) findViewById(R.id.training_confirm);
 
-            public void onTick(long millisUntilFinished) {
-                clock.setText(String.format("%ss left", millisUntilFinished / 1000));
+            final TextView cancel = (TextView) findViewById(R.id.back_button);
+            final TextView clock = (TextView) findViewById(R.id.training_confirm);
+            if (!end) {
+
+
+                if (!start) {
+                    cancel.setText("退出訓練");
+                    start = true;
+
+                } else if (!pause) {
+                    pause = true;
+                } else if (pause) {
+                    pause = false;
+                    resume = true;
+                }
+                CountDownTimer countDownTimer = new CountDownTimer(timeLeft, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+
+                        if (pause||!start) {
+                            cancel();
+                        }
+                        else{clock.setText(String.format("%ss left", millisUntilFinished / 1000));
+                            timeLeft = millisUntilFinished;}
+                    }
+
+                    public void onFinish() {
+                        clock.setText("done!");
+                        cancel.setText("返回");
+                        end = true;
+                        resume = false;
+                        start = false;
+                        pause = false;
+                    }
+                };
+                countDownTimer.start();}
+            else{
+                timeLeft = fullTime;
+                end = false;
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_comfirm_fragment);
+                fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
+                fragmentTransaction.commit();
             }
 
-            public void onFinish() {
-                clock.setText("done!");
-                cancel.setText("返回");
-            }
-        }.start();
-    }
+        }
 
     public void addToMyTraining(View view) {
         //pojo
