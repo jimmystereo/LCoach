@@ -28,6 +28,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.viewpager.widget.ViewPager
+            android:background="@drawable/card_background"
             android:id="@+id/main_page_picture"
             android:layout_width="match_parent"
             android:layout_height="250dp"
@@ -51,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
+            android:textColor="@color/colorSecondary"
                 android:text="本日精選"
                 android:textSize="35sp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -59,7 +61,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/daily_selected_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/daily_selected" />
 
@@ -69,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorSecondary"
                 android:text="加強訓練"
                 android:textSize="35sp"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -78,7 +81,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/special_selected_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/special_selected" />
         </androidx.constraintlayout.widget.ConstraintLayout>

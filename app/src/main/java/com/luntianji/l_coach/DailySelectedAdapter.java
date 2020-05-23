@@ -41,7 +41,10 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
                     detailFragment = new TrainingDetailFragment(getAdapterPosition(), (Training) DailySelectedAdapter.getTrainingDataSet().get(getAdapterPosition()));
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().add(R.id.main_constraint, detailFragment);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
+                    fragmentTransaction.add(R.id.main_constraint, detailFragment);
+
                     fragmentTransaction.commit();
                 }
             });

@@ -25,11 +25,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import genomu.command.CreateCommand;
 import genomu.command.GetListCommand;
 import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBEmcee;
 import genomu.firestore_helper.DBReceiver;
 import genomu.firestore_helper.HanWen;
+
+import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class StartTrainingActivity extends NavCreater {
     private RecyclerView recyclerView;
@@ -210,13 +213,29 @@ public class StartTrainingActivity extends NavCreater {
 
     public void closeDetail(View view) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
         fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
         fragmentTransaction.commit();
     }
     public void comfirmDetail(View view) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_comfirm_fragment);
         fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
         fragmentTransaction.commit();
+    }
+
+    public void addToMyTraining(View view){
+        //pojo
+        Training training = TrainingListAdapter.getDetailFragment().training;
+        training.setName(training.getName());
+        training.setDifficulty(training.getDifficulty());
+        training.setOther(training.getOther());
+
+        DBReceiver receiver = new DBReceiver() {
+        };
+        registerReceiver(receiver, new IntentFilter(ACTION01));
+        DBCommand command = new CreateCommand("my_training_list", this, training);
+        command.work();
     }
 
 }

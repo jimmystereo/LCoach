@@ -21,7 +21,7 @@ import java.util.List;
 
 public class TrainingDetailFragment extends Fragment {
     private int itemPosition;
-    private Training training;
+    public Training training;
     private final String TAG = "TrainingDetailFragment";
 
     public TrainingDetailFragment(int position, Training training) {
