@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  custom color  -->
+    <!--  red primary  -->
     <color name="colorPrimary">#e57373</color>
     <color name="colorPrimaryVariant">#c62828</color>
-    <color name="colorSecondary">#97f8f8</color>
+    <color name="colorSecondary">#e57373</color>
+    <color name="colorSurface">#221919</color>
     <color name="colorPrimaryDark">#c62828</color>
     <color name="colorAccent">#D40000</color>
+    <!--  red primary  -->
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FF9900</color>
     <color name="black">#000000</color>
     <color name="light_purple">#BB86FC</color>
     <color name="transparent">#00000000</color>
+
+
+    <!-- cyan primary   -->
+<!--    <color name="colorPrimary">#b2ebf2</color>-->
+<!--    <color name="colorSurface">#1e2223</color>-->
+<!--    <color name="colorPrimaryVariant">#00bcd4</color>-->
+<!--    <color name="colorSecondary">#b2ebf2</color>-->
+<!--    <color name="colorPrimaryDark">#00bcd4</color>-->
+<!--    <color name="colorAccent">#D40000</color>-->
+
 </resources>

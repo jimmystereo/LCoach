@@ -43,4 +43,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     // for user interface
 //    implementation 'com.androidx.support:cardview:1.0.0'
+
+    // login
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
 }

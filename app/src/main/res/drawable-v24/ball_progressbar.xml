@@ -5,13 +5,11 @@
     <!-- Define the progress properties like start color, end color etc -->
     <item android:id="@android:id/progress">
         <clip>
-            <shape>
+            <shape android:shape="rectangle" >
                 <gradient
-                    android:angle="270"
-                    android:centerColor="@color/colorAccent"
-                    android:centerY="1.0"
-                    android:endColor="@color/colorAccent"
-                    android:startColor="@color/colorAccent" />
+                    android:angle="180"
+                    android:endColor="@color/colorPrimaryVariant"
+                    android:startColor="@color/colorPrimary" />
             </shape>
         </clip>
     </item>
