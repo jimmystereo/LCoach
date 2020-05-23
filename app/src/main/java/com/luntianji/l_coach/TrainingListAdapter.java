@@ -18,7 +18,8 @@ import java.util.List;
 
 public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapter.TrainingListViewHolder> {
     private static List<Training> trainingDataset;
-    private  String data;
+    public static int indexName;
+    public Training currentTraining;
     static TrainingDetailFragment detailFragment;
     private FragmentManager fragmentManager;
     // Provide a reference to the views for each data item
@@ -28,6 +29,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
     public static class TrainingListViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         TrainingDetailFragment fragment;
+
         public View view;
         public TextView trainingName;
         public TextView trainingPreview;
@@ -44,7 +46,10 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
                     detailFragment = new TrainingDetailFragment(getAdapterPosition(), (Training) TrainingListAdapter.getTrainingDataSet().get(getAdapterPosition()));
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().add(R.id.start_training_constraint, detailFragment);
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
+                    fragmentTransaction.add(R.id.start_training_constraint, detailFragment);
+
                     fragmentTransaction.commit();
                 }
             });
@@ -57,6 +62,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
         trainingDataset = myDataset;
 
     }
+
     // Create new views (invoked by the layout manager)
     @Override
     public TrainingListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -66,7 +72,6 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
         TrainingListViewHolder vh = new TrainingListViewHolder(v);
         return vh;
     }
-
 
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -84,6 +89,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
     public static TrainingDetailFragment getDetailFragment() {
         return detailFragment;
     }
+
     @Override
     public int getItemCount() {
         return trainingDataset.size();
