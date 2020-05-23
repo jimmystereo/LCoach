@@ -243,7 +243,9 @@ public class StartTrainingActivity extends NavCreater {
 
                 } else if (!pause) {
                     pause = true;
+                    clock.setBackgroundResource(R.drawable.comfirm_button_pause);
                 } else if (pause) {
+                    clock.setBackgroundResource(R.drawable.comfirm_button);
                     pause = false;
                     resume = true;
                 }

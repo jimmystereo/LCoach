@@ -16,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -216,8 +218,8 @@ public class MainActivity extends NavCreater {
     }
 
     public void comfirmDetail(View view) {
-        final TextView cancel = (TextView) findViewById(R.id.back_button);
-        final TextView clock = (TextView) findViewById(R.id.training_confirm);
+        final AppCompatButton cancel = (AppCompatButton) findViewById(R.id.back_button);
+        final AppCompatButton clock = (AppCompatButton) findViewById(R.id.training_confirm);
         if (!end) {
 
 
@@ -227,7 +229,9 @@ public class MainActivity extends NavCreater {
 
         } else if (!pause) {
             pause = true;
+            clock.setBackgroundResource(R.drawable.comfirm_button_pause);
         } else if (pause) {
+          clock.setBackgroundResource(R.drawable.comfirm_button);
             pause = false;
             resume = true;
         }
