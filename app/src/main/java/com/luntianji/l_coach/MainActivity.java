@@ -1,9 +1,12 @@
 package com.luntianji.l_coach;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -17,6 +20,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.TooltipCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +47,7 @@ import genomu.firestore_helper.DBReceiver;
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class MainActivity extends NavCreater {
+    private int notificationNum = 0;
     private boolean start, pause, resume, end = false;
     private long fullTime = 5000;
     private long timeLeft;
@@ -62,6 +68,7 @@ public class MainActivity extends NavCreater {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         navCreat(R.id.activity_main, "Home");
+        createNotificationChannel();
         timeLeft = fullTime;
         pager = (ViewPager) this.findViewById(R.id.main_page_picture);
         viewContainter = new ArrayList<View>();
@@ -193,10 +200,10 @@ public class MainActivity extends NavCreater {
         editor.clear();
         editor.putString("KEY_RAW_LIST_DATA", jsonStr); //存入json串
         editor.commit();  //提交
-        Log.d("MainActivity", "您已經儲存成功");
     }
 
     public void closeDetail(View view) {
+
         timeLeft = fullTime;
         end = false;
         start = false;
@@ -236,6 +243,16 @@ public class MainActivity extends NavCreater {
             }
 
             public void onFinish() {
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "訓練完成通知")
+                        .setSmallIcon(R.drawable.ball)
+                        .setContentTitle("訓練結束!")
+                        .setContentText(String.format("恭喜你成功完成%s",DailySelectedAdapter.getDetailFragment().training.getName()))
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+
+// notificationId is a unique int for each notification that you must define
+                notificationManager.notify(notificationNum++, builder.build());
                 clock.setText("done!");
                 cancel.setText("返回");
                 end = true;
@@ -268,5 +285,20 @@ public class MainActivity extends NavCreater {
         registerReceiver(receiver, new IntentFilter(ACTION01));
         DBCommand command = new CreateCommand("my_training_list", this, training);
         command.work();
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.app_name);
+            String description = getString(R.string.app_name);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("訓練完成通知", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
