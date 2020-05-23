@@ -243,8 +243,18 @@ public class MainActivity extends NavCreater {
                 if (pause||!start) {
                     cancel();
                 }
-                else{clock.setText(String.format("%ss left", millisUntilFinished / 1000+1));
-                timeLeft = millisUntilFinished;}
+                else{int minute  = (int) ((millisUntilFinished / 1000)/60);
+                    String minuteS = String.valueOf(minute);
+                    int second = (int) ((millisUntilFinished / 1000)%60+1);
+                    String secondS = String.valueOf(second);
+                    if(minuteS.length()==1){
+                        minuteS = "0"+minuteS;
+                    }
+                    if(secondS.length()==1){
+                        secondS = "0" + secondS;
+                    }
+                    clock.setText(String.format("%s : %s",minuteS,secondS));
+                    timeLeft = millisUntilFinished;}
             }
 
             public void onFinish() {
