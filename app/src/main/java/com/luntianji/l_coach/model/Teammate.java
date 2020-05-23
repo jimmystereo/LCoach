@@ -10,6 +10,7 @@ public class Teammate implements Serializable {
     private String role;
     private String number;
     private String info;
+    private String userId;
 
     public Teammate(String id) {
         this.id = id;
@@ -38,19 +39,23 @@ public class Teammate implements Serializable {
 
     }
 
-    public Teammate(String name, String role, String number, String info) {
+    public Teammate(String name, String role, String number, String info, String userId) {
         this.name = name;
         this.role = role;
         this.number = number;
         this.info = info;
+        this.userId = userId;
     }
 
-    public Teammate(String id, String name, String role, String number, String info) {
+
+
+    public Teammate(String id, String name, String role, String number, String info, String userId) {
         this.id = id;
         this.name = name;
         this.role = role;
         this.number = number;
         this.info = info;
+        this.userId = userId;
     }
 
     public String getId() {
@@ -77,5 +82,13 @@ public class Teammate implements Serializable {
 
     public String getInfo() {
         return info;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

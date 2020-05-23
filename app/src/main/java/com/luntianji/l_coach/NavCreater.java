@@ -1,6 +1,8 @@
 package com.luntianji.l_coach;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,11 +22,18 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.luntianji.data.FireStoreConnector;
+import com.luntianji.l_coach.databinding.NavHeaderBinding;
+import com.luntianji.l_coach.model.User;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class NavCreater extends AppCompatActivity {
+
+    private NavHeaderBinding mBinding;
+    private FirebaseAuth mAuth;
+    private User user;
+
     protected DrawerLayout d1;
     protected ActionBarDrawerToggle abdt;
     protected View navHeader;
@@ -31,6 +41,8 @@ public class NavCreater extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
 
     protected void navCreat(int id, final String page) {
+        mBinding = NavHeaderBinding.inflate(getLayoutInflater());
+
         d1 = (DrawerLayout) findViewById(id);
         abdt = new ActionBarDrawerToggle(this, d1, R.string.Open, R.string.Close);
 
@@ -94,7 +106,10 @@ public class NavCreater extends AppCompatActivity {
             }
         });
 
+        // Auth
+        mAuth = FirebaseAuth.getInstance();
         navHeader = nav_view.getHeaderView(0);
+        mBinding = NavHeaderBinding.bind(navHeader);
         navHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +117,22 @@ public class NavCreater extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        User user = new User(currentUser.getUid(), currentUser.getDisplayName());
+        mBinding.setUser(user);
+        setNavHeader(currentUser);
     }
 
     @Override
@@ -154,6 +185,7 @@ public class NavCreater extends AppCompatActivity {
         DrawerLayout picture = findViewById(R.id.imageview_nav_header_image);
         if (username != null && picture != null) {
             username.setText(user.getDisplayName());
+
 //        picture.setImageResource(user.get);
         }
     }

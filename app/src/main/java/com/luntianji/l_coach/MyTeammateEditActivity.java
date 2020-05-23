@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.luntianji.l_coach.model.Teammate;
 
 import java.util.List;
@@ -41,6 +43,8 @@ public class MyTeammateEditActivity extends AppCompatActivity {
     Button buttonDelete;
     MenuItem buttonToggleEdit;
     String id = "";
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String uid =  user.getUid();
 
     // pojo
     TextInputLayout nameField;
@@ -227,20 +231,21 @@ public class MyTeammateEditActivity extends AppCompatActivity {
 
     private void updateTeammate(String id, String name, String role, String number, String info) {
         // pojo
-        Teammate teammate = new Teammate(id, name, role, number, info);
+        Teammate teammate = new Teammate(id, name, role, number, info, uid);
 
         DBReceiver receiver = new DBReceiver() {
 
         };
         registerReceiver(receiver, new IntentFilter(ACTION01));
-        DBCommand command = new UpdateCommand<>("teammates", this, teammate);
+        DBCommand command = new UpdateCommand<>("my_teammates", this, teammate);
         command.work();
 
     }
 
     private void addTeammate(String name, String role, String number, String info) {
+
         // pojo
-        Teammate teammate = new Teammate(name, role, number, info);
+        Teammate teammate = new Teammate(name, role, number, info, uid);
 
         DBReceiver receiver = new DBReceiver() {
             @Override
@@ -253,7 +258,7 @@ public class MyTeammateEditActivity extends AppCompatActivity {
             }
         };
         registerReceiver(receiver, new IntentFilter(ACTION01));
-        DBCommand command = new CreateCommand("teammates", this, teammate);
+        DBCommand command = new CreateCommand("my_teammates", this, teammate);
         command.work();
     }
 
@@ -264,7 +269,7 @@ public class MyTeammateEditActivity extends AppCompatActivity {
         DBReceiver receiver = new DBReceiver() {
         };
         registerReceiver(receiver, new IntentFilter(ACTION01));
-        DBCommand command = new DeleteCommand<>("teammates", this, teammate);
+        DBCommand command = new DeleteCommand<>("my_teammates", this, teammate);
         command.work();
     }
 }

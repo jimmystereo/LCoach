@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -27,6 +29,7 @@ import com.luntianji.l_coach.model.Teammate;
 
 import java.util.List;
 
+import genomu.command.FilterCommand;
 import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBReceiver;
 import genomu.firestore_helper.HanWen;
@@ -145,15 +148,19 @@ public class MyTeammateFragment extends Fragment {
         super.onResume();
         // update whatever your list
         // get data
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid =  user.getUid();
         DBReceiver receiver = new DBReceiver() {
             @Override
             public void onReceive(List receivedList) {
                 // specify an adapter (see also next example)
                 recyclerView.setAdapter(new MyTeammateRecyclerViewAdapter(receivedList, mListener));
+                context.unregisterReceiver(this);
             }
         };
         context.registerReceiver(receiver, new IntentFilter(ACTION01));
-        DBCommand command = new GetListCommand("teammates", (Activity) context, Teammate.class);
+        GetListCommand command = new GetListCommand("my_teammates", (Activity) context, Teammate.class);
+        command = new FilterCommand(command, "userId", uid);
         command.work();
     }
 
