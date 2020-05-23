@@ -8,18 +8,21 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_constraint"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <SeekBar
             android:id="@+id/ball_seekbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:foreground="@drawable/gradient_shape"
+            android:layout_marginBottom="8dp"
+            android:maxHeight="3dp"
+            android:minHeight="3dp"
             android:progress="80"
+            android:progressDrawable="@drawable/ball_progressbar"
             android:thumb="@drawable/ball"
             android:thumbOffset="-5dp"
             android:tooltipText="Send an email"
@@ -37,52 +40,51 @@
 
         </androidx.viewpager.widget.ViewPager>
 
-<!--        <androidx.appcompat.widget.AppCompatImageView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="450dp"-->
-<!--            android:background="@drawable/rec"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/main_page_picture" />-->
+        <!--        <androidx.appcompat.widget.AppCompatImageView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="450dp"-->
+        <!--            android:background="@drawable/rec"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/main_page_picture" />-->
 
         <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/daily_selected"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:text="本日精選"
-                android:textSize="35sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/main_page_picture" />
+            android:id="@+id/daily_selected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="本日精選"
+            android:textSize="35sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_page_picture" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/daily_selected_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/daily_selected" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/daily_selected_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/daily_selected" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/special_selected"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:text="加強訓練"
-                android:textSize="35sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/daily_selected_recycler_view" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/special_selected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="加強訓練"
+            android:textSize="35sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/daily_selected_recycler_view" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/special_selected_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/special_selected" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/special_selected_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/special_selected" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
