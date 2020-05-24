@@ -49,7 +49,7 @@ import genomu.firestore_helper.DBReceiver;
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class MainActivity extends NavCreater {
-
+    public static boolean opened = false;
     private int notificationNum = 0;
     private boolean start, pause, resume, end = false;
     private long fullTime = 5000;
@@ -206,16 +206,7 @@ public class MainActivity extends NavCreater {
     }
 
     public void closeDetail(View view) {
-
-        timeLeft = fullTime;
-        end = false;
-        start = false;
-        pause = false;
-        resume = false;
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
-        fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
-        fragmentTransaction.commit();
+        resetDetail();
     }
 
     public void comfirmDetail(View view) {
@@ -224,66 +215,66 @@ public class MainActivity extends NavCreater {
         if (!end) {
 
 
-        if (!start) {
-            cancel.setText("退出訓練");
-            start = true;
+            if (!start) {
+                cancel.setText("退出訓練");
+                start = true;
 
-        } else if (!pause) {
-            pause = true;
-            clock.setBackgroundResource(R.drawable.comfirm_button_pause);
-        } else if (pause) {
-          clock.setBackgroundResource(R.drawable.comfirm_button);
-            pause = false;
-            resume = true;
-        }
-        CountDownTimer countDownTimer = new CountDownTimer(timeLeft, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-
-                if (pause||!start) {
-                    cancel();
-                }
-                else{int minute  = (int) ((millisUntilFinished / 1000)/60);
-                    String minuteS = String.valueOf(minute);
-                    int second = (int) ((millisUntilFinished / 1000)%60+1);
-                    String secondS = String.valueOf(second);
-                    if(minuteS.length()==1){
-                        minuteS = "0"+minuteS;
-                    }
-                    if(secondS.length()==1){
-                        secondS = "0" + secondS;
-                    }
-                    clock.setText(String.format("%s : %s",minuteS,secondS));
-                    timeLeft = millisUntilFinished;}
+            } else if (!pause) {
+                pause = true;
+                clock.setBackgroundResource(R.drawable.comfirm_button_pause);
+            } else if (pause) {
+                clock.setBackgroundResource(R.drawable.comfirm_button);
+                pause = false;
+                resume = true;
             }
+            CountDownTimer countDownTimer = new CountDownTimer(timeLeft, 1000) {
 
-            public void onFinish() {
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "訓練完成通知")
-                        .setSmallIcon(R.drawable.ball)
-                        .setContentTitle("訓練結束!")
-                        .setContentText(String.format("恭喜你成功完成%s",DailySelectedAdapter.getDetailFragment().training.getName()))
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                public void onTick(long millisUntilFinished) {
 
-                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+                    if (pause || !start) {
+                        cancel();
+                    } else {
+                        int minute = (int) ((millisUntilFinished / 1000) / 60);
+                        String minuteS = String.valueOf(minute);
+                        int second = (int) ((millisUntilFinished / 1000) % 60 + 1);
+                        String secondS = String.valueOf(second);
+                        if (minuteS.length() == 1) {
+                            minuteS = "0" + minuteS;
+                        }
+                        if (secondS.length() == 1) {
+                            secondS = "0" + secondS;
+                        }
+                        if (secondS.equals("60")) {
+                            secondS = "00";
+                            minuteS = String.valueOf(minute + 1);
+                        }
+                        clock.setText(String.format("%s : %s", minuteS, secondS));
+                        timeLeft = millisUntilFinished;
+                    }
+                }
+
+                public void onFinish() {
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "訓練完成通知")
+                            .setSmallIcon(R.drawable.ball)
+                            .setContentTitle("訓練結束!")
+                            .setContentText(String.format("恭喜你成功完成%s", DailySelectedAdapter.getDetailFragment().training.getName()))
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
 
 // notificationId is a unique int for each notification that you must define
-                notificationManager.notify(notificationNum++, builder.build());
-                clock.setText("done!");
-                cancel.setText("返回");
-                end = true;
-                resume = false;
-                start = false;
-                pause = false;
-            }
-        };
-        countDownTimer.start();}
-        else{
-            timeLeft = fullTime;
-            end = false;
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_comfirm_fragment);
-            fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
-            fragmentTransaction.commit();
+                    notificationManager.notify(notificationNum++, builder.build());
+                    clock.setText("done!");
+                    cancel.setText("返回");
+                    end = true;
+                    resume = false;
+                    start = false;
+                    pause = false;
+                }
+            };
+            countDownTimer.start();
+        } else {
+            resetDetail();
         }
 
     }
@@ -301,6 +292,7 @@ public class MainActivity extends NavCreater {
         DBCommand command = new CreateCommand("my_training_list", this, training);
         command.work();
     }
+
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -315,5 +307,19 @@ public class MainActivity extends NavCreater {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    public void resetDetail() {
+        opened = false;
+        setTitle("L Coach");
+        timeLeft = fullTime;
+        end = false;
+        start = false;
+        pause = false;
+        resume = false;
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
+        fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
+        fragmentTransaction.commit();
     }
 }

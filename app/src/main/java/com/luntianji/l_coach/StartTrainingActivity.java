@@ -37,7 +37,8 @@ import genomu.firestore_helper.HanWen;
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class StartTrainingActivity extends NavCreater {
-    private long fullTime = 1000*60*15;
+    public static boolean opened = false;
+    private long fullTime = 1000 * 60 * 15;
     private long timeLeft;
     private boolean start, pause, resume, end = false;
     private RecyclerView recyclerView;
@@ -219,78 +220,69 @@ public class StartTrainingActivity extends NavCreater {
     }
 
     public void closeDetail(View view) {
-        timeLeft = fullTime;
-        end = false;
-        start = false;
-        pause = false;
-        resume = false;
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
-        fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
-        fragmentTransaction.commit();
+        resetDetail();
     }
 
     public void comfirmDetail(View view) {
 
-            final TextView cancel = (TextView) findViewById(R.id.back_button);
-            final TextView clock = (TextView) findViewById(R.id.training_confirm);
-            if (!end) {
+        final TextView cancel = (TextView) findViewById(R.id.back_button);
+        final TextView clock = (TextView) findViewById(R.id.training_confirm);
+        if (!end) {
 
 
-                if (!start) {
-                    cancel.setText("退出訓練");
-                    start = true;
+            if (!start) {
+                cancel.setText("退出訓練");
+                start = true;
 
-                } else if (!pause) {
-                    pause = true;
-                    clock.setBackgroundResource(R.drawable.comfirm_button_pause);
-                } else if (pause) {
-                    clock.setBackgroundResource(R.drawable.comfirm_button);
-                    pause = false;
-                    resume = true;
-                }
-                CountDownTimer countDownTimer = new CountDownTimer(timeLeft, 1000) {
-
-                    public void onTick(long millisUntilFinished) {
-
-                        if (pause||!start) {
-                            cancel();
-                        }
-                        else{
-                            int minute  = (int) ((millisUntilFinished / 1000)/60);
-                            String minuteS = String.valueOf(minute);
-                            int second = (int) ((millisUntilFinished / 1000)%60+1);
-                            String secondS = String.valueOf(second);
-                            if(minuteS.length()==1){
-                                minuteS = "0"+minuteS;
-                            }
-                            if(secondS.length()==1){
-                                secondS = "0" + secondS;
-                            }
-                            clock.setText(String.format("%s : %s",minuteS,secondS));
-                            timeLeft = millisUntilFinished;}
-                    }
-
-                    public void onFinish() {
-                        clock.setText("done!");
-                        cancel.setText("返回");
-                        end = true;
-                        resume = false;
-                        start = false;
-                        pause = false;
-                    }
-                };
-                countDownTimer.start();}
-            else{
-                timeLeft = fullTime;
-                end = false;
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_comfirm_fragment);
-                fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
-                fragmentTransaction.commit();
+            } else if (!pause) {
+                pause = true;
+                clock.setBackgroundResource(R.drawable.comfirm_button_pause);
+            } else if (pause) {
+                clock.setBackgroundResource(R.drawable.comfirm_button);
+                pause = false;
+                resume = true;
             }
+            CountDownTimer countDownTimer = new CountDownTimer(timeLeft, 1000) {
 
+                public void onTick(long millisUntilFinished) {
+
+                    if (pause || !start) {
+                        cancel();
+                    } else {
+                        int minute = (int) ((millisUntilFinished / 1000) / 60);
+                        String minuteS = String.valueOf(minute);
+                        int second = (int) ((millisUntilFinished / 1000) % 60 + 1);
+                        String secondS = String.valueOf(second);
+                        if (minuteS.length() == 1) {
+                            minuteS = "0" + minuteS;
+                        }
+                        if (secondS.length() == 1) {
+                            secondS = "0" + secondS;
+                        }
+                        if (secondS.equals("60")) {
+                            secondS = "00";
+                            minuteS = String.valueOf(minute + 1);
+                        }
+                        clock.setText(String.format("%s : %s", minuteS, secondS));
+                        timeLeft = millisUntilFinished;
+                    }
+                }
+
+                public void onFinish() {
+                    clock.setText("done!");
+                    cancel.setText("返回");
+                    end = true;
+                    resume = false;
+                    start = false;
+                    pause = false;
+                }
+            };
+            countDownTimer.start();
+        } else {
+            resetDetail();
         }
+
+    }
 
     public void addToMyTraining(View view) {
         //pojo
@@ -306,4 +298,17 @@ public class StartTrainingActivity extends NavCreater {
         command.work();
     }
 
+    public void resetDetail() {
+        opened = false;
+        setTitle("選擇訓練");
+        timeLeft = fullTime;
+        end = false;
+        start = false;
+        pause = false;
+        resume = false;
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
+        fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
+        fragmentTransaction.commit();
+    }
 }

@@ -16,6 +16,8 @@ import com.luntianji.l_coach.model.Training;
 
 import java.util.List;
 
+import static com.luntianji.l_coach.StartTrainingActivity.opened;
+
 public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapter.TrainingListViewHolder> {
     private static List<Training> trainingDataset;
     public static int indexName;
@@ -43,14 +45,17 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
                 public void onClick(View view) {
 //                    Toast.makeText(view.getContext(),
 //                            "click " +getAdapterPosition(),Toast.LENGTH_SHORT).show();
-                    detailFragment = new TrainingDetailFragment(getAdapterPosition(), (Training) TrainingListAdapter.getTrainingDataSet().get(getAdapterPosition()));
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
-                    fragmentTransaction.add(R.id.start_training_constraint, detailFragment);
-
-                    fragmentTransaction.commit();
+                    if (!opened) {
+                        detailFragment = new TrainingDetailFragment(getAdapterPosition(), (Training) TrainingListAdapter.getTrainingDataSet().get(getAdapterPosition()));
+                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
+                        fragmentTransaction.add(R.id.start_training_constraint, detailFragment);
+                        activity.setTitle("訓練內容");
+                        fragmentTransaction.commit();
+                        opened = true;
+                    }
                 }
             });
 

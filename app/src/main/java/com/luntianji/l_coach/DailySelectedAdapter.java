@@ -14,10 +14,13 @@ import com.luntianji.l_coach.model.Training;
 
 import java.util.List;
 
+import static com.luntianji.l_coach.MainActivity.opened;
+
 public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdapter.TrainingListViewHolder> {
     private static List<Training> trainingDataset;
-    static  TrainingDetailFragment detailFragment;
-    private  String data;
+    static TrainingDetailFragment detailFragment;
+    private String data;
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -27,6 +30,7 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
         public TextView trainingName;
         public TextView trainingType;
         public TextView trainingDifficulty;
+
         public TrainingListViewHolder(View v) {
             super(v);
             view = v;
@@ -38,13 +42,17 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
                 public void onClick(View view) {
 //                    Toast.makeText(view.getContext(),
 //                            "click " +getAdapterPosition(),Toast.LENGTH_SHORT).show();
-                    detailFragment = new TrainingDetailFragment(getAdapterPosition(), (Training) DailySelectedAdapter.getTrainingDataSet().get(getAdapterPosition()));
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
-                    fragmentTransaction.add(R.id.main_constraint, detailFragment);
-                    fragmentTransaction.commit();
+                    if (!opened) {
+                        detailFragment = new TrainingDetailFragment(getAdapterPosition(), (Training) DailySelectedAdapter.getTrainingDataSet().get(getAdapterPosition()));
+                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
+                        fragmentTransaction.add(R.id.main_constraint, detailFragment);
+                        activity.setTitle("訓練內容");
+                        fragmentTransaction.commit();
+                        opened = true;
+                    }
                 }
             });
         }
@@ -54,6 +62,7 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
     public DailySelectedAdapter(List<Training> myDataset) {
         trainingDataset = myDataset;
     }
+
     // Create new views (invoked by the layout manager)
     @Override
     public TrainingListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,7 +73,6 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
         TrainingListViewHolder vh = new TrainingListViewHolder(v);
         return vh;
     }
-
 
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -84,6 +92,7 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
     public int getItemCount() {
         return trainingDataset.size();
     }
+
     //        public void dataSelection(boolean defaultData, int[] filterData){
 //            if(!defaultData){
 //
@@ -92,6 +101,7 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
     public static List<Training> getTrainingDataSet() {
         return trainingDataset;
     }
+
     public static TrainingDetailFragment getDetailFragment() {
         return detailFragment;
     }
