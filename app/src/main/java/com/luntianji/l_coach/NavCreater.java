@@ -130,7 +130,7 @@ public class NavCreater extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null) {
+        if (currentUser != null) {
             User user = new User(currentUser.getUid(), currentUser.getDisplayName());
             mBinding.setUser(user);
             setNavHeader(currentUser);
