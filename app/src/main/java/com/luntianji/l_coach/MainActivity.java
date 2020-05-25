@@ -301,7 +301,7 @@ public class MainActivity extends NavCreater {
             String description = getString(R.string.app_name);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("訓練完成通知", name, importance);
-            channel.setDescription(description);
+            channel .setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);

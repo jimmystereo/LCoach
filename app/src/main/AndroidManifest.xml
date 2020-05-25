@@ -9,41 +9,33 @@
         android:roundIcon="@drawable/spike"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp">
-        <activity android:name=".MyTeammateEditActivity"
-            android:parentActivityName=".MyTeammateActivity"/>
+        <activity android:name=".MyProfileActivity"></activity>
+        <activity
+            android:name=".MyTeammateEditActivity"
+            android:parentActivityName=".MyTeammateActivity" />
+
         <receiver
             android:name="genomu.firestore_helper.DBReceiver"
             android:enabled="true"
-            android:exported="true" />
-        <!-- author: hwchang -->
+            android:exported="true" /> <!-- author: hwchang -->
         <activity
             android:name=".TeamActivity"
             android:label="我的隊伍"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".MyTeammateActivity"
             android:label="我的隊員"
-            android:parentActivityName=".TeamActivity">
-        </activity>
+            android:parentActivityName=".TeamActivity"></activity>
         <activity
             android:name=".MyTrainingActivity"
-            android:label="自訂菜單">
-        </activity>
+            android:label="自訂菜單"></activity>
         <activity
             android:name=".MyTrainingEditActivity"
             android:label="編輯訓練項目"
-            android:parentActivityName=".MyTrainingActivity">
-        </activity>
-        <!-- author: hwchang -->
-
-
+            android:parentActivityName=".MyTrainingActivity"></activity> <!-- author: hwchang -->
         <activity
             android:name=".StartTrainingActivity"
-            android:label="選擇訓練">
-        </activity>
-
-
+            android:label="選擇訓練"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
