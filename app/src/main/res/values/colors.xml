@@ -2,9 +2,10 @@
 <resources>
     <!--  custom color  -->
     <!--  red primary  -->
-    <color name="colorPrimary">#e57373</color>
-    <color name="colorPrimaryVariant">#c62828</color>
-    <color name="colorSecondary">#e57373</color>
+    <color name="colorPrimary">#CCB6FB</color>
+    <color name="colorPrimaryVariant">#B08FFD</color>
+    <color name="colorSecondary">#B9DCFB</color>
+    <color name="colorSecondaryVariant">#55ECFF</color>
     <color name="colorSurface">#221919</color>
     <color name="colorPrimaryDark">#c62828</color>
     <color name="colorAccent">#D40000</color>
@@ -14,14 +15,15 @@
     <color name="black">#000000</color>
     <color name="light_purple">#BB86FC</color>
     <color name="transparent">#00000000</color>
-
-
+    <color name="training_easy">#18FFFF</color>
+    <color name="training_medium">#F4FD93</color>
+    <color name="training_hard">#FF8DE6</color>
     <!-- cyan primary   -->
-<!--    <color name="colorPrimary">#b2ebf2</color>-->
-<!--    <color name="colorSurface">#1e2223</color>-->
-<!--    <color name="colorPrimaryVariant">#00bcd4</color>-->
-<!--    <color name="colorSecondary">#b2ebf2</color>-->
-<!--    <color name="colorPrimaryDark">#00bcd4</color>-->
-<!--    <color name="colorAccent">#D40000</color>-->
+    <!--    <color name="colorPrimary">#b2ebf2</color>-->
+    <!--    <color name="colorSurface">#1e2223</color>-->
+    <!--    <color name="colorPrimaryVariant">#00bcd4</color>-->
+    <!--    <color name="colorSecondary">#b2ebf2</color>-->
+    <!--    <color name="colorPrimaryDark">#00bcd4</color>-->
+    <!--    <color name="colorAccent">#D40000</color>-->
 
 </resources>

@@ -10,9 +10,9 @@
         android:id="@+id/training_detail_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_marginLeft="20dp"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="40sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">"訓練名稱"</TextView>
 
@@ -23,7 +23,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="50dp"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/training_detail_name">
         訓練資訊</TextView>

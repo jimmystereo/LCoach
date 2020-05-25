@@ -18,7 +18,7 @@
             <solid android:color="#55ECFF" />
             <stroke
                 android:width="5dp"
-                android:color="#CDE0F1" />
+                android:color="#B9DCFB" />
 
             <padding
                 android:left="5dp"

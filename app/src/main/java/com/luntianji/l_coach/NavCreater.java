@@ -99,7 +99,10 @@ public class NavCreater extends AppCompatActivity {
                     intent.setClass(NavCreater.this, TeamActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.Setting_nav && !page.equals("Setting")) {
-                    createSignInIntent();
+                    Intent intent = new Intent();
+                    intent.setClass(NavCreater.this, SettingActivity.class);
+                    startActivity(intent);
+//                    createSignInIntent();
                     //FireStoreConnector.dataUpload();
                 }
                 return true;

@@ -37,7 +37,17 @@ public class TrainingDetailFragment extends Fragment {
         TextView trainingName = (TextView) v.findViewById(R.id.training_detail_name);
         trainingName.setText(training.getName());
         TextView trainingContent = (TextView) v.findViewById(R.id.training_detail_content);
-        trainingContent.setText(String.format("訓練種類: %s%n訓練難度: %s%n", training.getType(), training.getDifficulty()));
+        String content = String.format(
+                "訓練種類: %s%n" +
+                        "訓練難度: %s%n" +
+                        "人數: %s%n" +
+                        "球數: %s%n" +
+                        "特殊條件: %s%n"
+                , training.getType(), training.getDifficulty(), training.getAmount_people(), training.getAmount_ball(), training.getOther());
+        if (!(training.getDetail() == null || training.getDetail().equals("無"))) {
+            content += String.format("訓練內容: %n%s%n", training.getDetail());
+        }
+        trainingContent.setText(content);
         v.setClickable(true);
         return v;
     }

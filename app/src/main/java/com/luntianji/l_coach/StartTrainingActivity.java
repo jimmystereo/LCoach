@@ -1,17 +1,17 @@
 package com.luntianji.l_coach;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.luntianji.l_coach.model.DummyContent;
 import com.luntianji.l_coach.model.Training;
 
 import java.util.ArrayList;
@@ -28,11 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 import genomu.command.CreateCommand;
-import genomu.command.GetListCommand;
 import genomu.firestore_helper.DBCommand;
-import genomu.firestore_helper.DBEmcee;
 import genomu.firestore_helper.DBReceiver;
-import genomu.firestore_helper.HanWen;
 
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
@@ -43,7 +39,7 @@ public class StartTrainingActivity extends NavCreater {
     private boolean start, pause, resume, end = false;
     private RecyclerView recyclerView;
     private TrainingListAdapter trainingListAdapter;
-    TrainingDetailFragment fragmentDetail;
+    QuitTrainingFragment quitTrainingFragment;
     private FilterFragment fragment = new FilterFragment();
     private List<Training> tmpList;
     public List rawList = new ArrayList();
@@ -60,6 +56,7 @@ public class StartTrainingActivity extends NavCreater {
         setContentView(R.layout.activity_start_training);
         navCreat(R.id.activity_start_training, "Start Training");
         timeLeft = fullTime;
+        opened = false;
         filter = (Button) findViewById(R.id.button_training_filter);
         random_buttom = (Button) findViewById(R.id.button_training_random);
         recyclerView = (RecyclerView) findViewById(R.id.start_trainging_recycler_view);
@@ -85,7 +82,7 @@ public class StartTrainingActivity extends NavCreater {
         }.getType());
         rawList.addAll(receivedList);
         tmpList = receivedList;
-        trainingListAdapter = new TrainingListAdapter(tmpList);
+        trainingListAdapter = new TrainingListAdapter(tmpList, this);
         recyclerView.setAdapter(trainingListAdapter);
 //            }
 //        };
@@ -182,14 +179,14 @@ public class StartTrainingActivity extends NavCreater {
                     continue;
                 }
             } else if (data[2] == 2) {
-                if (tmpList.get(i).getOther().equals("球場")) {
+                if (tmpList.get(i).getOther().equals("球場") || tmpList.get(i).getOther().equals("場地")) {
                     tmpList.remove(i);
                     trainingListAdapter.notifyItemRemoved(i);
                     i--;
                     continue;
                 }
             } else if (data[2] == 3) {
-                if (!tmpList.get(i).getOther().equals("無")) {
+                if (tmpList.get(i).getOther().equals("球場") || tmpList.get(i).getOther().equals("牆壁") || tmpList.get(i).getOther().equals("場地")) {
                     tmpList.remove(i);
                     trainingListAdapter.notifyItemRemoved(i);
                     i--;
@@ -205,21 +202,44 @@ public class StartTrainingActivity extends NavCreater {
             }
             /*篩選球數**/
             if (ball >= 0 && people != 0) {
-                if (tmpList.get(i).getBall_per_people() != null) {
-                    double ball_per_people = Double.parseDouble(tmpList.get(i).getBall_per_people());
-                    double ball_needed = people * ball_per_people;
-                    if (ball < ball_needed) {
-                        tmpList.remove(i);
-                        trainingListAdapter.notifyItemRemoved(i);
-                        i--;
-                        continue;
-                    }
+
+                double ball_per_people = Double.parseDouble(tmpList.get(i).getBall_per_person());
+                double ball_needed = people * ball_per_people;
+                if (ball < ball_needed) {
+                    tmpList.remove(i);
+                    trainingListAdapter.notifyItemRemoved(i);
+                    i--;
+                    continue;
+
                 }
             }
         }
     }
 
     public void closeDetail(View view) {
+//        AlertDialog.Builder builder1 = new AlertDialog.Builder(this.getBaseContext());
+//        builder1.setMessage(R.string.comfirm_quit);
+//        builder1.setCancelable(true);
+//
+//        builder1.setPositiveButton(
+//                R.string.comfirm,
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        resetDetail();
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//        builder1.setNegativeButton(
+//                R.string.cancel,
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//        AlertDialog alert11 = builder1.create();
+//        alert11.show();
         resetDetail();
     }
 
@@ -311,4 +331,5 @@ public class StartTrainingActivity extends NavCreater {
         fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
         fragmentTransaction.commit();
     }
+
 }

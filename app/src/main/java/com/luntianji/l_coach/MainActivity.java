@@ -3,7 +3,6 @@ package com.luntianji.l_coach;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -16,10 +15,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.app.NotificationCompat;
@@ -30,6 +29,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.luntianji.l_coach.model.Training;
@@ -37,6 +41,7 @@ import com.luntianji.l_coach.model.Training;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -72,6 +77,7 @@ public class MainActivity extends NavCreater {
         setContentView(R.layout.activity_main);
         navCreat(R.id.activity_main, "Home");
         createNotificationChannel();
+        opened = false;
         timeLeft = fullTime;
         pager = (ViewPager) this.findViewById(R.id.main_page_picture);
         viewContainter = new ArrayList<View>();
@@ -118,20 +124,30 @@ public class MainActivity extends NavCreater {
             rawList = gson.fromJson(stringList, new TypeToken<List<Training>>() {
             }.getType());
             Log.d("MainActivity", "您已經儲存成功");
-            dailyAdapter = new DailySelectedAdapter(getRandom(rawList));
+            dailyAdapter = new DailySelectedAdapter(getRandom(rawList), this);
             recyclerView1.setAdapter(dailyAdapter);
-            specialAdapter = new DailySelectedAdapter(getRandom(rawList));
+            specialAdapter = new DailySelectedAdapter(getRandom(rawList), this);
             recyclerView2.setAdapter(specialAdapter);
+            DBReceiver receiver = new DBReceiver() {
+                @Override
+                public void onReceive(List receivedList) {
 
+                    saveList(receivedList);
+                    unregisterReceiver(this);
+                }
+            };
+            registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
+            DBCommand command = new GetListCommand("start_training_list", this, Training.class);
+            command.work();
         } else {
             DBReceiver receiver = new DBReceiver() {
                 @Override
                 public void onReceive(List receivedList) {
 
                     saveList(receivedList);
-                    dailyAdapter = new DailySelectedAdapter(getRandom(receivedList));
+                    dailyAdapter = new DailySelectedAdapter(getRandom(receivedList), MainActivity.this);
                     recyclerView1.setAdapter(dailyAdapter);
-                    specialAdapter = new DailySelectedAdapter(getRandom(receivedList));
+                    specialAdapter = new DailySelectedAdapter(getRandom(receivedList), MainActivity.this);
                     recyclerView2.setAdapter(specialAdapter);
 
                     unregisterReceiver(this);
@@ -140,7 +156,6 @@ public class MainActivity extends NavCreater {
             registerReceiver(receiver, new IntentFilter(DBEmcee.ACTION01));
             DBCommand command = new GetListCommand("start_training_list", this, Training.class);
             command.work();
-
         }
         disableSeekBar();
 
@@ -195,6 +210,7 @@ public class MainActivity extends NavCreater {
     }
 
     public void saveList(List<Training> trainingList) {
+
         rawList = trainingList;
         SharedPreferences sp = getSharedPreferences("Training_Raw_List", Activity.MODE_PRIVATE);//建立sp物件
         Gson gson = new Gson();
@@ -322,4 +338,5 @@ public class MainActivity extends NavCreater {
         fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
         fragmentTransaction.commit();
     }
+
 }
