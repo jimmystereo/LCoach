@@ -133,7 +133,9 @@ public class NavCreater extends AppCompatActivity {
         if (currentUser != null) {
             User user = new User(currentUser.getUid(), currentUser.getDisplayName());
             mBinding.setUser(user);
-            setNavHeader(currentUser);
+        } else {
+            User user = new User("0", "登入 William Chi");
+            mBinding.setUser(user);
         }
 
     }
