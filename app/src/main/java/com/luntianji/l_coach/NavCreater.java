@@ -32,7 +32,7 @@ public class NavCreater extends AppCompatActivity {
 
     private NavHeaderBinding mBinding;
     private FirebaseAuth mAuth;
-    private User user;
+    private User currentUser;
 
     protected DrawerLayout d1;
     protected ActionBarDrawerToggle abdt;
@@ -113,12 +113,12 @@ public class NavCreater extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         navHeader = nav_view.getHeaderView(0);
         mBinding = NavHeaderBinding.bind(navHeader);
-        navHeader.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createSignInIntent();
-            }
-        });
+//        navHeader.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                createSignInIntent();
+//            }
+//        });
 
     }
 
@@ -132,16 +132,29 @@ public class NavCreater extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            User user = new User(currentUser.getUid(), currentUser.getDisplayName());
-            mBinding.setUser(user);
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        if (firebaseUser == null) {
+            currentUser = new User("0", "登入 William Chi");
+            mBinding.setUser(currentUser);
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createSignInIntent();
+                }
+            });
         } else {
-            User user = new User("0", "登入 William Chi");
-            mBinding.setUser(user);
+            currentUser = new User(firebaseUser.getUid(), firebaseUser.getDisplayName());
+            mBinding.setUser(currentUser);
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createMyProfileIntent();
+                }
+            });
         }
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -165,6 +178,14 @@ public class NavCreater extends AppCompatActivity {
                         .build(),
                 RC_SIGN_IN);
         // [END auth_fui_create_intent]
+
+    }
+
+    private void createMyProfileIntent() {
+        Intent intent = new Intent(this, MyProfileActivity.class);
+        intent.putExtra("User", currentUser);
+        startActivityForResult(intent, 2);
+
     }
 
     @Override
