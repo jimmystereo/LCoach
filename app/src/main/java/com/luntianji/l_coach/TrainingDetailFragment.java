@@ -48,10 +48,12 @@ public class TrainingDetailFragment extends Fragment {
     static AppCompatActivity activity;
     static TextView cancel;
     static TextView clock;
+
     public TrainingDetailFragment(Training training, AppCompatActivity activit, int activityTyp) {
+        //第三個參數要傳入type 如果是自訂菜單傳2 要新增的話下面有switch的也要新增
         this.training = training;
-     activityType = activityTyp;
-       activity = activit;
+        activityType = activityTyp;
+        activity = activit;
 
     }
 
@@ -147,12 +149,16 @@ public class TrainingDetailFragment extends Fragment {
         start = false;
         pause = false;
         resume = false;
-        switch (activityType){
+        switch (activityType) {
             case 0:
                 activity.setTitle("L Coach");
                 break;
             case 1:
                 activity.setTitle("選擇訓練");
+                break;
+            case 2:
+                activity.setTitle("自訂菜單");
+                break;
         }
 
 
@@ -164,6 +170,10 @@ public class TrainingDetailFragment extends Fragment {
                 break;
             case 1:
                 fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
+                break;
+            case 2:
+                //這裡要取得你的activity上的這個fragment
+                fragmentTransaction.detach(MyTrainingRecyclerViewAdapter.getDetailFragment());
                 break;
         }
         fragmentTransaction.commit();
