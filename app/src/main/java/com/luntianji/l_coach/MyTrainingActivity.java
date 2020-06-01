@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-
-
 import com.luntianji.l_coach.model.Training;
-
 
 public class MyTrainingActivity extends NavCreater
         implements MyTrainingFragment.OnListFragmentInteractionListener {

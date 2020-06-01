@@ -19,6 +19,7 @@ public class Training implements Serializable {
     private String number;
     private String other;
     private String type;
+    private String userId;
 
     //    public final static Training dummy = new Training("至少一顆球","兩人以上","0.5","中","2","從接球開始的扣球","116","球場","扣球");
 //    public static List<Training> dummyList= new ArrayList<Training>();
@@ -144,5 +145,20 @@ public class Training implements Serializable {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.getId();
     }
 }

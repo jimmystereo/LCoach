@@ -15,10 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.luntianji.l_coach.model.Training;
 
 import java.util.List;
 
+import genomu.command.FilterCommand;
 import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBReceiver;
 import genomu.command.GetListCommand;
@@ -89,18 +92,6 @@ public class MyTrainingFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            // get data
-            DBReceiver receiver = new DBReceiver() {
-                @Override
-                public void onReceive(List receivedList) {
-                    // specify an adapter (see also next example)
-                    madapter = new MyTrainingRecyclerViewAdapter(receivedList, mListener);
-                    recyclerView.setAdapter(madapter);
-                }
-            };
-            context.registerReceiver(receiver, new IntentFilter(ACTION01));
-            DBCommand command = new GetListCommand("my_training_list", (Activity) context, Training.class);
-            command.work();
         }
         return view;
     }
@@ -122,15 +113,19 @@ public class MyTrainingFragment extends Fragment {
         super.onResume();
         //update whatever your list
         // get data
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid =  user.getUid();
         DBReceiver receiver = new DBReceiver() {
             @Override
             public void onReceive(List receivedList) {
                 // specify an adapter (see also next example)
                 recyclerView.setAdapter(new MyTrainingRecyclerViewAdapter(receivedList, mListener));
+                context.unregisterReceiver(this);
             }
         };
         context.registerReceiver(receiver, new IntentFilter(ACTION01));
-        DBCommand command = new GetListCommand("my_training_list", (Activity) context, Training.class);
+        GetListCommand command = new GetListCommand("my_training_list", (Activity) context, Training.class);
+        command = new FilterCommand(command, "userId", uid);
         command.work();
 
     }

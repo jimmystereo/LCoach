@@ -32,6 +32,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -311,11 +313,21 @@ public class MainActivity extends NavCreater {
     }
 
     public void addToMyTraining(View view) {
+        // auth
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null) {
+            createSignInIntent();
+            return;
+        }
+        String userId = firebaseUser.getUid();
+
         //pojo
         Training training = DailySelectedAdapter.getDetailFragment().training;
         training.setName(training.getName());
         training.setDifficulty(training.getDifficulty());
         training.setOther(training.getOther());
+        // need userId
+        training.setUserId(userId);
 
         DBReceiver receiver = new DBReceiver() {
         };
