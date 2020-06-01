@@ -34,6 +34,8 @@ public class MyTeammateActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(SettingActivity.newTheme){setTheme(R.style.RedTheme);}
+        else{setTheme(R.style.Theme_MyApp);}
         setContentView(R.layout.activity_my_teammate);
     }
 

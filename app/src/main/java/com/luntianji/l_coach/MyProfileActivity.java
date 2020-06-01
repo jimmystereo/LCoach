@@ -21,6 +21,8 @@ public class MyProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(SettingActivity.newTheme){setTheme(R.style.RedTheme);}
+        else{setTheme(R.style.Theme_MyApp);}
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_profile);
         user = (User) getIntent().getSerializableExtra("User");
         mBinding.setUser(user);

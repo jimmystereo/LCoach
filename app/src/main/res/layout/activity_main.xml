@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
-            android:textColor="@color/white"
+                android:textColor="?attr/colorText"
                 android:text="本日精選"
                 android:textSize="35sp"
                 app:layout_constraintLeft_toLeftOf="parent"

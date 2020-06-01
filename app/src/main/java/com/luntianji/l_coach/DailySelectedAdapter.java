@@ -2,6 +2,7 @@ package com.luntianji.l_coach;
 
 import android.app.Activity;
 import android.os.Build;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,21 +23,21 @@ import com.luntianji.l_coach.model.Training;
 
 import java.util.List;
 
-import static com.luntianji.l_coach.MainActivity.opened;
+import static com.luntianji.l_coach.TrainingDetailFragment.opened;
+
 
 public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdapter.TrainingListViewHolder> {
     private List<Training> trainingDataset;
     private static List<Training> specialDataset;
     static TrainingDetailFragment detailFragment;
     private String data;
-    Activity activity;
+    AppCompatActivity activity;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class TrainingListViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        int type;
         public View view;
         ConstraintLayout constraintLayout;
         TextView trainingName;
@@ -57,9 +59,8 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
                 public void onClick(View view) {
                     if (!opened) {
 
-                        detailFragment = new TrainingDetailFragment(getTrainingDataSet().get(getAdapterPosition()));
+                        detailFragment = new TrainingDetailFragment(getTrainingDataSet().get(getAdapterPosition()),activity,0);
 
-                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
                         FragmentManager fragmentManager = activity.getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
@@ -75,7 +76,7 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public DailySelectedAdapter(List<Training> myDataset, Activity activity) {
+    public DailySelectedAdapter(List<Training> myDataset, AppCompatActivity activity) {
         trainingDataset = myDataset;
         this.activity = activity;
 
@@ -100,20 +101,22 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         String difficulty = trainingDataset.get(position).getDifficulty();
-        switch (difficulty) {
+        TypedValue typedValue = new TypedValue();
+        int color;
+        switch (difficulty){
             case "低":
 
-                holder.cardView.setStrokeColor(activity.getResources().getColor(R.color.training_easy));
+                activity.getTheme().resolveAttribute(R.attr.training_easy, typedValue, true);
                 break;
             case "中":
-                holder.constraintLayout.setBackground(activity.getDrawable(R.drawable.ripple_yellow));
-                holder.cardView.setStrokeColor(activity.getResources().getColor(R.color.training_medium));
+                activity.getTheme().resolveAttribute(R.attr.training_medium, typedValue, true);
                 break;
             case "高":
-                holder.constraintLayout.setBackground(activity.getDrawable(R.drawable.ripple_red));
-                holder.cardView.setStrokeColor(activity.getResources().getColor(R.color.training_hard));
+                activity.getTheme().resolveAttribute(R.attr.training_hard, typedValue, true);
                 break;
         }
+        color = ContextCompat.getColor(activity, typedValue.resourceId);
+        holder.cardView.setStrokeColor(color);
         holder.trainingName.setText(trainingDataset.get(position).getName());
         holder.trainingType.setText(trainingDataset.get(position).getType());
         holder.trainingDifficulty.setText(String.format("難度: %s", trainingDataset.get(position).getDifficulty()));

@@ -18,7 +18,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="更新訓練菜單" />
+            android:onClick="setT"
+            android:textColor="?attr/colorText"
+            android:text="切換主題" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

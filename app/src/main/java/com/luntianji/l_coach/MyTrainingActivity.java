@@ -14,6 +14,8 @@ public class MyTrainingActivity extends NavCreater
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(SettingActivity.newTheme){setTheme(R.style.RedTheme);}
+        else{setTheme(R.style.Theme_MyApp);}
         setContentView(R.layout.activity_my_training);
         navCreat(R.id.activity_my_training,"My Training");
     }

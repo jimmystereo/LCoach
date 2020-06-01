@@ -54,16 +54,12 @@ import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBEmcee;
 import genomu.firestore_helper.DBReceiver;
 
-import static com.luntianji.l_coach.StartTrainingActivity.opened;
+import static com.luntianji.l_coach.TrainingDetailFragment.opened;
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class MainActivity extends NavCreater {
-    public static boolean opened = false;
     private static int position;
     private int notificationNum = 0;
-    private boolean start, pause, resume, end = false;
-    private long fullTime = 5000;
-    private long timeLeft;
     RecyclerView recyclerView1;
     RecyclerView recyclerView2;
     DailySelectedAdapter dailyAdapter;
@@ -79,11 +75,11 @@ public class MainActivity extends NavCreater {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(SettingActivity.newTheme){setTheme(R.style.RedTheme);}
+        else{setTheme(R.style.Theme_MyApp);}
         setContentView(R.layout.activity_main);
         navCreat(R.id.activity_main, "Home");
         createNotificationChannel();
-        opened = false;
-        timeLeft = fullTime;
         pager = (ViewPager) this.findViewById(R.id.main_page_picture);
         viewContainter = new ArrayList<View>();
         View view1 = LayoutInflater.from(this).inflate(R.layout.main_pager1, null);
@@ -239,77 +235,11 @@ public class MainActivity extends NavCreater {
     }
 
     public void closeDetail(View view) {
-        resetDetail();
+        TrainingDetailFragment.resetDetail();
     }
 
     public void comfirmDetail(View view) {
-        final AppCompatButton cancel = (AppCompatButton) findViewById(R.id.back_button);
-        final AppCompatButton clock = (AppCompatButton) findViewById(R.id.training_confirm);
-        if (!end) {
-
-
-            if (!start) {
-                cancel.setText("退出訓練");
-                start = true;
-
-            } else if (!pause) {
-                pause = true;
-                clock.setBackgroundResource(R.drawable.comfirm_button_pause);
-            } else {
-                clock.setBackgroundResource(R.drawable.comfirm_button_new);
-                pause = false;
-                resume = true;
-            }
-            CountDownTimer countDownTimer = new CountDownTimer(timeLeft, 1000) {
-
-                public void onTick(long millisUntilFinished) {
-
-                    if (pause || !start) {
-                        cancel();
-                    } else {
-                        int minute = (int) ((millisUntilFinished / 1000) / 60);
-                        String minuteS = String.valueOf(minute);
-                        int second = (int) ((millisUntilFinished / 1000) % 60 + 1);
-                        String secondS = String.valueOf(second);
-                        if (minuteS.length() == 1) {
-                            minuteS = "0" + minuteS;
-                        }
-                        if (secondS.length() == 1) {
-                            secondS = "0" + secondS;
-                        }
-                        if (secondS.equals("60")) {
-                            secondS = "00";
-                            minuteS = String.valueOf(minute + 1);
-                        }
-                        clock.setText(String.format("%s : %s", minuteS, secondS));
-                        timeLeft = millisUntilFinished;
-                    }
-                }
-
-                public void onFinish() {
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "訓練完成通知")
-                            .setSmallIcon(R.drawable.ball)
-                            .setContentTitle("訓練結束!")
-                            .setContentText(String.format("恭喜你成功完成%s", DailySelectedAdapter.getDetailFragment().training.getName()))
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-
-// notificationId is a unique int for each notification that you must define
-                    notificationManager.notify(notificationNum++, builder.build());
-                    clock.setText("done!");
-                    cancel.setText("返回");
-                    end = true;
-                    resume = false;
-                    start = false;
-                    pause = false;
-                }
-            };
-            countDownTimer.start();
-        } else {
-            resetDetail();
-        }
-
+        TrainingDetailFragment.comfirmDetail();
     }
 
     public void addToMyTraining(View view) {
@@ -323,9 +253,6 @@ public class MainActivity extends NavCreater {
 
         //pojo
         Training training = DailySelectedAdapter.getDetailFragment().training;
-        training.setName(training.getName());
-        training.setDifficulty(training.getDifficulty());
-        training.setOther(training.getOther());
         // need userId
         training.setUserId(userId);
 
@@ -352,32 +279,8 @@ public class MainActivity extends NavCreater {
         }
     }
 
-    public void resetDetail() {
-        opened = false;
-        setTitle("L Coach");
-        timeLeft = fullTime;
-        end = false;
-        start = false;
-        pause = false;
-        resume = false;
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
-        fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
-        fragmentTransaction.commit();
-    }
     public static void setPosition(int position){
         MainActivity.position = position;
     }
-    public void openDetail(View view){
-        if (!opened) {
-            TrainingDetailFragment detailFragment = new TrainingDetailFragment(rawList.get(position));
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
-            fragmentTransaction.add(R.id.main_constraint, detailFragment);
-            setTitle("訓練內容");
-            fragmentTransaction.commit();
-            opened = true;
-        }
-    }
+
 }

@@ -35,10 +35,7 @@ import genomu.firestore_helper.DBReceiver;
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class StartTrainingActivity extends NavCreater {
-    public static boolean opened = false;
-    private long fullTime = 1000 * 60 * 15;
-    private long timeLeft;
-    private boolean start, pause, resume, end = false;
+
     private RecyclerView recyclerView;
     private TrainingListAdapter trainingListAdapter;
     QuitTrainingFragment quitTrainingFragment;
@@ -55,10 +52,11 @@ public class StartTrainingActivity extends NavCreater {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(SettingActivity.newTheme){setTheme(R.style.RedTheme);}
+        else{setTheme(R.style.Theme_MyApp);}
         setContentView(R.layout.activity_start_training);
         navCreat(R.id.activity_start_training, "Start Training");
-        timeLeft = fullTime;
-        opened = false;
+        TrainingDetailFragment.opened = false;
         filter = (Button) findViewById(R.id.button_training_filter);
         random_buttom = (Button) findViewById(R.id.button_training_random);
         recyclerView = (RecyclerView) findViewById(R.id.start_trainging_recycler_view);
@@ -219,91 +217,11 @@ public class StartTrainingActivity extends NavCreater {
     }
 
     public void closeDetail(View view) {
-//        AlertDialog.Builder builder1 = new AlertDialog.Builder(this.getBaseContext());
-//        builder1.setMessage(R.string.comfirm_quit);
-//        builder1.setCancelable(true);
-//
-//        builder1.setPositiveButton(
-//                R.string.comfirm,
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        resetDetail();
-//                        dialog.cancel();
-//                    }
-//                });
-//
-//        builder1.setNegativeButton(
-//                R.string.cancel,
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.cancel();
-//                    }
-//                });
-//
-//        AlertDialog alert11 = builder1.create();
-//        alert11.show();
-        resetDetail();
+        TrainingDetailFragment.resetDetail();
     }
 
     public void comfirmDetail(View view) {
-
-        final TextView cancel = (TextView) findViewById(R.id.back_button);
-        final TextView clock = (TextView) findViewById(R.id.training_confirm);
-        if (!end) {
-
-
-            if (!start) {
-                cancel.setText("退出訓練");
-                start = true;
-
-            } else if (!pause) {
-                pause = true;
-                clock.setBackgroundResource(R.drawable.comfirm_button_pause);
-            } else if (pause) {
-                clock.setBackgroundResource(R.drawable.comfirm_button_new);
-                pause = false;
-                resume = true;
-            }
-            CountDownTimer countDownTimer = new CountDownTimer(timeLeft, 1000) {
-
-                public void onTick(long millisUntilFinished) {
-
-                    if (pause || !start) {
-                        cancel();
-                    } else {
-                        int minute = (int) ((millisUntilFinished / 1000) / 60);
-                        String minuteS = String.valueOf(minute);
-                        int second = (int) ((millisUntilFinished / 1000) % 60 + 1);
-                        String secondS = String.valueOf(second);
-                        if (minuteS.length() == 1) {
-                            minuteS = "0" + minuteS;
-                        }
-                        if (secondS.length() == 1) {
-                            secondS = "0" + secondS;
-                        }
-                        if (secondS.equals("60")) {
-                            secondS = "00";
-                            minuteS = String.valueOf(minute + 1);
-                        }
-                        clock.setText(String.format("%s : %s", minuteS, secondS));
-                        timeLeft = millisUntilFinished;
-                    }
-                }
-
-                public void onFinish() {
-                    clock.setText("done!");
-                    cancel.setText("返回");
-                    end = true;
-                    resume = false;
-                    start = false;
-                    pause = false;
-                }
-            };
-            countDownTimer.start();
-        } else {
-            resetDetail();
-        }
-
+        TrainingDetailFragment.comfirmDetail();
     }
 
     public void addToMyTraining(View view) {
@@ -316,10 +234,7 @@ public class StartTrainingActivity extends NavCreater {
         String userId = firebaseUser.getUid();
 
         //pojo
-        Training training = DailySelectedAdapter.getDetailFragment().training;
-        training.setName(training.getName());
-        training.setDifficulty(training.getDifficulty());
-        training.setOther(training.getOther());
+        Training training = TrainingListAdapter.getDetailFragment().training;
         // need userId
         training.setUserId(userId);
 
@@ -330,18 +245,5 @@ public class StartTrainingActivity extends NavCreater {
         command.work();
     }
 
-    public void resetDetail() {
-        opened = false;
-        setTitle("選擇訓練");
-        timeLeft = fullTime;
-        end = false;
-        start = false;
-        pause = false;
-        resume = false;
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
-        fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
-        fragmentTransaction.commit();
-    }
 
 }

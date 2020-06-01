@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorText" format="reference|color"/>
+    <attr name="colorTextBackground" format="reference|color"/>
+    <attr name="training_easy" format="reference|color"/>
+    <attr name="training_medium" format="reference|color"/>
+    <attr name="training_hard" format="reference|color"/>
+</resources>

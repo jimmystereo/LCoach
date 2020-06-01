@@ -39,7 +39,7 @@ public class NavCreater extends AppCompatActivity {
     protected ActionBarDrawerToggle abdt;
     protected View navHeader;
 
-    private static final int RC_SIGN_IN = 123;
+    public static final int RC_SIGN_IN = 123;
 
     protected void navCreat(int id, final String page) {
         mBinding = NavHeaderBinding.inflate(getLayoutInflater());

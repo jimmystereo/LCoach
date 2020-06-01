@@ -1,6 +1,7 @@
 package com.luntianji.l_coach;
 
 import android.app.Activity;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,23 +21,23 @@ import com.luntianji.l_coach.model.Training;
 
 import java.util.List;
 
-import static com.luntianji.l_coach.StartTrainingActivity.opened;
+import static com.luntianji.l_coach.TrainingDetailFragment.opened;
+
 
 public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapter.TrainingListViewHolder> {
     private static List<Training> trainingDataset;
     public static int indexName;
     public Training currentTraining;
     static TrainingDetailFragment detailFragment;
-    Activity activity;
+    AppCompatActivity activity;
     private FragmentManager fragmentManager;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
 
-    public static class TrainingListViewHolder extends RecyclerView.ViewHolder {
+    public class TrainingListViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         TrainingDetailFragment fragment;
-        AppCompatActivity activity;
         public View view;
         TextView trainingName;
         TextView trainingPreview;
@@ -49,11 +51,8 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Toast.makeText(view.getContext(),
-//                            "click " +getAdapterPosition(),Toast.LENGTH_SHORT).show();
                     if (!opened) {
-                        detailFragment = new TrainingDetailFragment((Training) TrainingListAdapter.getTrainingDataSet().get(getAdapterPosition()));
-                        activity = (AppCompatActivity) view.getContext();
+                        detailFragment = new TrainingDetailFragment((Training) TrainingListAdapter.getTrainingDataSet().get(getAdapterPosition()),activity,1);
                         FragmentManager fragmentManager = activity.getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
@@ -69,7 +68,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public TrainingListAdapter(List<Training> myDataset, Activity activity) {
+    public TrainingListAdapter(List<Training> myDataset, AppCompatActivity activity) {
         trainingDataset = myDataset;
         this.activity = activity;
     }
@@ -90,19 +89,22 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         String difficulty = trainingDataset.get(position).getDifficulty();
-
+        TypedValue typedValue = new TypedValue();
+        int color;
         switch (difficulty){
             case "低":
-                holder.cardView.setStrokeColor(activity.getResources().getColor(R.color.training_easy));
+
+                activity.getTheme().resolveAttribute(R.attr.training_easy, typedValue, true);
                 break;
             case "中":
-                holder.cardView.setStrokeColor(activity.getResources().getColor(R.color.training_medium));
+                activity.getTheme().resolveAttribute(R.attr.training_medium, typedValue, true);
                 break;
             case "高":
-                holder.cardView.setStrokeColor(activity.getResources().getColor(R.color.training_hard));
+                activity.getTheme().resolveAttribute(R.attr.training_hard, typedValue, true);
                 break;
         }
-
+        color = ContextCompat.getColor(activity, typedValue.resourceId);
+        holder.cardView.setStrokeColor(color);
         holder.trainingName.setText(trainingDataset.get(position).getName());
         holder.trainingPreview.setText(String.format("難度: %s / 特殊條件: %s", trainingDataset.get(position).getDifficulty(), trainingDataset.get(position).getOther()));
 

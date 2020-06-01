@@ -22,6 +22,8 @@ public class TeamActivity extends NavCreater {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(SettingActivity.newTheme){setTheme(R.style.RedTheme);}
+        else{setTheme(R.style.Theme_MyApp);}
         setContentView(R.layout.activity_team);
         navCreat(R.id.activity_team,"Team");
 
