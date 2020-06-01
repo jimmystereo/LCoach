@@ -33,6 +33,7 @@ public class NavCreater extends AppCompatActivity {
     private NavHeaderBinding mBinding;
     private FirebaseAuth mAuth;
     private User currentUser;
+    private boolean login;
 
     protected DrawerLayout d1;
     protected ActionBarDrawerToggle abdt;
@@ -88,9 +89,14 @@ public class NavCreater extends AppCompatActivity {
                     intent.setClass(NavCreater.this, StartTrainingActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.My_Training_nav && !page.equals("My Training")) {
-                    Intent intent = new Intent();
-                    intent.setClass(NavCreater.this, MyTrainingActivity.class);
-                    startActivity(intent);
+                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (firebaseUser == null) {
+                        createSignInIntent();
+                    } else {
+                        Intent intent = new Intent();
+                        intent.setClass(NavCreater.this, MyTrainingActivity.class);
+                        startActivity(intent);
+                    }
 
                 } else if (id == R.id.Community_nav && !page.equals("Community")) {
 
@@ -109,19 +115,20 @@ public class NavCreater extends AppCompatActivity {
             }
         });
 
-        // Auth
+        // Auth.
         mAuth = FirebaseAuth.getInstance();
         navHeader = nav_view.getHeaderView(0);
         mBinding = NavHeaderBinding.bind(navHeader);
-//        navHeader.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                createSignInIntent();
-//            }
-//        });
+        // End auth.
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    // Auth.
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
@@ -134,31 +141,11 @@ public class NavCreater extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         if (firebaseUser == null) {
-            currentUser = new User("0", "登入 William Chi");
-            mBinding.setUser(currentUser);
-            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    createSignInIntent();
-                }
-            });
+            setLogin(false);
         } else {
-            currentUser = new User(firebaseUser.getUid(), firebaseUser.getDisplayName());
-            mBinding.setUser(currentUser);
-            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    createMyProfileIntent();
-                }
-            });
+            setLogin(true);
         }
 
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     public void createSignInIntent() {
@@ -178,7 +165,6 @@ public class NavCreater extends AppCompatActivity {
                         .build(),
                 RC_SIGN_IN);
         // [END auth_fui_create_intent]
-
     }
 
     private void createMyProfileIntent() {
@@ -197,9 +183,7 @@ public class NavCreater extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                setNavHeader(user);
-                // ...
+                setLogin(true);
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
@@ -209,13 +193,27 @@ public class NavCreater extends AppCompatActivity {
         }
     }
 
-    private void setNavHeader(FirebaseUser user) {
-        TextView username = findViewById(R.id.textview_nav_header);
-        DrawerLayout picture = findViewById(R.id.imageview_nav_header_image);
-        if (username != null && picture != null) {
-            username.setText(user.getDisplayName());
-
-//        picture.setImageResource(user.get);
+    private void setLogin(boolean isLogin) {
+        login = isLogin;
+        if (login == true) {
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            currentUser = new User(firebaseUser.getUid(), firebaseUser.getDisplayName());
+            mBinding.setUser(currentUser);
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createMyProfileIntent();
+                }
+            });
+        } else {
+            currentUser = new User("0", "登入 William Chi");
+            mBinding.setUser(currentUser);
+            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createSignInIntent();
+                }
+            });
         }
     }
 }

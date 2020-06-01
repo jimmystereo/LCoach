@@ -17,6 +17,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.luntianji.l_coach.model.Training;
@@ -305,11 +307,21 @@ public class StartTrainingActivity extends NavCreater {
     }
 
     public void addToMyTraining(View view) {
+        // auth
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null) {
+            createSignInIntent();
+            return;
+        }
+        String userId = firebaseUser.getUid();
+
         //pojo
-        Training training = TrainingListAdapter.getDetailFragment().training;
+        Training training = DailySelectedAdapter.getDetailFragment().training;
         training.setName(training.getName());
         training.setDifficulty(training.getDifficulty());
         training.setOther(training.getOther());
+        // need userId
+        training.setUserId(userId);
 
         DBReceiver receiver = new DBReceiver() {
         };

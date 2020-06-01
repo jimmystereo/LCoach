@@ -8,9 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.luntianji.l_coach.model.Training;
 
 import genomu.firestore_helper.DBCommand;
@@ -32,6 +35,8 @@ public class MyTrainingEditActivity extends AppCompatActivity {
     Button buttonDelete;
     MenuItem buttonToggleEdit;
     String id = "";
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String uid = user.getUid();
 
     // pojo
     TextView editName;
@@ -65,9 +70,7 @@ public class MyTrainingEditActivity extends AppCompatActivity {
             }
         } else {
             // create
-            setEdit(true);
             setCreate(true);
-            buttonDelete.setVisibility(View.INVISIBLE);
         }
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +86,6 @@ public class MyTrainingEditActivity extends AppCompatActivity {
                     addTraining(name, difficulty, other);
                 }
                 setResult(RESULT_OK);
-                finish();
             }
         });
 
@@ -102,13 +104,18 @@ public class MyTrainingEditActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
         // If you don't have res/menu, just create a directory named "menu" inside res
-        if (create) {
-            return false;
-        }
         getMenuInflater().inflate(R.menu.edit, menu);
+        buttonToggleEdit = menu.findItem(R.id.button_toggle_edit);
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (create) {
+            buttonToggleEdit.setIcon(null);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -141,6 +148,8 @@ public class MyTrainingEditActivity extends AppCompatActivity {
                 // pojo
                 updateTraining(id, name, difficulty, other);
                 setResult(RESULT_OK);
+            } else {
+                Toast.makeText(this, "id is null", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -178,12 +187,18 @@ public class MyTrainingEditActivity extends AppCompatActivity {
 
     private void setCreate(boolean newCreate) {
         create = newCreate;
-        buttonAdd.setVisibility(View.VISIBLE);
+        if (create) {
+            if (buttonToggleEdit != null) {
+                buttonToggleEdit.setIcon(null);
+            }
+            buttonAdd.setVisibility(View.VISIBLE);
+            buttonDelete.setVisibility(View.INVISIBLE);
 
-        // pojo
-        editName.setInputType(InputType.TYPE_CLASS_TEXT);
-        editDifficulty.setInputType(InputType.TYPE_CLASS_TEXT);
-        editOther.setInputType(InputType.TYPE_CLASS_TEXT);
+            // pojo
+            editName.setInputType(InputType.TYPE_CLASS_TEXT);
+            editDifficulty.setInputType(InputType.TYPE_CLASS_TEXT);
+            editOther.setInputType(InputType.TYPE_CLASS_TEXT);
+        }
     }
 
     private void updateTraining(String id, String name, String difficulty, String other) {
@@ -193,6 +208,7 @@ public class MyTrainingEditActivity extends AppCompatActivity {
         training.setName(name);
         training.setDifficulty(difficulty);
         training.setOther(other);
+        training.setUserId(uid);
 
         DBReceiver receiver = new DBReceiver() {
 
@@ -209,8 +225,17 @@ public class MyTrainingEditActivity extends AppCompatActivity {
         training.setName(name);
         training.setDifficulty(difficulty);
         training.setOther(other);
+        training.setUserId(uid);
 
         DBReceiver receiver = new DBReceiver() {
+            @Override
+            public void onReceive(Object receivedPOJO) {
+                super.onReceive(receivedPOJO);
+                Training newTraining = (Training) receivedPOJO;
+                id = newTraining.getId();
+                setCreate(false);
+                setEdit(false);
+            }
         };
         registerReceiver(receiver, new IntentFilter(ACTION01));
         DBCommand command = new CreateCommand("my_training_list", this, training);

@@ -31,5 +31,6 @@
     <string name="info">備註</string>
     <string name="comfirm_quit">退出訓練將會重置計時器</string>
     <string name="comfirm">確認</string>
+    <string name="logout">登出</string>
 
 </resources>

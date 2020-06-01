@@ -91,7 +91,6 @@ public class MyTeammateEditActivity extends AppCompatActivity {
         } else {
             // create
             setCreate(true);
-
         }
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
