@@ -3,7 +3,7 @@
     <!--  custom color  -->
     <!--  red primary  -->
     <color name="colorPrimary">#CCB6FB</color>
-    <color name="colorPrimaryVariant">#B08FFD</color>
+    <color name="colorPrimaryVariant">#998ABA</color>
     <color name="colorSecondary">#B9DCFB</color>
     <color name="colorSecondaryVariant">#55ECFF</color>
     <color name="colorSurface">#221919</color>
@@ -18,6 +18,7 @@
     <color name="training_easy">#18FFFF</color>
     <color name="training_medium">#F4FD93</color>
     <color name="training_hard">#FF8DE6</color>
+    <color name="light_green">#ACFD9E</color>
     <!-- cyan primary   -->
     <!--    <color name="colorPrimary">#b2ebf2</color>-->
     <!--    <color name="colorSurface">#1e2223</color>-->

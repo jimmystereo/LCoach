@@ -15,7 +15,7 @@
         <shape android:shape="rectangle">
             <solid android:color="@color/transparent" />
             <stroke
-                android:width="2dp"
+                android:width="5dp"
                 android:color="@color/colorPrimaryVariant" />
 
             <padding

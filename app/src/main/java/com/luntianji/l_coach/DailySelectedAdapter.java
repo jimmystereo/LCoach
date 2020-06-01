@@ -1,13 +1,17 @@
 package com.luntianji.l_coach;
 
 import android.app.Activity;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +24,8 @@ import java.util.List;
 import static com.luntianji.l_coach.MainActivity.opened;
 
 public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdapter.TrainingListViewHolder> {
-    private static List<Training> trainingDataset;
+    private List<Training> trainingDataset;
+    private static List<Training> specialDataset;
     static TrainingDetailFragment detailFragment;
     private String data;
     Activity activity;
@@ -28,27 +33,32 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class TrainingListViewHolder extends RecyclerView.ViewHolder {
+    public class TrainingListViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
+        int type;
         public View view;
+        ConstraintLayout constraintLayout;
         TextView trainingName;
         TextView trainingType;
         TextView trainingDifficulty;
         MaterialCardView cardView;
+
         public TrainingListViewHolder(View v) {
             super(v);
             view = v;
+            constraintLayout = (ConstraintLayout) view.findViewById(R.id.daily_selected_constraint);
             cardView = (MaterialCardView) view.findViewById(R.id.fragment_daily_selected);
             trainingName = (TextView) view.findViewById(R.id.daily_selected_name);
             trainingType = (TextView) view.findViewById(R.id.daily_selected_type);
             trainingDifficulty = (TextView) view.findViewById(R.id.daily_selected_difficulty);
+            MainActivity.setPosition(getAdapterPosition());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Toast.makeText(view.getContext(),
-//                            "click " +getAdapterPosition(),Toast.LENGTH_SHORT).show();
                     if (!opened) {
-                        detailFragment = new TrainingDetailFragment(getAdapterPosition(), (Training) DailySelectedAdapter.getTrainingDataSet().get(getAdapterPosition()));
+
+                        detailFragment = new TrainingDetailFragment(getTrainingDataSet().get(getAdapterPosition()));
+
                         AppCompatActivity activity = (AppCompatActivity) view.getContext();
                         FragmentManager fragmentManager = activity.getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -63,10 +73,12 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
         }
     }
 
+
     // Provide a suitable constructor (depends on the kind of dataset)
     public DailySelectedAdapter(List<Training> myDataset, Activity activity) {
         trainingDataset = myDataset;
         this.activity = activity;
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -76,12 +88,13 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_daily_selected, parent, false);
 
-        TrainingListViewHolder vh = new TrainingListViewHolder(v);
-        return vh;
+        TrainingListViewHolder trainingListViewHolder = new TrainingListViewHolder(v);
+        return trainingListViewHolder;
     }
 
 
     // Replace the contents of a view (invoked by the layout manager)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(TrainingListViewHolder holder, int position) {
         // - get element from your dataset at this position
@@ -89,18 +102,21 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
         String difficulty = trainingDataset.get(position).getDifficulty();
         switch (difficulty) {
             case "低":
+
                 holder.cardView.setStrokeColor(activity.getResources().getColor(R.color.training_easy));
                 break;
             case "中":
+                holder.constraintLayout.setBackground(activity.getDrawable(R.drawable.ripple_yellow));
                 holder.cardView.setStrokeColor(activity.getResources().getColor(R.color.training_medium));
                 break;
             case "高":
+                holder.constraintLayout.setBackground(activity.getDrawable(R.drawable.ripple_red));
                 holder.cardView.setStrokeColor(activity.getResources().getColor(R.color.training_hard));
                 break;
         }
         holder.trainingName.setText(trainingDataset.get(position).getName());
         holder.trainingType.setText(trainingDataset.get(position).getType());
-        holder.trainingType.setText(String.format("難度:%n%s", trainingDataset.get(position).getDifficulty()));
+        holder.trainingDifficulty.setText(String.format("難度: %s", trainingDataset.get(position).getDifficulty()));
 
 
     }
@@ -116,7 +132,7 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
 //
 //            }
 //        }
-    public static List<Training> getTrainingDataSet() {
+    public List<Training> getTrainingDataSet() {
         return trainingDataset;
     }
 

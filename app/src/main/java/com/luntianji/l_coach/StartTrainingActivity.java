@@ -258,7 +258,7 @@ public class StartTrainingActivity extends NavCreater {
                 pause = true;
                 clock.setBackgroundResource(R.drawable.comfirm_button_pause);
             } else if (pause) {
-                clock.setBackgroundResource(R.drawable.comfirm_button);
+                clock.setBackgroundResource(R.drawable.comfirm_button_new);
                 pause = false;
                 resume = true;
             }

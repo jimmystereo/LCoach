@@ -52,7 +52,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
 //                    Toast.makeText(view.getContext(),
 //                            "click " +getAdapterPosition(),Toast.LENGTH_SHORT).show();
                     if (!opened) {
-                        detailFragment = new TrainingDetailFragment(getAdapterPosition(), (Training) TrainingListAdapter.getTrainingDataSet().get(getAdapterPosition()));
+                        detailFragment = new TrainingDetailFragment((Training) TrainingListAdapter.getTrainingDataSet().get(getAdapterPosition()));
                         activity = (AppCompatActivity) view.getContext();
                         FragmentManager fragmentManager = activity.getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -80,8 +80,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_training_list_item, parent, false);
-        TrainingListViewHolder vh = new TrainingListViewHolder(v);
-        return vh;
+        return new TrainingListViewHolder(v);
     }
 
 
@@ -92,7 +91,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
         // - replace the contents of the view with that element
         String difficulty = trainingDataset.get(position).getDifficulty();
 
-        switch (difficulty) {
+        switch (difficulty){
             case "低":
                 holder.cardView.setStrokeColor(activity.getResources().getColor(R.color.training_easy));
                 break;

@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,10 +18,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,10 +52,12 @@ import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBEmcee;
 import genomu.firestore_helper.DBReceiver;
 
+import static com.luntianji.l_coach.StartTrainingActivity.opened;
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class MainActivity extends NavCreater {
     public static boolean opened = false;
+    private static int position;
     private int notificationNum = 0;
     private boolean start, pause, resume, end = false;
     private long fullTime = 5000;
@@ -126,7 +129,7 @@ public class MainActivity extends NavCreater {
             Log.d("MainActivity", "您已經儲存成功");
             dailyAdapter = new DailySelectedAdapter(getRandom(rawList), this);
             recyclerView1.setAdapter(dailyAdapter);
-            specialAdapter = new DailySelectedAdapter(getRandom(rawList), this);
+            specialAdapter = new DailySelectedAdapter(dataSelect(rawList,"高"), this);
             recyclerView2.setAdapter(specialAdapter);
             DBReceiver receiver = new DBReceiver() {
                 @Override
@@ -147,7 +150,7 @@ public class MainActivity extends NavCreater {
                     saveList(receivedList);
                     dailyAdapter = new DailySelectedAdapter(getRandom(receivedList), MainActivity.this);
                     recyclerView1.setAdapter(dailyAdapter);
-                    specialAdapter = new DailySelectedAdapter(getRandom(receivedList), MainActivity.this);
+                    specialAdapter = new DailySelectedAdapter(dataSelect(receivedList,"高"), MainActivity.this);
                     recyclerView2.setAdapter(specialAdapter);
 
                     unregisterReceiver(this);
@@ -209,6 +212,18 @@ public class MainActivity extends NavCreater {
 
     }
 
+    public List<Training> dataSelect(List<Training> rawList, String dataLevel) {
+        List<Training> tmpList = new ArrayList<Training>();
+
+        for (Training t : rawList) {
+            if (t.getDifficulty().equals(dataLevel)) {
+                tmpList.add(t);
+            }
+        }
+        return tmpList;
+
+    }
+
     public void saveList(List<Training> trainingList) {
 
         rawList = trainingList;
@@ -218,7 +233,7 @@ public class MainActivity extends NavCreater {
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         editor.putString("KEY_RAW_LIST_DATA", jsonStr); //存入json串
-        editor.commit();  //提交
+        editor.apply();  //提交
     }
 
     public void closeDetail(View view) {
@@ -238,8 +253,8 @@ public class MainActivity extends NavCreater {
             } else if (!pause) {
                 pause = true;
                 clock.setBackgroundResource(R.drawable.comfirm_button_pause);
-            } else if (pause) {
-                clock.setBackgroundResource(R.drawable.comfirm_button);
+            } else {
+                clock.setBackgroundResource(R.drawable.comfirm_button_new);
                 pause = false;
                 resume = true;
             }
@@ -317,7 +332,7 @@ public class MainActivity extends NavCreater {
             String description = getString(R.string.app_name);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("訓練完成通知", name, importance);
-            channel .setDescription(description);
+            channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -338,5 +353,19 @@ public class MainActivity extends NavCreater {
         fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
         fragmentTransaction.commit();
     }
-
+    public static void setPosition(int position){
+        MainActivity.position = position;
+    }
+    public void openDetail(View view){
+        if (!opened) {
+            TrainingDetailFragment detailFragment = new TrainingDetailFragment(rawList.get(position));
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
+            fragmentTransaction.add(R.id.main_constraint, detailFragment);
+            setTitle("訓練內容");
+            fragmentTransaction.commit();
+            opened = true;
+        }
+    }
 }
