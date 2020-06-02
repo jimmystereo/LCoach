@@ -5,4 +5,6 @@
     <attr name="training_easy" format="reference|color"/>
     <attr name="training_medium" format="reference|color"/>
     <attr name="training_hard" format="reference|color"/>
+    <attr name="cancelButton" format="reference|color"/>
+    <attr name="cancelButtonText" format="reference|color"/>
 </resources>

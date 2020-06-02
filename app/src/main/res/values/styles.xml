@@ -8,6 +8,8 @@
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+        <item name="cancelButton">@color/colorSecondaryVariant</item>
+        <item name="cancelButtonText">@color/colorSecondaryVariant</item>
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorText">@color/white</item>
         <item name="training_easy">@color/training_easy</item>
@@ -38,6 +40,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSecondary">@color/black</item>
         <item name="colorSecondaryVariant">@color/colorAccent</item>
+        <item name="cancelButton">@color/training_medium</item>
+        <item name="cancelButtonText">@color/training_medium2</item>
         <item name="colorText">@color/white</item>
         <item name="training_easy">@color/training_easy2</item>
         <item name="training_medium">@color/training_medium2</item>
@@ -56,9 +60,7 @@
         <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
         <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
     </style>
-    ————————————————
-    版权声明：本文为CSDN博主「bobcatkay」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-    原文链接：https://blog.csdn.net/baidu_16980309/java/article/details/76066140
+
     <style name="spinnerDropDownItemStyle">
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
