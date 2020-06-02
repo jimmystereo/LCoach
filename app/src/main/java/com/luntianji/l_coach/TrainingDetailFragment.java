@@ -173,7 +173,7 @@ public class TrainingDetailFragment extends Fragment {
                 break;
             case 2:
                 //這裡要取得你的activity上的這個fragment
-                fragmentTransaction.detach(MyTrainingRecyclerViewAdapter.getDetailFragment());
+//                fragmentTransaction.detach(MyTrainingRecyclerViewAdapter.getDetailFragment());
                 break;
         }
         fragmentTransaction.commit();

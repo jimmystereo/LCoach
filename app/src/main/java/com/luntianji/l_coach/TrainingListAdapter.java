@@ -1,6 +1,7 @@
 package com.luntianji.l_coach;
 
 import android.app.Activity;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -42,9 +45,12 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
         TextView trainingName;
         TextView trainingPreview;
         MaterialCardView cardView;
+        ConstraintLayout trainingItem;
         public TrainingListViewHolder(View v) {
             super(v);
             view = v;
+            trainingItem = view.findViewById(R.id.trainingItem);
+
             cardView = (MaterialCardView) view.findViewById(R.id.cardView4);
             trainingName = (TextView) view.findViewById(R.id.training_name);
             trainingPreview = (TextView) view.findViewById(R.id.training_preview);
@@ -84,6 +90,7 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
 
 
     // Replace the contents of a view (invoked by the layout manager)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(TrainingListViewHolder holder, int position) {
         // - get element from your dataset at this position
@@ -93,13 +100,15 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
         int color;
         switch (difficulty){
             case "低":
-
+                holder.trainingItem.setBackground(activity.getDrawable(R.drawable.ripple_transparent));
                 activity.getTheme().resolveAttribute(R.attr.training_easy, typedValue, true);
                 break;
             case "中":
+                holder.trainingItem.setBackground(activity.getDrawable(R.drawable.ripple_yellow));
                 activity.getTheme().resolveAttribute(R.attr.training_medium, typedValue, true);
                 break;
             case "高":
+                holder.trainingItem.setBackground(activity.getDrawable(R.drawable.ripple_red));
                 activity.getTheme().resolveAttribute(R.attr.training_hard, typedValue, true);
                 break;
         }

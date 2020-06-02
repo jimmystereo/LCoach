@@ -105,13 +105,15 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
         int color;
         switch (difficulty){
             case "低":
-
+                holder.constraintLayout.setBackground(activity.getDrawable(R.drawable.ripple_transparent));
                 activity.getTheme().resolveAttribute(R.attr.training_easy, typedValue, true);
                 break;
             case "中":
+                holder.constraintLayout.setBackground(activity.getDrawable(R.drawable.ripple_yellow));
                 activity.getTheme().resolveAttribute(R.attr.training_medium, typedValue, true);
                 break;
             case "高":
+                holder.constraintLayout.setBackground(activity.getDrawable(R.drawable.ripple_red));
                 activity.getTheme().resolveAttribute(R.attr.training_hard, typedValue, true);
                 break;
         }
