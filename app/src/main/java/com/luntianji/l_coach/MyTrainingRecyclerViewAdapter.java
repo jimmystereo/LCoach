@@ -50,6 +50,18 @@ public class MyTrainingRecyclerViewAdapter extends RecyclerView.Adapter<MyTraini
                 }
             }
         });
+
+        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onLongClick(holder.mItem);
+                }
+                return true;
+            }
+        });
     }
 
     @Override

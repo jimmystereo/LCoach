@@ -149,6 +149,8 @@ public class MyTrainingFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onClick(Training training);
+
+        boolean onLongClick(Training training);
     }
 
 }

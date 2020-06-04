@@ -47,18 +47,16 @@ public class MyTeammateActivity extends AppCompatActivity
             return;
         }
         Intent intent = new Intent(this, MyTeammateEditActivity.class);
-        intent.putExtra("UpdateTeammateId", teammate.getId());
-        intent.putExtra("UpdateTeammateName", teammate.getName());
-        intent.putExtra("UpdateTeammateRole", teammate.getRole());
-        intent.putExtra("UpdateTeammateNumber", teammate.getNumber());
-        intent.putExtra("UpdateTeammateInfo", teammate.getInfo());
+        intent.putExtra("Teammate", teammate);
         startActivityForResult(intent, 2);
 
     }
 
     /** Called when the user taps the floating action bar */
     public void startMyTeammateEditActivity(View view) {
+        Teammate teammate = new Teammate();
         Intent intent = new Intent(this, MyTeammateEditActivity.class);
+        intent.putExtra("Teammate", teammate);
         startActivityForResult(intent, 2);
     }
 

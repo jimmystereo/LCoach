@@ -52,4 +52,11 @@ dependencies {
     // login
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
+
+    // image loader
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+
+
 }

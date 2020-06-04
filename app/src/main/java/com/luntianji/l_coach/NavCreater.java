@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.luntianji.data.FireStoreConnector;
 import com.luntianji.l_coach.databinding.NavHeaderBinding;
 import com.luntianji.l_coach.model.User;
+import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.List;
@@ -197,6 +198,11 @@ public class NavCreater extends AppCompatActivity {
         login = isLogin;
         if (login == true) {
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            Picasso.get()
+                    .load(firebaseUser.getPhotoUrl())
+                    .resize(80, 80)
+                    .centerCrop()
+                    .into(mBinding.navheaderImg);
             currentUser = new User(firebaseUser.getUid(), firebaseUser.getDisplayName());
             mBinding.setUser(currentUser);
             mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
@@ -207,6 +213,7 @@ public class NavCreater extends AppCompatActivity {
             });
         } else {
             currentUser = new User("0", "登入 William Chi");
+            mBinding.navheaderImg.setImageResource(R.drawable.dog);
             mBinding.setUser(currentUser);
             mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override

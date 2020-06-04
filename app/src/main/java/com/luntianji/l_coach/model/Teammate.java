@@ -1,10 +1,12 @@
 package com.luntianji.l_coach.model;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 import java.io.Serializable;
 
-public class Teammate implements Serializable {
+public class Teammate extends BaseObservable implements Serializable {
     private String id;
     private String name;
     private String role;
@@ -58,6 +60,7 @@ public class Teammate implements Serializable {
         this.userId = userId;
     }
 
+    @Bindable
     public String getId() {
         return id;
     }
@@ -66,10 +69,12 @@ public class Teammate implements Serializable {
         this.id = id;
     }
 
+    @Bindable
     public String getNumber() {
         return number;
     }
 
+    @Bindable
     public void setNumber(String number) {
         this.number = number;
     }
@@ -80,8 +85,12 @@ public class Teammate implements Serializable {
         return this.getId();
     }
 
+    @Bindable
     public String getInfo() {
         return info;
+    }
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public String getUserId() {
