@@ -10,12 +10,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.luntianji.l_coach.model.Training;
 
+import static com.luntianji.l_coach.TrainingDetailFragment.opened;
+import static com.luntianji.l_coach.TrainingListAdapter.getTrainingDataSet;
+
 
 public class MyTrainingActivity extends NavCreater
         implements MyTrainingFragment.OnListFragmentInteractionListener {
 
     static TrainingDetailFragment detailFragment;
-    private boolean opened = false;
     private static final String TAG = MyTrainingActivity.class.getSimpleName();
 
     @Override
@@ -27,12 +29,12 @@ public class MyTrainingActivity extends NavCreater
         navCreat(R.id.activity_my_training,"My Training");
     }
 
-
+    // TrainingDetailFragment
     @Override
     public void onClick(Training training) {
         if (!opened) {
 
-            detailFragment = new TrainingDetailFragment(training);
+            detailFragment = new TrainingDetailFragment(training, this, 0);
 
             FragmentManager fragmentManager = this.getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -43,6 +45,16 @@ public class MyTrainingActivity extends NavCreater
             opened = true;
         }
     }
+
+    public void closeDetail(View view) {
+        TrainingDetailFragment.resetDetail();
+    }
+
+    public void comfirmDetail(View view) {
+        TrainingDetailFragment.comfirmDetail();
+    }
+
+    // End TrainingDetailFragment
 
     @Override
     public boolean onLongClick(Training training) {
