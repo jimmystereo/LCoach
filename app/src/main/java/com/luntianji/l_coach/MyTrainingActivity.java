@@ -72,5 +72,9 @@ public class MyTrainingActivity extends DetailManager
         startActivityForResult(intent, 2);
     }
 
-
+    @Override
+    public void addToMyTraining(View view) {
+        super.addToMyTraining(view);
+        //TODO 在資料庫刪除此訓練
+    }
 }
