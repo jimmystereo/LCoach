@@ -8,13 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.luntianji.l_coach.model.DetailManager;
 import com.luntianji.l_coach.model.Training;
 
 import static com.luntianji.l_coach.TrainingDetailFragment.opened;
 import static com.luntianji.l_coach.TrainingListAdapter.getTrainingDataSet;
 
 
-public class MyTrainingActivity extends NavCreater
+public class MyTrainingActivity extends DetailManager
         implements MyTrainingFragment.OnListFragmentInteractionListener {
 
     static TrainingDetailFragment detailFragment;
@@ -23,10 +24,13 @@ public class MyTrainingActivity extends NavCreater
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(SettingActivity.newTheme){setTheme(R.style.RedTheme);}
-        else{setTheme(R.style.Theme_MyApp);}
+        if (SettingActivity.newTheme) {
+            setTheme(R.style.RedTheme);
+        } else {
+            setTheme(R.style.Theme_MyApp);
+        }
         setContentView(R.layout.activity_my_training);
-        navCreat(R.id.activity_my_training,"My Training");
+        navCreat(R.id.activity_my_training, "My Training");
     }
 
     // TrainingDetailFragment
@@ -34,7 +38,7 @@ public class MyTrainingActivity extends NavCreater
     public void onClick(Training training) {
         if (!opened) {
 
-            detailFragment = new TrainingDetailFragment(training, this, 0);
+            detailFragment = new TrainingDetailFragment(training, this, 2);
 
             FragmentManager fragmentManager = this.getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -46,13 +50,6 @@ public class MyTrainingActivity extends NavCreater
         }
     }
 
-    public void closeDetail(View view) {
-        TrainingDetailFragment.resetDetail();
-    }
-
-    public void comfirmDetail(View view) {
-        TrainingDetailFragment.comfirmDetail();
-    }
 
     // End TrainingDetailFragment
 
@@ -74,5 +71,6 @@ public class MyTrainingActivity extends NavCreater
         Intent intent = new Intent(this, MyTrainingEditActivity.class);
         startActivityForResult(intent, 2);
     }
+
 
 }

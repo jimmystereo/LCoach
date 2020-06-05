@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.luntianji.l_coach.model.DetailManager;
 import com.luntianji.l_coach.model.Training;
 
 import java.util.Arrays;
@@ -34,24 +36,31 @@ import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 
 public class TrainingDetailFragment extends Fragment {
+    public static AppCompatButton addTo;
+    static CountDownTimer countDownTimer;
+    public static Training activatingTraining;
     public Training training;
+    public static Training currentTraining;
     static int activityType;
     public static boolean opened = false;
-    private static long fullTime = 1000 * 60 * 15;
+    private static long fullTime = 1000 * 60 * 1;
     private static long timeLeft;
     private static boolean start;
     private static boolean pause;
     private static boolean resume;
     private static boolean end = false;
+    public static boolean background;
     View v;
     private final String TAG = "TrainingDetailFragment";
     static AppCompatActivity activity;
     static TextView cancel;
     static TextView clock;
 
+
     public TrainingDetailFragment(Training training, AppCompatActivity activit, int activityTyp) {
         //第三個參數要傳入type 如果是自訂菜單傳2 要新增的話下面有switch的也要新增
         this.training = training;
+        currentTraining = training;
         activityType = activityTyp;
         activity = activit;
 
@@ -61,10 +70,21 @@ public class TrainingDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        if (activatingTraining == null || !training.getName().equals(activatingTraining.getName())) {
 
-        timeLeft = fullTime;
+            background = true;
+        } else {
+            background = false;
+        }
+        opened = true;
         v = inflater.inflate(R.layout.fragment_training_detail, container, false);
         TextView trainingName = v.findViewById(R.id.training_detail_name);
+        addTo = v.findViewById(R.id.button_add_to);
+        if (activityType == 2) {
+            addTo.setText("移除此訓練");
+        } else {
+            addTo.setText("加入我的訓練");
+        }
         cancel = v.findViewById(R.id.back_button);
         clock = v.findViewById(R.id.training_confirm);
         trainingName.setText(training.getName());
@@ -85,11 +105,26 @@ public class TrainingDetailFragment extends Fragment {
     }
 
     public static void comfirmDetail() {
-
+        if (background) {
+            if (countDownTimer != null) {
+                countDownTimer.cancel();
+            }
+            start = false;
+            background = false;
+            timeLeft = fullTime;
+            pause = false;
+            resume = false;
+            cancel.setText("退出訓練");
+            end = false;
+        }
         if (!end) {
 
-
+            activatingTraining = currentTraining;
             if (!start) {
+                background = false;
+                timeLeft = fullTime;
+                pause = false;
+                resume = false;
                 cancel.setText("退出訓練");
                 start = true;
 
@@ -101,13 +136,13 @@ public class TrainingDetailFragment extends Fragment {
                 pause = false;
                 resume = true;
             }
-            CountDownTimer countDownTimer = new CountDownTimer(timeLeft, 1000) {
+            countDownTimer = new CountDownTimer(timeLeft, 1000) {
 
                 public void onTick(long millisUntilFinished) {
 
                     if (pause || !start) {
                         cancel();
-                    } else {
+                    } else if (!background) {
                         int minute = (int) ((millisUntilFinished / 1000) / 60);
                         String minuteS = String.valueOf(minute);
                         int second = (int) ((millisUntilFinished / 1000) % 60 + 1);
@@ -133,6 +168,7 @@ public class TrainingDetailFragment extends Fragment {
                     end = true;
                     resume = false;
                     start = false;
+                    background = false;
                     pause = false;
                 }
             };
@@ -149,6 +185,7 @@ public class TrainingDetailFragment extends Fragment {
         start = false;
         pause = false;
         resume = false;
+        background = false;
         switch (activityType) {
             case 0:
                 activity.setTitle("L Coach");
@@ -173,47 +210,17 @@ public class TrainingDetailFragment extends Fragment {
                 break;
             case 2:
                 //這裡要取得你的activity上的這個fragment
-//                fragmentTransaction.detach(MyTrainingRecyclerViewAdapter.getDetailFragment());
+                fragmentTransaction.detach(MyTrainingActivity.detailFragment);
                 break;
         }
         fragmentTransaction.commit();
     }
-//    public static void addToMyTraining(){
-//        // auth
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        if (firebaseUser == null) {
-//            createSignInIntent();
-//            return;
-//        }
-//        String userId = firebaseUser.getUid();
-//
-//        //pojo
-//        Training training = TrainingListAdapter.getDetailFragment().training;
-//        // need userId
-//        training.setUserId(userId);
-//
-//        DBReceiver receiver = new DBReceiver() {
-//        };
-//        activity.registerReceiver(receiver, new IntentFilter(ACTION01));
-//        DBCommand command = new CreateCommand("my_training_list", activity, training);
-//        command.work();
-//    }
-//    void createSignInIntent() {
-//        // [START auth_fui_create_intent]
-//        // Choose authentication providers
-//        List<AuthUI.IdpConfig> providers = Arrays.asList(
-//                new AuthUI.IdpConfig.EmailBuilder().build(),
-//                new AuthUI.IdpConfig.GoogleBuilder().build());
-//
-//        // Create and launch sign-in intent
-//        startActivityForResult(
-//                AuthUI.getInstance()
-//                        .createSignInIntentBuilder()
-//                        .setAvailableProviders(providers)
-//                        .setLogo(R.drawable.ball)      // Set logo drawable
-//                        .setTheme(R.style.Theme_MyApp)      // Set theme
-//                        .build(),
-//                RC_SIGN_IN);
-//        // [END auth_fui_create_intent]
-//    }
+
+    public static void addToMyTraining() {
+
+    }
+
+    void createSignInIntent() {
+
+    }
 }

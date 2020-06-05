@@ -29,6 +29,7 @@
         訓練資訊</TextView>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_add_to"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"

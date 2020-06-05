@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.luntianji.l_coach.model.DetailManager;
 import com.luntianji.l_coach.model.Training;
 
 import java.util.ArrayList;
@@ -32,9 +33,10 @@ import genomu.command.CreateCommand;
 import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBReceiver;
 
+import static com.luntianji.l_coach.TrainingDetailFragment.opened;
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
-public class StartTrainingActivity extends NavCreater {
+public class StartTrainingActivity extends DetailManager {
 
     private RecyclerView recyclerView;
     private TrainingListAdapter trainingListAdapter;
@@ -216,34 +218,7 @@ public class StartTrainingActivity extends NavCreater {
         }
     }
 
-    public void closeDetail(View view) {
-        TrainingDetailFragment.resetDetail();
-    }
 
-    public void comfirmDetail(View view) {
-        TrainingDetailFragment.comfirmDetail();
-    }
-
-    public void addToMyTraining(View view) {
-        // auth
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser == null) {
-            createSignInIntent();
-            return;
-        }
-        String userId = firebaseUser.getUid();
-
-        //pojo
-        Training training = TrainingListAdapter.getDetailFragment().training;
-        // need userId
-        training.setUserId(userId);
-
-        DBReceiver receiver = new DBReceiver() {
-        };
-        registerReceiver(receiver, new IntentFilter(ACTION01));
-        DBCommand command = new CreateCommand("my_training_list", this, training);
-        command.work();
-    }
 
 
 }
