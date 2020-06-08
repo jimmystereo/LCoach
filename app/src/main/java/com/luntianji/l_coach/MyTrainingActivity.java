@@ -21,11 +21,6 @@ public class MyTrainingActivity extends DetailManager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (SettingActivity.newTheme) {
-            setTheme(R.style.RedTheme);
-        } else {
-            setTheme(R.style.Theme_MyApp);
-        }
         setContentView(R.layout.activity_my_training);
         navCreat(R.id.activity_my_training, "My Training");
     }
@@ -72,6 +67,6 @@ public class MyTrainingActivity extends DetailManager
     @Override
     public void addToMyTraining(View view) {
         super.addToMyTraining(view);
-        //TODO 在資料庫刪除此訓練
+        //TODO 刪除這筆資料
     }
 }

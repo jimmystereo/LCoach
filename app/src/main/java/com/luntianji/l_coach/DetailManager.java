@@ -18,6 +18,7 @@ public class DetailManager extends NavCreater {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        TrainingDetailFragment.opened = false;
         TrainingDetailFragment.background = true;
     }
 
