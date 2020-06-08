@@ -1,18 +1,11 @@
-package com.luntianji.l_coach.model;
+package com.luntianji.l_coach;
 
 import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.luntianji.l_coach.DailySelectedAdapter;
-import com.luntianji.l_coach.NavCreater;
-import com.luntianji.l_coach.TrainingDetailFragment;
+import com.luntianji.l_coach.model.Training;
 
 import genomu.command.CreateCommand;
 import genomu.firestore_helper.DBCommand;
@@ -33,7 +26,7 @@ public class DetailManager extends NavCreater {
     }
 
     public void closeDetail(View view) {
-        TrainingDetailFragment.resetDetail();
+        TrainingDetailFragment.closeDetail();
     }
 
     public void comfirmDetail(View view) {

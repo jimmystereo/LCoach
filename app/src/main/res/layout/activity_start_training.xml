@@ -24,8 +24,8 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="80dp"
-            android:layout_marginRight="80dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/shape"
             android:onClick="openFilterFragment"
             android:text="@string/filter"
@@ -37,10 +37,22 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/shape"
             android:onClick="getRandom"
             android:text="@string/random"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/activating_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="150dp"
+            android:background="@drawable/shape"
+            android:onClick="getActivating"
+            android:text="進行中"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

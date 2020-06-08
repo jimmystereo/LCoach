@@ -1,8 +1,5 @@
 package com.luntianji.l_coach;
 
-import android.app.Activity;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -12,27 +9,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.luntianji.l_coach.model.DetailManager;
 import com.luntianji.l_coach.model.Training;
-
-import java.util.Arrays;
-import java.util.List;
-
-import genomu.command.CreateCommand;
-import genomu.firestore_helper.DBCommand;
-import genomu.firestore_helper.DBReceiver;
-
-import static com.luntianji.l_coach.NavCreater.RC_SIGN_IN;
-import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 
 public class TrainingDetailFragment extends Fragment {
@@ -157,6 +137,7 @@ public class TrainingDetailFragment extends Fragment {
                             secondS = "00";
                             minuteS = String.valueOf(minute + 1);
                         }
+                        cancel.setText("退出訓練");
                         clock.setText(String.format("%s : %s", minuteS, secondS));
                         timeLeft = millisUntilFinished;
                     }
@@ -178,7 +159,31 @@ public class TrainingDetailFragment extends Fragment {
         }
     }
 
+    public static void closeDetail() {
+        if (!background) {
+            resetDetail();
+        } else {
+            opened = false;
+            FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.animation_open_fragment, R.anim.animation_close_fragment);
+            switch (activityType) {
+                case 0:
+                    fragmentTransaction.detach(DailySelectedAdapter.getDetailFragment());
+                    break;
+                case 1:
+                    fragmentTransaction.detach(TrainingListAdapter.getDetailFragment());
+                    break;
+                case 2:
+                    //這裡要取得你的activity上的這個fragment
+                    fragmentTransaction.detach(MyTrainingActivity.detailFragment);
+                    break;
+            }
+            fragmentTransaction.commit();
+        }
+    }
+
     public static void resetDetail() {
+        activatingTraining = null;
         opened = false;
         timeLeft = fullTime;
         end = false;
@@ -216,11 +221,4 @@ public class TrainingDetailFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    public static void addToMyTraining() {
-
-    }
-
-    void createSignInIntent() {
-
-    }
 }

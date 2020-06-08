@@ -5,15 +5,10 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.firebase.ui.auth.AuthUI;
@@ -21,7 +16,6 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.luntianji.data.FireStoreConnector;
 import com.luntianji.l_coach.databinding.NavHeaderBinding;
 import com.luntianji.l_coach.model.User;
 import com.squareup.picasso.Picasso;
@@ -29,7 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Arrays;
 import java.util.List;
 
-public class NavCreater extends AppCompatActivity {
+public class NavCreater extends ThemeManager {
 
     private NavHeaderBinding mBinding;
     private FirebaseAuth mAuth;

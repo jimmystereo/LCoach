@@ -1,11 +1,10 @@
 package com.luntianji.l_coach;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,7 +15,7 @@ import com.luntianji.l_coach.databinding.ActivityMyProfileBinding;
 import com.luntianji.l_coach.model.User;
 import com.squareup.picasso.Picasso;
 
-public class MyProfileActivity extends AppCompatActivity {
+public class MyProfileActivity extends ThemeManager {
 
     // binding
     private ActivityMyProfileBinding mBinding;

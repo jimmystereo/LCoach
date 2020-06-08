@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.luntianji.l_coach.model.DetailManager;
 import com.luntianji.l_coach.model.Training;
 
 import static com.luntianji.l_coach.TrainingDetailFragment.opened;
-import static com.luntianji.l_coach.TrainingListAdapter.getTrainingDataSet;
 
 
 public class MyTrainingActivity extends DetailManager

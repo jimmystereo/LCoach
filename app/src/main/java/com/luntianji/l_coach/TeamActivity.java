@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,8 +20,6 @@ public class TeamActivity extends NavCreater {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(SettingActivity.newTheme){setTheme(R.style.RedTheme);}
-        else{setTheme(R.style.Theme_MyApp);}
         setContentView(R.layout.activity_team);
         navCreat(R.id.activity_team,"Team");
 

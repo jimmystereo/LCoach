@@ -1,28 +1,27 @@
 package com.luntianji.l_coach;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.luntianji.l_coach.databinding.ActivityMyTeammateEditBinding;
 import com.luntianji.l_coach.model.Teammate;
 
-import genomu.firestore_helper.DBCommand;
-import genomu.firestore_helper.DBReceiver;
 import genomu.command.CreateCommand;
 import genomu.command.DeleteCommand;
 import genomu.command.UpdateCommand;
+import genomu.firestore_helper.DBCommand;
+import genomu.firestore_helper.DBReceiver;
 
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 
-public class MyTeammateEditActivity extends AppCompatActivity {
+public class MyTeammateEditActivity extends ThemeManager {
 
     private static final String TAG = "AddTeammateActivity";
 

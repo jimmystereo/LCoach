@@ -1,40 +1,24 @@
 package com.luntianji.l_coach;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.luntianji.l_coach.model.DetailManager;
 import com.luntianji.l_coach.model.Training;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import genomu.command.CreateCommand;
-import genomu.firestore_helper.DBCommand;
-import genomu.firestore_helper.DBReceiver;
-
-import static com.luntianji.l_coach.TrainingDetailFragment.opened;
-import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class StartTrainingActivity extends DetailManager {
 
@@ -50,15 +34,15 @@ public class StartTrainingActivity extends DetailManager {
     private static final String TAG = "StartTrainingActivity";
     Button filter;
     Button random_buttom;
+    Button activating_button;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(SettingActivity.newTheme){setTheme(R.style.RedTheme);}
-        else{setTheme(R.style.Theme_MyApp);}
         setContentView(R.layout.activity_start_training);
         navCreat(R.id.activity_start_training, "Start Training");
         TrainingDetailFragment.opened = false;
+        activating_button = findViewById(R.id.activating_button);
         filter = (Button) findViewById(R.id.button_training_filter);
         random_buttom = (Button) findViewById(R.id.button_training_random);
         recyclerView = (RecyclerView) findViewById(R.id.start_trainging_recycler_view);
@@ -95,12 +79,29 @@ public class StartTrainingActivity extends DetailManager {
     }
 
     public void getRandom(View view) {
+        activating_button.setBackground(getResources().getDrawable(R.drawable.shape));
         filter.setBackground(getResources().getDrawable(R.drawable.shape));
         random_buttom.setBackground(getResources().getDrawable(R.drawable.filter_selected_button));
         tmpList.clear();
         for (int i = 0; i < 5; i++) {
             int random = (int) (Math.random() * (rawList.size() - 1));
             tmpList.add((Training) rawList.get(random));
+        }
+        trainingListAdapter.notifyDataSetChanged();
+    }
+
+    public void getActivating(View view) {
+        random_buttom.setBackground(getResources().getDrawable(R.drawable.shape));
+        activating_button.setBackground(getResources().getDrawable(R.drawable.filter_selected_button));
+        filter.setBackground(getResources().getDrawable(R.drawable.shape));
+
+        tmpList.clear();
+        if (TrainingDetailFragment.activatingTraining != null) {
+            for (Training i : (ArrayList<Training>) rawList) {
+                if (i.getName().equals(TrainingDetailFragment.activatingTraining.getName())) {
+                    tmpList.add(i);
+                }
+            }
         }
         trainingListAdapter.notifyDataSetChanged();
     }
@@ -117,6 +118,7 @@ public class StartTrainingActivity extends DetailManager {
     }
 
     public void doneFilterFragment(View v) {
+        activating_button.setBackground(getResources().getDrawable(R.drawable.shape));
         random_buttom.setBackground(getResources().getDrawable(R.drawable.shape));
         System.arraycopy(fragment.filterData, 0, data, 0, data.length);
         dataSelection();
@@ -217,8 +219,6 @@ public class StartTrainingActivity extends DetailManager {
             }
         }
     }
-
-
 
 
 }

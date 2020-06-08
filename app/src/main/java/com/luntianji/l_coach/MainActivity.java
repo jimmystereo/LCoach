@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,48 +14,28 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.TooltipCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.luntianji.l_coach.model.DetailManager;
 import com.luntianji.l_coach.model.Training;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import genomu.command.CreateCommand;
 import genomu.command.GetListCommand;
 import genomu.firestore_helper.DBCommand;
 import genomu.firestore_helper.DBEmcee;
 import genomu.firestore_helper.DBReceiver;
 
 import static com.luntianji.l_coach.TrainingDetailFragment.opened;
-import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class MainActivity extends DetailManager {
     private static int position;
@@ -77,8 +56,6 @@ public class MainActivity extends DetailManager {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         opened = false;
-        if(SettingActivity.newTheme){setTheme(R.style.RedTheme);}
-        else{setTheme(R.style.Theme_MyApp);}
         setContentView(R.layout.activity_main);
         navCreat(R.id.activity_main, "Home");
         createNotificationChannel();
