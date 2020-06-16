@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.luntianji.l_coach">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:icon="@drawable/ball"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ball"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.MyApp">
+        <activity android:name=".MyProfileActivity" />
+        <activity
+            android:name=".MyTeammateEditActivity"
+            android:parentActivityName=".MyTeammateActivity" />
+
+        <receiver
+            android:name="genomu.firestore_helper.DBReceiver"
+            android:enabled="true"
+            android:exported="true" /> <!-- author: hwchang -->
+        <activity
+            android:name=".TeamActivity"
+            android:label="我的隊伍"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".MyTeammateActivity"
+            android:label="我的隊員"
+            android:parentActivityName=".TeamActivity" />
+        <activity
+            android:name=".SettingActivity"
+            android:label="設定" />
+        <activity
+            android:name=".MyTrainingActivity"
+            android:label="自訂菜單" />
+        <activity
+            android:name=".MyTrainingEditActivity"
+            android:label="編輯訓練項目"
+            android:parentActivityName=".MyTrainingActivity" /> <!-- author: hwchang -->
+        <activity
+            android:name=".StartTrainingActivity"
+            android:label="選擇訓練" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

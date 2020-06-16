@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <!--  custom color  -->
+    <!--  red primary  -->
+    <color name="colorPrimary">#CCB6FB</color>
+    <color name="colorPrimaryVariant">#998ABA</color>
+    <color name="colorSecondary">#B9DCFB</color>
+    <color name="colorSecondaryVariant">#55ECFF</color>
+    <color name="colorSurface">#221919</color>
+    <color name="colorPrimaryDark">#c62828</color>
+    <color name="colorAccent">#D40000</color>
+    <!--  red primary  -->
+    <color name="white">#FFFFFF</color>
+    <color name="yellow">#FF9900</color>
+    <color name="black">#000000</color>
+    <color name="light_purple">#BB86FC</color>
+    <color name="transparent">#00000000</color>
+    <color name="training_easy">#18FFFF</color>
+    <color name="training_medium">#F4FD93</color>
+    <color name="training_hard">#FF8DE6</color>
+    <color name="light_green">#ACFD9E</color>
+
+    <color name="colorPrimary2">#FF2323</color>
+    <color name="colorPrimaryVariant2">#832121</color>
+    <color name="colorSecondary2">#FFAB3F</color>
+    <color name="colorSecondaryVariant2">#956527</color>
+    <color name="colorSurface2">#221919</color>
+    <color name="colorPrimaryDark2">#c62828</color>
+    <color name="colorAccent2">#D40000</color>
+    <color name="training_easy2">#FFE640</color>
+    <color name="training_medium2">#FD7329</color>
+    <color name="training_hard2">#B50202</color>
+    <!--    <color name="colorPrimary">#b2ebf2</color>-->
+    <!--    <color name="colorSurface">#1e2223</color>-->
+    <!--    <color name="colorPrimaryVariant">#00bcd4</color>-->
+    <!--    <color name="colorSecondary">#b2ebf2</color>-->
+    <!--    <color name="colorPrimaryDark">#00bcd4</color>-->
+    <!--    <color name="colorAccent">#D40000</color>-->
+
 </resources>
