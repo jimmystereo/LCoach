@@ -5,5 +5,5 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/main_sample3"/>
+        android:src="@drawable/ad3" />
 </androidx.appcompat.widget.LinearLayoutCompat>
