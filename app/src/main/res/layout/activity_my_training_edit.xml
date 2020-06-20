@@ -1,106 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView4"
+    <data>
+
+        <import type="android.text.InputType" />
+        <import type="android.graphics.drawable.Drawable"/>
+        <import type="android.view.View" />
+
+        <variable
+            name="training"
+            type="com.luntianji.l_coach.model.Training" />
+
+        <variable
+            name="create"
+            type="boolean" />
+
+        <variable
+            name="edit"
+            type="boolean" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="horizontal"
-        app:cardElevation="8dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
+
+
+        <Button
+            android:id="@+id/save_button"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:onClick="onToggleEditClick"
+            android:visibility="@{edit ? View.VISIBLE :  View.INVISIBLE }"
+            app:icon="@drawable/baseline_done_black_18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/edit_button"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:onClick="onToggleEditClick"
+            android:visibility="@{(!edit &amp;&amp; !create) ? View.VISIBLE :  View.INVISIBLE }"
+            app:icon="@drawable/baseline_create_black_18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/edit_training"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:foreground="?attr/selectableItemBackground">
+            android:layout_height="0dp"
+            android:padding="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_button">
 
-            <ImageView
-                android:id="@id/imageView"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:adjustViewBounds="false"
-                android:contentDescription="@string/training_preview_description"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="名稱"
+                app:layout_constraintBottom_toTopOf="@+id/type_field"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.666"
-                app:layout_constraintWidth_percent="0.4"
-                app:srcCompat="@drawable/spike" />
+                tools:layout_editor_absoluteX="16dp">
 
-            <EditText
-                android:id="@+id/edit_my_training_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:gravity="center"
-                android:hint="訓練名稱"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textSize="30sp"
-                app:layout_constraintStart_toEndOf="@id/imageView"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Training name" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="@{edit || create ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_NULL}"
+                    android:text="@={training.name}" />
 
-            <EditText
-                android:id="@+id/edit_my_training_difficulty"
-                android:layout_width="wrap_content"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/type_field"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:hint="難度"
-                android:textAppearance="?attr/textAppearanceListItem"
+                android:hint="訓練種類"
+                app:layout_constraintBottom_toTopOf="@+id/difficulty_field"
+                app:layout_constraintTop_toBottomOf="@+id/name_field"
+                tools:layout_editor_absoluteX="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="@{edit || create ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_NULL}"
+                    android:text="@={training.type}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/difficulty_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="訓練難度"
+
+                app:layout_constraintBottom_toTopOf="@+id/amount_people_field"
+                app:layout_constraintTop_toBottomOf="@+id/type_field"
+                tools:layout_editor_absoluteX="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="@{edit || create ? InputType.TYPE_CLASS_TEXT : InputType.TYPE_NULL}"
+                    android:text="@={training.difficulty}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/amount_people_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="人數"
+                app:layout_constraintBottom_toTopOf="@+id/amount_ball_field"
+                app:layout_constraintTop_toBottomOf="@+id/difficulty_field"
+                tools:layout_editor_absoluteX="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="@{edit || create ? InputType.TYPE_TEXT_FLAG_MULTI_LINE : InputType.TYPE_NULL}"
+                    android:text="@={training.amount_people}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/amount_ball_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="球數"
+                app:layout_constraintBottom_toTopOf="@+id/other_field"
+                app:layout_constraintTop_toBottomOf="@+id/amount_people_field"
+                tools:layout_editor_absoluteX="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_amount_ball"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="@{edit || create ? InputType.TYPE_TEXT_FLAG_MULTI_LINE : InputType.TYPE_NULL}"
+                    android:text="@={training.amount_ball}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/other_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="特殊限制"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/amount_ball_field"
+                tools:layout_editor_absoluteX="16dp">
 
-            <EditText
-                android:id="@+id/edit_my_training_other"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:hint="其他"
-                android:textAppearance="?attr/textAppearanceListItem"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_my_training_name" />
-
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="@{edit || create ? InputType.TYPE_TEXT_FLAG_MULTI_LINE : InputType.TYPE_NULL}"
+                    android:text="@={training.other}" />
+            </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-    <Button
-        android:id="@+id/button_add_my_training"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <Button
+                android:id="@+id/button_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="刪除"
+                android:visibility="@{edit ? View.VISIBLE : View.INVISIBLE}"
+                app:icon="@android:drawable/ic_menu_delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/button_delete_my_training"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="刪除"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/button_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:drawableStart="@android:drawable/ic_menu_add"
+                android:text="新增"
+                android:visibility="@{create ? View.VISIBLE :  View.INVISIBLE }"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Add" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

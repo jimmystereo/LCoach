@@ -61,7 +61,7 @@ public class TrainingDetailFragment extends Fragment {
         TextView trainingName = v.findViewById(R.id.training_detail_name);
         addTo = v.findViewById(R.id.button_add_to);
         if (activityType == 2) {
-            addTo.setText("移除此訓練");
+            addTo.setText("編輯此訓練");
         } else {
             addTo.setText("加入我的訓練");
         }

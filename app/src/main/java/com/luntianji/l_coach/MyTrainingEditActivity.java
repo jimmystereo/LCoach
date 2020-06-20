@@ -2,255 +2,117 @@ package com.luntianji.l_coach;
 
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.luntianji.l_coach.databinding.ActivityMyTrainingEditBinding;
 import com.luntianji.l_coach.model.Training;
 
-import genomu.firestore_helper.DBCommand;
-import genomu.firestore_helper.DBReceiver;
 import genomu.command.CreateCommand;
 import genomu.command.DeleteCommand;
 import genomu.command.UpdateCommand;
+import genomu.firestore_helper.DBCommand;
+import genomu.firestore_helper.DBReceiver;
 
 import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 
-public class MyTrainingEditActivity extends AppCompatActivity {
+public class MyTrainingEditActivity extends ThemeManager {
 
     private static final String TAG = "AddTrainingActivity";
 
-    boolean edit = false;
-    boolean create = false;
-    Button buttonAdd;
-    Button buttonDelete;
-    MenuItem buttonToggleEdit;
-    String id = "";
+    // binding
+    private ActivityMyTrainingEditBinding mBinding;
+    // state
+    private Training training;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String uid = user.getUid();
-
-    // pojo
-    TextView editName;
-    TextView editDifficulty;
-    TextView editOther;
-
+    String userId = user.getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_training_edit);
+        // binding
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_training_edit);
+        training = (Training) getIntent().getSerializableExtra("Training");
+        mBinding.setTraining(training);
 
-        buttonAdd = findViewById(R.id.button_add_my_training);
-        buttonDelete = findViewById(R.id.button_delete_my_training);
-
-        // pojo
-        editName = findViewById(R.id.edit_my_training_name);
-        editDifficulty = findViewById(R.id.edit_my_training_difficulty);
-        editOther = findViewById(R.id.edit_my_training_other);
-
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            // pojo
-            id = bundle.getString("UpdateTrainingId");
-            editName.setText(bundle.getString("UpdateTrainingName"));
-            editDifficulty.setText(bundle.getString("UpdateTrainingDifficulty"));
-            editOther.setText(bundle.getString("UpdateTrainingOther"));
-
-            if (id.length() > 0) {
-                setEdit(false);
-            }
+        if (training.getId() != null) {
+            mBinding.setEdit(false);
         } else {
-            // create
-            setCreate(true);
+            mBinding.setCreate(true);
         }
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+        mBinding.buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // pojo
-                String name = editName.getText().toString();
-                String difficulty = editDifficulty.getText().toString();
-                String other = editOther.getText().toString();
-
-                if (editName.length() > 0) {
-                    // pojo
-                    addTraining(name, difficulty, other);
-                }
-                setResult(RESULT_OK);
+                addTraining();
             }
         });
-
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
+        mBinding.buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteTraining(id);
-                setResult(RESULT_OK);
-                finish();
+                deleteTraining();
             }
         });
     }
 
-    // create an action bar button
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
-        // If you don't have res/menu, just create a directory named "menu" inside res
-        getMenuInflater().inflate(R.menu.edit, menu);
-        buttonToggleEdit = menu.findItem(R.id.button_toggle_edit);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (create) {
-            buttonToggleEdit.setIcon(null);
+    public void onToggleEditClick(View view) {
+        if (mBinding.getEdit()) {
+            save();
         }
-        return super.onPrepareOptionsMenu(menu);
+        mBinding.setEdit(!mBinding.getEdit());
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        buttonToggleEdit = item;
-        switch (item.getItemId()) {
-            case R.id.button_toggle_edit:
-                if (edit) {
-                    onSave();
-                }
-                setEdit(!edit);
-
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
-        }
-    }
-
-    private void onSave() {
-        // pojo
-        String name = editName.getText().toString();
-        String difficulty = editDifficulty.getText().toString();
-        String other = editOther.getText().toString();
-
-        if (editName.length() > 0) {
-            if (id.length() > 0) {
-                // pojo
-                updateTraining(id, name, difficulty, other);
-                setResult(RESULT_OK);
+    private void save() {
+        if (training.getName().length() > 0) {
+            if (training.getId().length() > 0) {
+                updateTraining();
             } else {
                 Toast.makeText(this, "id is null", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private void setEdit(boolean newEdit) {
-        this.edit = newEdit;
-        if (edit) {
-            if (buttonToggleEdit != null) {
-                buttonToggleEdit.setIcon(android.R.drawable.ic_menu_save);
-            }
-
-            buttonDelete.setVisibility(View.VISIBLE);
-            buttonAdd.setVisibility(View.INVISIBLE);
-
-            // pojo
-            editName.setInputType(InputType.TYPE_CLASS_TEXT);
-            editDifficulty.setInputType(InputType.TYPE_CLASS_TEXT);
-            editOther.setInputType(InputType.TYPE_CLASS_TEXT);
-
-        } else {
-            if (buttonToggleEdit != null) {
-                buttonToggleEdit.setIcon(android.R.drawable.ic_menu_edit);
-            }
-
-            buttonAdd.setVisibility(View.INVISIBLE);
-            buttonDelete.setVisibility(View.INVISIBLE);
-
-            // pojo
-            editName.setInputType(InputType.TYPE_NULL);
-            editDifficulty.setInputType(InputType.TYPE_NULL);
-            editOther.setInputType(InputType.TYPE_NULL);
-
-        }
-    }
-
-    private void setCreate(boolean newCreate) {
-        create = newCreate;
-        if (create) {
-            if (buttonToggleEdit != null) {
-                buttonToggleEdit.setIcon(null);
-            }
-            buttonAdd.setVisibility(View.VISIBLE);
-            buttonDelete.setVisibility(View.INVISIBLE);
-
-            // pojo
-            editName.setInputType(InputType.TYPE_CLASS_TEXT);
-            editDifficulty.setInputType(InputType.TYPE_CLASS_TEXT);
-            editOther.setInputType(InputType.TYPE_CLASS_TEXT);
-        }
-    }
-
-    private void updateTraining(String id, String name, String difficulty, String other) {
-        // pojo
-        Training training = new Training();
-        training.setId(id);
-        training.setName(name);
-        training.setDifficulty(difficulty);
-        training.setOther(other);
-        training.setUserId(uid);
-
+    private void updateTraining() {
+        training.setUserId(userId);
         DBReceiver receiver = new DBReceiver() {
 
         };
         registerReceiver(receiver, new IntentFilter(ACTION01));
         DBCommand command = new UpdateCommand<>("my_training_list", this, training);
         command.work();
-
+        setResult(RESULT_OK);
     }
 
-    private void addTraining(String name, String difficulty, String other) {
-        //pojo
-        Training training = new Training();
-        training.setName(name);
-        training.setDifficulty(difficulty);
-        training.setOther(other);
-        training.setUserId(uid);
-
+    private void addTraining() {
+        training.setUserId(userId);
         DBReceiver receiver = new DBReceiver() {
             @Override
             public void onReceive(Object receivedPOJO) {
                 super.onReceive(receivedPOJO);
                 Training newTraining = (Training) receivedPOJO;
-                id = newTraining.getId();
-                setCreate(false);
-                setEdit(false);
+                training = newTraining;
+                mBinding.setCreate(false);
+                mBinding.setEdit(false);
             }
         };
         registerReceiver(receiver, new IntentFilter(ACTION01));
         DBCommand command = new CreateCommand("my_training_list", this, training);
         command.work();
+        mBinding.setCreate(false);
     }
 
-    private void deleteTraining(String id) {
-        // pojo
-        Training training = new Training();
-        training.setId(id);
-
+    private void deleteTraining() {
         DBReceiver receiver = new DBReceiver() {
         };
         registerReceiver(receiver, new IntentFilter(ACTION01));
         DBCommand command = new DeleteCommand<>("my_training_list", this, training);
         command.work();
+        setResult(RESULT_OK);
+        finish();
     }
 }
