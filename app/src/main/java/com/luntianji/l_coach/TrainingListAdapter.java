@@ -5,6 +5,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -41,12 +42,13 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
         TextView trainingName;
         TextView trainingPreview;
         MaterialCardView cardView;
+        ImageView trainingIcon;
         ConstraintLayout trainingItem;
         public TrainingListViewHolder(View v) {
             super(v);
             view = v;
             trainingItem = view.findViewById(R.id.trainingItem);
-
+            trainingIcon = view.findViewById(R.id.imageView);
             cardView = (MaterialCardView) view.findViewById(R.id.cardView4);
             trainingName = (TextView) view.findViewById(R.id.training_name);
             trainingPreview = (TextView) view.findViewById(R.id.training_preview);
@@ -92,6 +94,33 @@ public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapte
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         String difficulty = trainingDataset.get(position).getDifficulty();
+        String type = trainingDataset.get(position).getType();
+        switch (type) {
+            case "扣球":
+                holder.trainingIcon.setImageResource(R.drawable.icon_spike);
+                break;
+            case "接扣球":
+                holder.trainingIcon.setImageResource(R.drawable.icon_catch);
+                break;
+            case "發球":
+                holder.trainingIcon.setImageResource(R.drawable.icon_fa);
+                break;
+            case "傳球":
+                holder.trainingIcon.setImageResource(R.drawable.icon_pass);
+                break;
+            case "舉球":
+                holder.trainingIcon.setImageResource(R.drawable.icon_set);
+                break;
+            case "自由":
+                holder.trainingIcon.setImageResource(R.drawable.icon_free);
+                break;
+            case "整合訓練":
+                holder.trainingIcon.setImageResource(R.drawable.icon_all);
+                break;
+            case "攔網":
+                holder.trainingIcon.setImageResource(R.drawable.icon_block);
+                break;
+        }
         TypedValue typedValue = new TypedValue();
         int color;
         switch (difficulty){

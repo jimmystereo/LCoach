@@ -7,6 +7,9 @@
         <item>發球</item>
         <item>接扣球</item>
         <item>扣球</item>
+        <item>舉球</item>
+        <item>攔網</item>
+        <item>自由</item>
     </string-array>
     <string-array name="string_filter_difficulty">
         <item>難度</item>

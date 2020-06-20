@@ -157,6 +157,9 @@ public class StartTrainingActivity extends DetailManager {
             put(3, "發球");
             put(4, "接扣球");
             put(5, "扣球");
+            put(6, "舉球");
+            put(7, "攔網");
+            put(8, "自由");
         }};
         Map<Integer, String> difficulty = new HashMap<Integer, String>() {{
             put(1, "低");

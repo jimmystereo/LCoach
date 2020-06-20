@@ -1,17 +1,15 @@
 package com.luntianji.l_coach;
 
-import android.app.Activity;
 import android.os.Build;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
@@ -42,6 +40,7 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
         ConstraintLayout constraintLayout;
         TextView trainingName;
         TextView trainingType;
+        ImageView trainingIcon;
         TextView trainingDifficulty;
         MaterialCardView cardView;
 
@@ -51,6 +50,8 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
             constraintLayout = (ConstraintLayout) view.findViewById(R.id.daily_selected_constraint);
             cardView = (MaterialCardView) view.findViewById(R.id.fragment_daily_selected);
             trainingName = (TextView) view.findViewById(R.id.daily_selected_name);
+            trainingIcon = view.findViewById(R.id.imageView);
+
             trainingType = (TextView) view.findViewById(R.id.daily_selected_type);
             trainingDifficulty = (TextView) view.findViewById(R.id.daily_selected_difficulty);
             MainActivity.setPosition(getAdapterPosition());
@@ -59,7 +60,7 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
                 public void onClick(View view) {
                     if (!opened) {
 
-                        detailFragment = new TrainingDetailFragment(getTrainingDataSet().get(getAdapterPosition()),activity,0);
+                        detailFragment = new TrainingDetailFragment(getTrainingDataSet().get(getAdapterPosition()), activity, 0);
 
                         FragmentManager fragmentManager = activity.getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -101,9 +102,37 @@ public class DailySelectedAdapter extends RecyclerView.Adapter<DailySelectedAdap
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         String difficulty = trainingDataset.get(position).getDifficulty();
+        String type = trainingDataset.get(position).getType();
+        switch (type) {
+            case "扣球":
+                holder.trainingIcon.setImageResource(R.drawable.icon_spike);
+                break;
+            case "接扣球":
+                holder.trainingIcon.setImageResource(R.drawable.icon_catch);
+                break;
+            case "發球":
+                holder.trainingIcon.setImageResource(R.drawable.icon_fa);
+                break;
+            case "傳球":
+                holder.trainingIcon.setImageResource(R.drawable.icon_pass);
+                break;
+            case "舉球":
+                holder.trainingIcon.setImageResource(R.drawable.icon_set);
+                break;
+            case "自由":
+                holder.trainingIcon.setImageResource(R.drawable.icon_free);
+                break;
+            case "整合訓練":
+                holder.trainingIcon.setImageResource(R.drawable.icon_all);
+                break;
+            case "攔網":
+                holder.trainingIcon.setImageResource(R.drawable.icon_block);
+                break;
+
+        }
         TypedValue typedValue = new TypedValue();
         int color;
-        switch (difficulty){
+        switch (difficulty) {
             case "低":
                 holder.constraintLayout.setBackground(activity.getDrawable(R.drawable.ripple_transparent));
                 activity.getTheme().resolveAttribute(R.attr.training_easy, typedValue, true);
