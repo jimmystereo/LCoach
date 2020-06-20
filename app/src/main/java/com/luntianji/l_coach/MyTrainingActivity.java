@@ -23,6 +23,7 @@ public class MyTrainingActivity extends DetailManager
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_training);
         navCreat(R.id.activity_my_training, "My Training");
+        TrainingDetailFragment.opened = false;
     }
 
     // TrainingDetailFragment
@@ -64,9 +65,4 @@ public class MyTrainingActivity extends DetailManager
         startActivityForResult(intent, 2);
     }
 
-    @Override
-    public void addToMyTraining(View view) {
-        super.addToMyTraining(view);
-        //TODO 刪除這筆資料
-    }
 }
