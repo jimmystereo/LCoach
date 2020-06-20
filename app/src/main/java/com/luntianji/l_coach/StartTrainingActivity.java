@@ -1,6 +1,7 @@
 package com.luntianji.l_coach;
 
 import android.app.Activity;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.luntianji.l_coach.model.Training;
@@ -19,6 +22,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import genomu.command.CreateCommand;
+import genomu.firestore_helper.DBCommand;
+import genomu.firestore_helper.DBReceiver;
+
+import static genomu.firestore_helper.DBEmcee.ACTION01;
 
 public class StartTrainingActivity extends DetailManager {
 
@@ -220,5 +229,25 @@ public class StartTrainingActivity extends DetailManager {
         }
     }
 
+    @Override
+    public void addToMyTraining(View view) {
+        // auth
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null) {
+            createSignInIntent();
+            return;
+        }
+        String userId = firebaseUser.getUid();
 
+        //pojo
+        Training training = TrainingListAdapter.getDetailFragment().training;
+        // need userId
+        training.setUserId(userId);
+
+        DBReceiver receiver = new DBReceiver() {
+        };
+        registerReceiver(receiver, new IntentFilter(ACTION01));
+        DBCommand command = new CreateCommand("my_training_list", this, training);
+        command.work();
+    }
 }

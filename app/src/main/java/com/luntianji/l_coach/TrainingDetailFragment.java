@@ -23,7 +23,7 @@ public class TrainingDetailFragment extends Fragment {
     public static Training currentTraining;
     static int activityType;
     public static boolean opened = false;
-    private static long fullTime = 1000 * 60 * 1;
+    private static long fullTime = 1000 * 60 * 15;
     private static long timeLeft;
     private static boolean start;
     private static boolean pause;
