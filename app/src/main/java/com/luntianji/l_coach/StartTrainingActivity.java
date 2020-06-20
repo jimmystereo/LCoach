@@ -240,6 +240,7 @@ public class StartTrainingActivity extends DetailManager {
         String userId = firebaseUser.getUid();
 
         //pojo
+
         Training training = TrainingListAdapter.getDetailFragment().training;
         // need userId
         training.setUserId(userId);
