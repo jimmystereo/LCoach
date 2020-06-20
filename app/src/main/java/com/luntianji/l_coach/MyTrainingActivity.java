@@ -1,6 +1,5 @@
 package com.luntianji.l_coach;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -10,8 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.luntianji.l_coach.model.Training;
-
-import java.util.List;
 
 import genomu.command.DeleteCommand;
 import genomu.firestore_helper.DBCommand;
@@ -33,6 +30,7 @@ public class MyTrainingActivity extends DetailManager
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_training);
         navCreat(R.id.activity_my_training, "My Training");
+        opened = false;
     }
 
     // TrainingDetailFragment
@@ -76,7 +74,6 @@ public class MyTrainingActivity extends DetailManager
 
     @Override
     public void addToMyTraining(View view) {
-        // TODO 刪除這筆資料
         if (selectedTraining != null) {
             deleteTraining(selectedTraining.getId());
             finish();
