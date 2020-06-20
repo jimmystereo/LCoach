@@ -3,14 +3,12 @@ package com.luntianji.l_coach;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.luntianji.l_coach.MyTeammateFragment.OnListFragmentInteractionListener;
-import com.luntianji.l_coach.model.DummyContent.DummyItem;
 import com.luntianji.l_coach.model.Teammate;
 
 import java.util.List;

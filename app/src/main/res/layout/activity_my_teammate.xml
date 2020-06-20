@@ -36,12 +36,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:text="日本國家隊"
+        android:text="我的隊伍"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="日本國家隊" />
+        tools:text="我的隊伍" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

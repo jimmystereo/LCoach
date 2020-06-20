@@ -21,11 +21,6 @@
             name="edit"
             type="boolean" />
 
-        <variable
-            name="myTeammateEdit"
-            type="com.luntianji.l_coach.MyTeammateEditActivity" />
-
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

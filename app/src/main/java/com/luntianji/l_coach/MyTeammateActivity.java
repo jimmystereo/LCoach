@@ -34,9 +34,8 @@ public class MyTeammateActivity extends ThemeManager
 
     /** Called when the user taps the floating action bar */
     public void startMyTeammateEditActivity(View view) {
-        Teammate teammate = new Teammate();
         Intent intent = new Intent(this, MyTeammateEditActivity.class);
-        intent.putExtra("Teammate", teammate);
+        intent.putExtra("Teammate",  new Teammate());
         startActivityForResult(intent, 2);
     }
 

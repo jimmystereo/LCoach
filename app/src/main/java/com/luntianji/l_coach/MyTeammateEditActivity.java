@@ -27,6 +27,7 @@ public class MyTeammateEditActivity extends ThemeManager {
 
     // binding
     private ActivityMyTeammateEditBinding mBinding;
+    // state
     private Teammate teammate;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userId = user.getUid();

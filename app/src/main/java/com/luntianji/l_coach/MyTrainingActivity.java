@@ -3,6 +3,7 @@ package com.luntianji.l_coach;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.fragment.app.FragmentManager;
@@ -55,11 +56,12 @@ public class MyTrainingActivity extends DetailManager
 
     @Override
     public boolean onLongClick(Training training) {
+        if (training == null ||  training.getId() == null) {
+            Log.d(TAG, "onClick: null training");
+            return false;
+        }
         Intent intent = new Intent(this, MyTrainingEditActivity.class);
-        intent.putExtra("UpdateTrainingId", training.getId());
-        intent.putExtra("UpdateTrainingName", training.getName());
-        intent.putExtra("UpdateTrainingDifficulty", training.getDifficulty());
-        intent.putExtra("UpdateTrainingOther", training.getOther());
+        intent.putExtra("Training", training);
         startActivityForResult(intent, 2);
         return true;
     }
@@ -69,27 +71,14 @@ public class MyTrainingActivity extends DetailManager
      */
     public void startMyTrainingEditActivity(View view) {
         Intent intent = new Intent(this, MyTrainingEditActivity.class);
+        intent.putExtra("Training", new Training());
         startActivityForResult(intent, 2);
     }
 
     @Override
     public void addToMyTraining(View view) {
-        if (selectedTraining != null) {
-            deleteTraining(selectedTraining.getId());
-            finish();
-            startActivity(getIntent());
-        }
-    }
-
-    private void deleteTraining(String id) {
-        // pojo
-        Training training = new Training();
-        training.setId(id);
-
-        DBReceiver receiver = new DBReceiver() {
-        };
-        registerReceiver(receiver, new IntentFilter(ACTION01));
-        DBCommand command = new DeleteCommand<>("my_training_list", this, training);
-        command.work();
+        Intent intent = new Intent(this, MyTrainingEditActivity.class);
+        intent.putExtra("Training", selectedTraining);
+        startActivityForResult(intent, 2);
     }
 }
