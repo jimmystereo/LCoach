@@ -79,6 +79,7 @@ public class MyTrainingActivity extends DetailManager
     public void addToMyTraining(View view) {
         Intent intent = new Intent(this, MyTrainingEditActivity.class);
         intent.putExtra("Training", selectedTraining);
+        TrainingDetailFragment.closeDetail();
         startActivityForResult(intent, 2);
     }
 }
