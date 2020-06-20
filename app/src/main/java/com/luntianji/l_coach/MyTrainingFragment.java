@@ -111,7 +111,7 @@ public class MyTrainingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //update whatever your list
+        // update whatever your list
         // get data
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid =  user.getUid();
